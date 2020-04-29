@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="513.0" prefWidth="428.0" style="-fx-background-color: #F8F8F8;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logic.Controller">
+   <children>
+      <TextField fx:id="passLoginField" layoutX="117.0" layoutY="224.0" prefHeight="51.0" prefWidth="214.0" promptText="Password">
+         <font>
+            <Font size="24.0" />
+         </font></TextField>
+      <TextField fx:id="userLoginField" layoutX="117.0" layoutY="149.0" prefHeight="30.0" prefWidth="214.0" promptText="Username">
+         <font>
+            <Font size="24.0" />
+         </font></TextField>
+      <Button layoutX="148.0" layoutY="319.0" mnemonicParsing="false" onAction="#loginCheck" prefHeight="40.0" prefWidth="154.0" text="Login">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button layoutX="148.0" layoutY="388.0" mnemonicParsing="false" onAction="#opretLogin" prefHeight="40.0" prefWidth="154.0" text="Opret login">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+   </children>
+</Pane>
