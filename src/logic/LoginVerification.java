@@ -41,7 +41,11 @@ public class LoginVerification {
 		int count = 0;
 		String usernameInput = loginui.userLoginField.getText().trim();
 		String passwordInput = loginui.passLoginField.getText().trim();
+		System.out.println(usernameInput);
+		System.out.println(passwordInput);
+		System.out.println("user input virker");
 			String query = "SELECT * FROM bilsealger";
+			
 	try {
 		ps = con.prepareStatement(query);
 		rs = ps.executeQuery(query);
@@ -51,11 +55,16 @@ public class LoginVerification {
 		while(rs.next());
 		String username = rs.getString("username");
 		String password = rs.getString("password");
+		System.out.println(username);
+		System.out.println(password);
+		System.out.println("retrieved username + password from DB");
 		
 		if(username.equals(usernameInput) && password.equals(passwordInput)) {
 			check = true;
 			ps.close();
 			System.out.println("Login successful!");
+		} else {
+			System.out.println("Login failed");
 				
 		}
 		

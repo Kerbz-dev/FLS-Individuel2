@@ -10,12 +10,13 @@ import db.OpretLoginDB;
 public class OpretBruger {
 
 	
-	private OpretLoginUI createlogUI;
+	private OpretLoginUI createloginUI;
 	private String medarbejderNavn;
 	private String createUsername;
 	private String createPassword;
+	
 	public OpretBruger(OpretLoginUI createlogUI) {
-		this.createlogUI = createlogUI;
+		this.createloginUI = createlogUI;
 		
 	}
 
@@ -23,9 +24,9 @@ public class OpretBruger {
 
 	public void opretBruger() {
 	
-    	medarbejderNavn = createlogUI.name.getText();
-		createUsername = createlogUI.createUsername.getText();
-		createPassword = createlogUI.createPassword.getText();
+    	medarbejderNavn = createloginUI.name.getText();
+		createUsername = createloginUI.createUsername.getText();
+		createPassword = createloginUI.createPassword.getText();
 		
     	if(medarbejderNavn.isEmpty() || createUsername.isEmpty() || createPassword.isEmpty()) {
     		System.out.println("Please enter medarbejder navn, username and password.");
