@@ -1,22 +1,15 @@
 package presentation;
 
-import java.io.IOException;
-
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import logic.OpretBruger;
 
 	public class Main extends Application {
-		
-		
-		
-	    
+	
+		OpretBruger opbruger = new OpretBruger();
 	    @Override
 	    public void start(Stage primaryStage) {
 	    	try {
@@ -26,12 +19,9 @@ import javafx.stage.Stage;
 	    	primaryStage.setScene(scene);
 	    	primaryStage.setTitle("Ferrari login");
 	    	primaryStage.show();
-	            
 	    } catch(Exception e) {
 	    	e.printStackTrace(); }
 	    }
-	 
-	   
 
 	
 	    public static void main(String[] args) {

@@ -100,7 +100,7 @@ public class Datakobling {
 
 	         // iteration starter 'before first'
 	         while (resultSet.next()) {
-	           // hent data fra denne række
+	           // hent data fra denne rï¿½kke
 	           int telefonnummer = resultSet.getInt("telefonnummer");
 	           String teamname = resultSet.getString("kundenavn");
 	           int cpr_nummer = resultSet.getInt("cpr_nummer");

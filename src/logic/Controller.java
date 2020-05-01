@@ -21,12 +21,6 @@ public class Controller  {
 	    private TextField passLoginField;
 	    @FXML
 	    private TextField userLoginField;
-	    @FXML
-	    private TextField opretNavnField;
-	    @FXML
-	    private TextField opretBrugerField;
-	    @FXML
-	    private TextField opretPassField;
 	    
 	    @FXML
 	    public void loginCheck(ActionEvent event) {

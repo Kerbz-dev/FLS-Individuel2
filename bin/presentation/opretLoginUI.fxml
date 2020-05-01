@@ -31,7 +31,7 @@
                         <Font size="24.0" />
                      </font>
                   </TextField>
-                  <Button layoutY="313.0" mnemonicParsing="false" onAction="#opretBruger" text="Opret bruger">
+                  <Button layoutY="313.0" mnemonicParsing="false" text="Opret bruger">
                      <font>
                         <Font size="24.0" />
                      </font>

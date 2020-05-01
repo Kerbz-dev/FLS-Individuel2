@@ -2,16 +2,18 @@ package db;
 
 public class Kunde {
 
-	    public int telefonnummer;
-	    public String kundenavn;
-	    public int cpr_nummer;
-	    public String email;
-	    public String kreditværdighed;
+	 private int telefonnummer;
+	 private String kundenavn;
+	 private int cpr_nummer;
+	 private String email;
+	 private String kreditværdighed;
 	    
 
 	 
 
-	    public Kunde (int telefonnummer, String kundenavn, int cpr_nummer, String email, String kreditværdighed) {
+	    public Kunde (int telefonnummer, String kundenavn, int cpr_nummer, String email, String kreditværdighed)
+	    {
+	    	
 	        this.telefonnummer = telefonnummer;
 	        this.kundenavn = kundenavn;
 	        this.cpr_nummer = cpr_nummer;
