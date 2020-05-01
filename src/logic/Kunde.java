@@ -1,4 +1,4 @@
-package db;
+package logic;
 
 public class Kunde {
 

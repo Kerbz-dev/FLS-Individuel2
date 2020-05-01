@@ -3,32 +3,36 @@ package logic;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import presentation.LoginUI;
+import presentation.OpretLoginUI;
 import db.OpretLoginDB;
 
-
 public class OpretBruger {
-	String medarbejderNavn;
-	String username;
-	String password;
-	
-    @FXML
-    private TextField opretNavnField;
 
-    @FXML
-    private TextField opretBrugerField;
-    
-    @FXML
-    private TextField opretPassField;
+	
+	private OpretLoginUI createlogUI;
+	private String medarbejderNavn;
+	private String createUsername;
+	private String createPassword;
+	public OpretBruger(OpretLoginUI createlogUI) {
+		this.createlogUI = createlogUI;
+		
+	}
+
 	OpretLoginDB login = new OpretLoginDB();
 
-	@FXML
-	public void opretBruger(ActionEvent event) {
+	public void opretBruger() {
+	
+    	medarbejderNavn = createlogUI.name.getText();
+		createUsername = createlogUI.createUsername.getText();
+		createPassword = createlogUI.createPassword.getText();
+		
+    	if(medarbejderNavn.isEmpty() || createUsername.isEmpty() || createPassword.isEmpty()) {
+    		System.out.println("Please enter medarbejder navn, username and password.");
+    	}
+    	else {
 
-		medarbejderNavn = opretNavnField.getText();
-		username = opretBrugerField.getText();
-		password = opretPassField.getText();
-	
-		login.createLogin(medarbejderNavn, username, password);
-	
+		login.createLogin(medarbejderNavn, createUsername, createPassword);
+    	}
 	}
 }
