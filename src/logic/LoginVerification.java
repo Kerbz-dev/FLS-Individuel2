@@ -1,33 +1,14 @@
 package logic;
-
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import db.Datakobling;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import presentation.LoginUI;
 
 public class LoginVerification {
 
-	private String medarbejderNavn;
-
 //	private Datakobling DB;
 	private LoginUI loginui;
-	private Connection con = null;
-	private ResultSet rs = null;
-	private PreparedStatement ps = null;
 
 	public LoginVerification(LoginUI loginui) {
 		this.loginui = loginui;
@@ -37,16 +18,17 @@ public class LoginVerification {
 //	JOptionPane.showMessageDialog(null, "Username or Password blank")
 
 	public void loginBtn() {
-
+		String usernameInput = loginui.userLoginField.getText();
+		String passwordInput = loginui.passLoginField.getText();
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
 					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
 			Statement stmt = con.createStatement();
-			String sql = "Select * from bilsealger where username='" + loginui.userLoginField.getText()
-					+ "' and password='" + loginui.passLoginField.getText() + "'";
-			ResultSet rs = stmt.executeQuery(sql);
+			String sql = "Select * from bilsealger where username='" + usernameInput + "' and password='"
+					+ passwordInput + "'";
 
+			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next())
 				loginui.loginSuccess();
 			else
