@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -17,7 +18,7 @@ import logic.OpretBruger;
 
 public class OpretLoginUI {
 
-	private Stage OpretLG;
+	private Stage opretLoginStage;
 
 	public TextField name;
 	public TextField createUsername;
@@ -29,8 +30,10 @@ public class OpretLoginUI {
 	// private BorderPane bp2;
 
 	public void start() {
-		OpretLG = new Stage();
-		OpretLG.setTitle("Ferrari lånesystem");
+		opretLoginStage = new Stage();
+		opretLoginStage.setTitle("Ferrari lånesystem");
+		opretLoginStage.getIcons().add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
+		
 
 		// bp2 = new BorderPane();
 		pane2 = new Pane();
@@ -45,18 +48,21 @@ public class OpretLoginUI {
 		// name.setPrefWidth(214);
 		name.setFont(new Font(24));
 		name.setPromptText("Medarbejder navn");
+		name.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		name.relocate(150, 76);
 
 		// createUsername.setPrefHeight(30);
 		// createUsername.setPrefWidth(214);
 		createUsername.setFont(new Font(24));
 		createUsername.setPromptText("Brugernavn");
+		createUsername.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		createUsername.relocate(150, 149);
 
 		// createPassword.setPrefHeight(30);
 		// createPassword.setPrefWidth(214);
 		createPassword.setFont(new Font(24));
 		createPassword.setPromptText("Password");
+		createPassword.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		createPassword.relocate(150, 222);
 
 		// OpretLoginKnap.setPrefHeight(40);
@@ -81,9 +87,9 @@ public class OpretLoginUI {
 
 		// Show scene
 		scene2 = new Scene(pane2, 600, 500);
-		OpretLG.setResizable(false);
-		OpretLG.setScene(scene2);
-		OpretLG.show();
+		opretLoginStage.setResizable(false);
+		opretLoginStage.setScene(scene2);
+		opretLoginStage.show();
 
 		// Action buttons
 		opretLoginKnap.setOnAction(e -> opretBruger());
@@ -96,9 +102,23 @@ public class OpretLoginUI {
 
 	}
 
-	public void opretLoginFail() {
+	public void opretLoginFailAll() {
 		opretLoginStatus.setTextFill(Color.RED);
 		opretLoginStatus.setText("Udfyld venligst alle felter");
+	}
+	
+	public void opretLoginFailMNavn() {
+		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.setText("Udfyld venligst medarbejder navn");
+	}
+	public void opretLoginFailUserName() {
+		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.setText("Udfyld venligst brugernavn");
+	}
+	
+	public void opretLoginFailPassword() {
+		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.setText("Udfyld venligst password");
 	}
 
 	public void opretBruger() {
@@ -106,7 +126,6 @@ public class OpretLoginUI {
 		OpretBruger oprBruger = new OpretBruger(this);
 
 		oprBruger.opretBruger();
-		oprBruger.checkDuplicateUserPW();
 	}
 
 }

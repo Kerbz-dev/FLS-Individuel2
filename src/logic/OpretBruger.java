@@ -30,61 +30,67 @@ public class OpretBruger {
 
 	}
 
-	 public void opretBruger() {
+	public void opretBruger() {
 		OpretLoginDB login = new OpretLoginDB();
 		medarbejderNavn = createloginUI.name.getText();
 		createUsername = createloginUI.createUsername.getText();
 		createPassword = createloginUI.createPassword.getText();
 
-		if (medarbejderNavn.isEmpty() || createUsername.isEmpty() || createPassword.isEmpty()) {
-			createloginUI.opretLoginFail();
-		
-			
-		
-			
+		if (medarbejderNavn.isEmpty() && createUsername.isEmpty() && createPassword.isEmpty()) {
+			createloginUI.opretLoginFailAll();
 		}
+
+			else if (medarbejderNavn.isEmpty()) {
+			createloginUI.opretLoginFailMNavn();
+		} else if (createUsername.isEmpty()) {
+			createloginUI.opretLoginFailUserName();
+		} else if (createPassword.isEmpty()) {
+			createloginUI.opretLoginFailPassword();
+		}
+
 		else {
 			login.createLogin(medarbejderNavn, createUsername, createPassword);
 			createloginUI.opretLoginSuccess();
 		}
 	}
-	 
-	 public void checkDuplicateUserPW() {
-			    username = new String();
-		        password = new String();
-		        String usernameInput = createUsername; 
-		        String passwordInput = createloginUI.createPassword.getText();
-		        
-		    try  {
-		    	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
-		        Connection connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
-						+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
-		    
-		        try(PreparedStatement st = connection.prepareStatement("select * from bilsealger WHERE username=? AND password=?")) {
-		            st.setString(1, username);
-		            st.setString(2, password);
-		            try(ResultSet rs = st.executeQuery()) {
-		                if(rs.next()) 
-				         {
-				           System.out.println("Sofarsogud");
-				           if(username.equals(usernameInput) || (password.equals(passwordInput)))//this part does not happen even if it should
-				           {
-				   	        System.out.println(username);
-					        System.out.println(password);
-				               System.out.println("It already exists");
-				           }
-				         } }
-		            }
 
-		     }
-		    
+	// Test - virker ikke
+	public void checkDuplicateUserPW() {
+		username = new String();
+		password = new String();
+		String usernameInput = createUsername;
+		String passwordInput = createloginUI.createPassword.getText();
 
-		     catch (SQLException e) 
-		     {
-		        System.out.println("SQL Exception: "+ e.toString());
-		      } catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-	 }
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;"
+					+ "instanceName=SQLEXPRESS;" + "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
+
+			try (PreparedStatement st = connection
+					.prepareStatement("select * from bilsealger WHERE username=? AND password=?")) {
+				st.setString(1, username);
+				st.setString(2, password);
+				try (ResultSet rs = st.executeQuery()) {
+					if (rs.next()) {
+						System.out.println("Sofarsogud");
+						if (username.equals(usernameInput) || (password.equals(passwordInput)))// this part does not
+																								// happen even if it
+																								// should
+						{
+							System.out.println(username);
+							System.out.println(password);
+							System.out.println("It already exists");
+						}
+					}
+				}
+			}
+
+		}
+
+		catch (SQLException e) {
+			System.out.println("SQL Exception: " + e.toString());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 }
