@@ -11,8 +11,8 @@ import logic.Bilsælger;
 import logic.Kunde;
 
 public class Datakobling {
-	public String databaseName;
-	public Connection connection;
+	 String databaseName;
+	 Connection connection;
 
 	public Datakobling() {
 		databaseName = "FerrariDB";
@@ -70,7 +70,7 @@ public class Datakobling {
 
 			// iteration starter 'before first'
 			while (resultSet.next()) {
-				// hent data fra denne rï¿½kke
+				// hent data fra denne række
 				int telefonnummer = resultSet.getInt("telefonnummer");
 				String teamname = resultSet.getString("kundenavn");
 				int cpr_nummer = resultSet.getInt("cpr_nummer");
@@ -119,51 +119,5 @@ public class Datakobling {
 
 		return bilsælger2;
 	}
-	
-	public String getmedarbejderUsername() {
-		String username = new String();
-		try {
-			String sql = "SELECT username FROM bilsealger";
 
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			// iteration starter 'before first'
-			while (resultSet.next()) {
-				// hent data fra denne række
-				 username = resultSet.getString("username");
-				 return username;
-		
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return username;
-	}
-
-	
-	public String getmedarbejderPassword() {
-		String password = new String();
-		try {
-			String sql = "SELECT password FROM bilsealger";
-
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			// iteration starter 'before first'
-			while (resultSet.next()) {
-				// hent data fra denne række
-				 password = resultSet.getString("password");
-				 return password;
-		
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return password;
-	}
 }

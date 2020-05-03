@@ -6,15 +6,17 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 
 	public void start(Stage loginStage) {
 		
 		LoginUI uiLaunch = new LoginUI();
-		uiLaunch.start(loginStage);
+		uiLaunch.start();
 
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+
 }

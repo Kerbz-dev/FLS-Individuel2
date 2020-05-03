@@ -8,29 +8,32 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.LoginVerification;
 
-public class LoginUI extends Application {
+public class LoginUI  {
 
 	public TextField userLoginField;
-	public TextField passLoginField;
+	public PasswordField passLoginField;
 	public Button signupKnap;
 	public Button loginKnap;
+	private Label loginStatus;
 	private Scene scene;
 	private Pane pane;
 	private Pane ferraripane;
 	private Label ferrariLabel;
+	private Stage loginStage;
+	private GridPane gp;
 
-	public static void main(String[] args) {
 
-	}
-
-	@Override
-	public void start(Stage loginStage) {
+	public void start()  {
+		loginStage = new Stage();
 		loginStage.setTitle("Ferrari succ");
 		
 
@@ -45,7 +48,8 @@ public class LoginUI extends Application {
 		signupKnap = new Button("Create user");
 		loginKnap = new Button("Login");
 		userLoginField = new TextField();
-		passLoginField = new TextField();
+		passLoginField = new PasswordField();
+		loginStatus = new Label();
 		// pane.setPrefHeight(800);
 		// pane.setPrefWidth(600);
 		// pane.setBackground(value);
@@ -72,11 +76,14 @@ public class LoginUI extends Application {
 		loginKnap.relocate(148, 319);
 		loginKnap.setFont(new Font(18));
 
+		loginStatus.setPrefWidth(350);
+		loginStatus.setFont(new Font(24));
+		//loginStatus.relocate(100, 450);
+		
+		
 		ferraripane.setPrefHeight(64);
 		ferraripane.setPrefWidth(428);
 		ferraripane.setStyle("-fx-background-color: #ff2800");
-		pane.getChildren().add(ferraripane);
-
 		ferrariLabel.relocate(170, 15);
 		ferrariLabel.setFont(new Font(24));
 		ferraripane.getChildren().add(ferrariLabel);
@@ -86,22 +93,35 @@ public class LoginUI extends Application {
 		pane.getChildren().add(userLoginField);
 		pane.getChildren().add(loginKnap);
 		pane.getChildren().add(passLoginField);
-		
+		pane.getChildren().add(ferraripane);
+		pane.getChildren().add(loginStatus);
 		
 
 		// Show scene
 		scene = new Scene(pane, 428, 513);
 		
-	
+		loginStage.setResizable(false);
 		loginStage.setScene(scene);
 		loginStage.show();
 		
 		// Action events
 		loginKnap.setOnAction(e -> loginCheck());		
-		signupKnap.setOnAction(e -> opretMLogin()); 
+		signupKnap.setOnAction(e -> opretLoginUI()); 
 		
 }
 
+	public void loginSuccess() {
+		loginStatus.relocate(140, 450);
+		loginStatus.setTextFill(Color.GREEN);
+		loginStatus.setText("Login successful!");
+
+	}
+
+	public void loginFail() {
+		loginStatus.relocate(60, 450);
+		loginStatus.setTextFill(Color.RED);
+		loginStatus.setText("Wrong username or password");
+	}
 	public void loginCheck() {
 		
 		LoginVerification ctrl = new LoginVerification(this);
@@ -109,7 +129,7 @@ public class LoginUI extends Application {
 		ctrl.loginBtn();
 	}
 	
-	public void opretMLogin() {
+	public void opretLoginUI() {
 		OpretLoginUI oprlogUI = new OpretLoginUI();
 		oprlogUI.start();
 	}
