@@ -3,6 +3,7 @@ package presentation;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -98,27 +99,38 @@ public class OpretLoginUI {
 
 	public void opretLoginSuccess() {
 		opretLoginStatus.setTextFill(Color.GREEN);
+		opretLoginStatus.relocate(160, 400);
 		opretLoginStatus.setText("Medarbejder blev oprettet!");
-
 	}
 
 	public void opretLoginFailAll() {
 		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.relocate(165, 400);
 		opretLoginStatus.setText("Udfyld venligst alle felter");
 	}
 	
 	public void opretLoginFailMNavn() {
 		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.relocate(125, 400);
 		opretLoginStatus.setText("Udfyld venligst medarbejder navn");
 	}
 	public void opretLoginFailUserName() {
 		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.relocate(155, 400);
 		opretLoginStatus.setText("Udfyld venligst brugernavn");
 	}
 	
 	public void opretLoginFailPassword() {
 		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.relocate(160, 400);
 		opretLoginStatus.setText("Udfyld venligst password");
+	}
+	
+	public void opretLoginFailDuplicateBruger() {
+		opretLoginStatus.setTextFill(Color.RED);
+		opretLoginStatus.relocate(180, 400);
+		opretLoginStatus.setAlignment(Pos.CENTER);
+		opretLoginStatus.setText("Bruger findes allerede");
 	}
 
 	public void opretBruger() {
