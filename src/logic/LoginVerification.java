@@ -27,13 +27,15 @@ public class LoginVerification {
 			Statement stmt = con.createStatement();
 			String sql = "Select * from bilsealger where username='" + usernameInput + "' and password='"
 					+ passwordInput + "'";
-
+			System.out.println(sql);
 			ResultSet rs = stmt.executeQuery(sql);
-			if (rs.next())
-				loginui.loginSuccess();
-			else
+			if (rs.next()) {
+				System.out.println(sql);
+			System.out.println(rs);
+				loginui.loginSuccess(); }
+			else {
 				loginui.loginFail();
-
+			}
 			con.close();
 
 		} catch (Exception e) {

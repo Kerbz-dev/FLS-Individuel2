@@ -1,6 +1,7 @@
 package logic;
 
 import javafx.event.ActionEvent;
+import presentation.LoginUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import db.OpretLoginDB;
 
@@ -22,8 +24,14 @@ public class OpretBruger {
 	private String medarbejderNavn;
 	private String createUsername;
 	private String createPassword;
-	private String username;
-	private String password;
+	boolean duplicateCheck;
+	
+	private LoginUI loginui;
+
+	public OpretBruger(LoginUI loginui) {
+		this.loginui = loginui;
+
+	}
 
 	public OpretBruger(OpretLoginUI createlogUI) {
 		this.createloginUI = createlogUI;
@@ -40,20 +48,53 @@ public class OpretBruger {
 			createloginUI.opretLoginFailAll();
 		}
 
-			else if (medarbejderNavn.isEmpty()) {
+		else if (medarbejderNavn.isEmpty()) {
 			createloginUI.opretLoginFailMNavn();
 		} else if (createUsername.isEmpty()) {
 			createloginUI.opretLoginFailUserName();
 		} else if (createPassword.isEmpty()) {
 			createloginUI.opretLoginFailPassword();
+		
+			
 		}
-
 		else {
+			//createUserCheckDuplicate();
+			
 			login.createLogin(medarbejderNavn, createUsername, createPassword);
 			createloginUI.opretLoginSuccess();
 		}
 	}
 
+	public void createUserCheckDuplicate() {
+		boolean duplicateCheck = false;
+		this.duplicateCheck = duplicateCheck;
+		
+		String usernameCreateInput = loginui.userLoginField.getText();
+		String passwordCreateInput = loginui.passLoginField.getText();
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
+					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
+			Statement stmt = con.createStatement();
+			String sql = "Select * from bilsealger where username='" + usernameCreateInput + "' and password='"
+					+ passwordCreateInput + "'";
+			System.out.println(sql);
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (rs.next()) {
+				duplicateCheck = true;
+				System.out.println("Fejl");
+			}
+			
+				
+			
+			con.close();
+
+		} catch (Exception e) {
+			System.out.print(e);
+		}
+		
+	/*
 	// Test - virker ikke
 	public void checkDuplicateUserPW() {
 		username = new String();
@@ -92,5 +133,6 @@ public class OpretBruger {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
+}
 }

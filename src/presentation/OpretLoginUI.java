@@ -126,6 +126,7 @@ public class OpretLoginUI {
 		OpretBruger oprBruger = new OpretBruger(this);
 
 		oprBruger.opretBruger();
+		oprBruger.createUserCheckDuplicate();
 	}
 
 }
