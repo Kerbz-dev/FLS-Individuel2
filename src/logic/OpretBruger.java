@@ -1,21 +1,11 @@
 package logic;
 
-import javafx.event.ActionEvent;
-import presentation.LoginUI;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import presentation.LoginUI;
-import presentation.OpretLoginUI;
-import javafx.scene.paint.Color;
 
+import presentation.OpretLoginUI;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-
 import db.OpretLoginDB;
 
 public class OpretBruger {
@@ -24,14 +14,8 @@ public class OpretBruger {
 	private String medarbejderNavn;
 	private String createUsername;
 	private String createPassword;
-	public boolean duplicateCheck;
+	private boolean duplicateCheck;
 
-	private LoginUI loginui;
-
-	public OpretBruger(LoginUI loginui) {
-		this.loginui = loginui;
-
-	}
 
 	public OpretBruger(OpretLoginUI createlogUI) {
 		this.createloginUI = createlogUI;
@@ -66,15 +50,15 @@ public class OpretBruger {
 	}
 
 	public void createUserCheckDuplicate() {
-		String usernameCreateInput = createloginUI.createUsername.getText();
-		String passwordCreateInput = createloginUI.createPassword.getText();
+		String usernameFieldInput = createloginUI.createUsername.getText();
+		String passwordFieldInput = createloginUI.createPassword.getText();
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
 					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
 			Statement stmt = con.createStatement();
-			String sql = "Select * from bilsealger where username='" + usernameCreateInput + "' and password='"
-					+ passwordCreateInput + "'";
+			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' and password='"
+					+ passwordFieldInput + "'";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (rs.next()) {
@@ -90,31 +74,5 @@ public class OpretBruger {
 		} catch (Exception e) {
 			System.out.print(e);
 		}
-
-		/*
-		 * // Test - virker ikke public void checkDuplicateUserPW() { username = new
-		 * String(); password = new String(); String usernameInput = createUsername;
-		 * String passwordInput = createloginUI.createPassword.getText();
-		 * 
-		 * try { Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		 * Connection connection =
-		 * DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" +
-		 * "instanceName=SQLEXPRESS;" + "databaseName=" + "FerrariDB" + ";" +
-		 * "integratedSecurity=true;");
-		 * 
-		 * try (PreparedStatement st = connection
-		 * .prepareStatement("select * from bilsealger WHERE username=? AND password=?"
-		 * )) { st.setString(1, username); st.setString(2, password); try (ResultSet rs
-		 * = st.executeQuery()) { if (rs.next()) { System.out.println("Sofarsogud"); if
-		 * (username.equals(usernameInput) || (password.equals(passwordInput)))// this
-		 * part does not // happen even if it // should { System.out.println(username);
-		 * System.out.println(password); System.out.println("It already exists"); } } }
-		 * }
-		 * 
-		 * }
-		 * 
-		 * catch (SQLException e) { System.out.println("SQL Exception: " +
-		 * e.toString()); } catch (ClassNotFoundException e) { e.printStackTrace(); } }
-		 */
 	}
 }

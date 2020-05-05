@@ -1,10 +1,5 @@
 package presentation;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +7,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -31,7 +25,7 @@ public class LoginUI  {
 	private Pane ferraripane;
 	private Label ferrariLabel;
 	private Stage loginStage;
-	private GridPane gp;
+	//private GridPane gp;
 	private Image ferrari;
 	private ImageView ferraripic;
 
@@ -39,26 +33,18 @@ public class LoginUI  {
 		loginStage = new Stage();
 		loginStage.setTitle("Ferrari lånesystem");
 		loginStage.getIcons().add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
-		
-		ferrari = new Image("https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg");
-		//ferrari = new Image("https://turbologo.com/articles/wp-content/uploads/2019/10/ferrari-logo-illustration-1280x720.jpg");
-		ferraripic = new ImageView();
-		// signupKnap.setText("Opret Login");
-		// loginKnap.setText("Login");
-
-		pane = new Pane();
-		ferraripane = new Pane();
 
 		// Button assignments
+		ferrari = new Image("https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg");
+		ferraripic = new ImageView();
 		ferrariLabel = new Label("FERRARI");
 		signupKnap = new Button("Opret bruger");
 		loginKnap = new Button("Login");
 		userLoginField = new TextField();
 		passLoginField = new PasswordField();
 		loginStatus = new Label();
-		// pane.setPrefHeight(800);
-		// pane.setPrefWidth(600);
-		// pane.setBackground(value);
+		pane = new Pane();
+		ferraripane = new Pane();
 
 		userLoginField.setPrefHeight(30);
 		userLoginField.setPrefWidth(250);

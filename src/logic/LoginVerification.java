@@ -15,8 +15,6 @@ public class LoginVerification {
 
 	}
 
-//	JOptionPane.showMessageDialog(null, "Username or Password blank")
-
 	public void loginBtn() {
 		String usernameInput = loginui.userLoginField.getText();
 		String passwordInput = loginui.passLoginField.getText();
