@@ -56,7 +56,7 @@ public class OpretBruger {
 			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
 					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
 			Statement stmt = con.createStatement();
-			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' and saelgerpassword='"
+			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' or saelgerpassword='"
 					+ passwordFieldInput + "'";
 			ResultSet rs = stmt.executeQuery(sql);
 

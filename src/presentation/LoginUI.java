@@ -1,7 +1,6 @@
 package presentation;
 
 import javafx.scene.Scene;
-import logic.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -118,7 +117,7 @@ public class LoginUI {
 		loginStatus.setText("Wrong username or password");
 	}
 
-	public void adminLoginSuccess() {
+	public void adminLoginSuccess() throws InterruptedException {
 		adminUI admUI = new adminUI();
 		admUI.start();
 	}

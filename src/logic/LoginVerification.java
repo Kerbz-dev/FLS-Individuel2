@@ -4,15 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
-import javafx.scene.control.Button;
 import presentation.LoginUI;
-import presentation.Main;
-import presentation.adminUI;
+
 
 public class LoginVerification {
 
-//	private Datakobling DB;
 	private LoginUI loginui;
 
 	public LoginVerification(LoginUI loginui) {
@@ -30,11 +26,12 @@ public class LoginVerification {
 			Statement stmt = con.createStatement();
 			String sql = "Select * from bilsealger where username='" + usernameInput + "' and saelgerpassword='"
 					+ passwordInput + "'";
-
+			
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				loginui.loginSuccess();
-			} else {
+		//hvis user login fails, checker vi admin log in	
+				} else { 
 				adminLoginCheck();
 			}
 			con.close();
@@ -45,6 +42,7 @@ public class LoginVerification {
 		}
 	}
 
+	//Making function to check for admin login
 	public void adminLoginCheck() {
 		String usernameInput = loginui.userLoginField.getText();
 		String passwordInput = loginui.passLoginField.getText();
