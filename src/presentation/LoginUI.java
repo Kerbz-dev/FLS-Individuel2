@@ -1,6 +1,7 @@
 package presentation;
 
 import javafx.scene.Scene;
+import logic.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -13,11 +14,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.LoginVerification;
 
-public class LoginUI  {
+public class LoginUI {
 
 	public TextField userLoginField;
 	public PasswordField passLoginField;
-	public Button signupKnap;
 	public Button loginKnap;
 	private Label loginStatus;
 	private Scene scene;
@@ -25,20 +25,20 @@ public class LoginUI  {
 	private Pane ferraripane;
 	private Label ferrariLabel;
 	private Stage loginStage;
-	//private GridPane gp;
+	// private GridPane gp;
 	private Image ferrari;
 	private ImageView ferraripic;
 
-	public void start()  {
+	public void start() {
 		loginStage = new Stage();
 		loginStage.setTitle("Ferrari lånesystem");
 		loginStage.getIcons().add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
 		// Button assignments
-		ferrari = new Image("https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg");
+		ferrari = new Image(
+				"https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg");
 		ferraripic = new ImageView();
 		ferrariLabel = new Label("FERRARI");
-		signupKnap = new Button("Opret bruger");
 		loginKnap = new Button("Login");
 		userLoginField = new TextField();
 		passLoginField = new PasswordField();
@@ -52,18 +52,13 @@ public class LoginUI  {
 		userLoginField.setPromptText("Username");
 		userLoginField.relocate(97, 180);
 		userLoginField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		
+
 		passLoginField.setPrefHeight(51);
 		passLoginField.setPrefWidth(250);
 		passLoginField.relocate(97, 245);
 		passLoginField.setFont(new Font(24));
 		passLoginField.setPromptText("Password");
 		passLoginField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-
-		signupKnap.setPrefHeight(40);
-		signupKnap.setPrefWidth(150);
-		signupKnap.relocate(145, 418);
-		signupKnap.setFont(new Font(18));
 
 		loginKnap.setPrefHeight(40);
 		loginKnap.setPrefWidth(150);
@@ -72,50 +67,49 @@ public class LoginUI  {
 
 		loginStatus.setPrefWidth(350);
 		loginStatus.setFont(new Font(24));
-		//loginStatus.relocate(100, 450);
-		
+		// loginStatus.relocate(100, 450);
+
 		ferraripic.setFitWidth(250);
 		ferraripic.setFitHeight(135);
 		ferraripic.setImage(ferrari);
 		ferraripic.relocate(95, 15);
-		
-		
-		
-		
+
 		ferraripane.setPrefHeight(64);
 		ferraripane.setPrefWidth(428);
 		pane.setStyle("-fx-background-color: #FF2800");
-		//#CF0E0E
+		// #CF0E0E
 		ferrariLabel.relocate(170, 15);
 		ferrariLabel.setFont(new Font(24));
 
 		// Add to pane
-		pane.getChildren().add(signupKnap);
 		pane.getChildren().add(userLoginField);
 		pane.getChildren().add(loginKnap);
 		pane.getChildren().add(passLoginField);
 		pane.getChildren().add(loginStatus);
 		pane.getChildren().add(ferraripic);
-		
 
 		// Show scene
 		scene = new Scene(pane, 428, 513);
-		
+
 		loginStage.setResizable(false);
 		loginStage.setScene(scene);
 		loginStage.show();
-		
+
 		// Action events
-		loginKnap.setOnAction(e -> loginCheck());		
-		signupKnap.setOnAction(e -> opretLoginUI()); 
-		
-}
+		loginKnap.setOnAction(e -> loginCheck());
+
+	}
+
+	public void loginCheck() {
+		LoginVerification ctrl = new LoginVerification(this);
+		ctrl.loginCheck();
+
+	}
 
 	public void loginSuccess() {
 		loginStatus.relocate(130, 315);
 		loginStatus.setTextFill(Color.LIGHTGREEN);
 		loginStatus.setText("Login successful!");
-
 	}
 
 	public void loginFail() {
@@ -123,19 +117,12 @@ public class LoginUI  {
 		loginStatus.setTextFill(Color.WHITESMOKE);
 		loginStatus.setText("Wrong username or password");
 	}
-	public void loginCheck() {
-		
-		LoginVerification ctrl = new LoginVerification(this);
-		
-		ctrl.loginBtn();
+
+	public void adminLoginSuccess() {
+		adminUI admUI = new adminUI();
+		admUI.start();
 	}
 	
-	public void opretLoginUI() {
-		OpretLoginUI oprlogUI = new OpretLoginUI();
-		oprlogUI.start();
-	}
+	
+
 }
-	
-
-
-

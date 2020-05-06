@@ -105,10 +105,10 @@ public class Datakobling {
 				// hent data fra denne række
 				String medarbejderNavn = resultSet.getString("medarbejderNavn");
 				String username = resultSet.getString("username");
-				String password = resultSet.getString("password");
+				String saelgerpassword = resultSet.getString("saelgerpassword");
 
 				// brug data, e.g. => entitets/model object
-				Bilsælger bilsælger1 = new Bilsælger(medarbejderNavn, username, password);
+				Bilsælger bilsælger1 = new Bilsælger(medarbejderNavn, username, saelgerpassword);
 
 				bilsælger2.add(bilsælger1);
 

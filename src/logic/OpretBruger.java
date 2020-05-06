@@ -28,7 +28,6 @@ public class OpretBruger {
 		createUsername = createloginUI.createUsername.getText();
 		createPassword = createloginUI.createPassword.getText();
 		createUserCheckDuplicate();
-
 		if (medarbejderNavn.isEmpty() && createUsername.isEmpty() && createPassword.isEmpty()) {
 			createloginUI.opretLoginFailAll();
 		}
@@ -39,7 +38,7 @@ public class OpretBruger {
 			createloginUI.opretLoginFailUserName();
 		} else if (createPassword.isEmpty()) {
 			createloginUI.opretLoginFailPassword();
-		} else if (this.duplicateCheck == true) {
+		} else if (duplicateCheck == true) {
 			createloginUI.opretLoginFailDuplicateBruger();
 
 		} else {
@@ -57,7 +56,7 @@ public class OpretBruger {
 			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
 					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
 			Statement stmt = con.createStatement();
-			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' and password='"
+			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' and saelgerpassword='"
 					+ passwordFieldInput + "'";
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -72,6 +71,7 @@ public class OpretBruger {
 			con.close();
 
 		} catch (Exception e) {
+			System.out.println("Got exception from createUserCheckDuplicate in OpretBruger");
 			System.out.print(e);
 		}
 	}

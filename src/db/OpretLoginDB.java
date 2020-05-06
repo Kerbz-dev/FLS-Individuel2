@@ -10,15 +10,14 @@ public class OpretLoginDB {
 
  
 
-    public void createLogin(String medarbejderNavn, String username, String password) {
+    public void createLogin(String medarbejderNavn, String username, String saelgerpassword) {
         Datakobling bilsælger = new Datakobling();
         try {
             Statement statement = bilsælger.connection.createStatement();
 
- 
 
             statement.executeUpdate(
-                    "INSERT INTO bilsealger " + "VALUES ('" + medarbejderNavn + "', '" + username + "', '" + password + "')");
+                    "INSERT INTO bilsealger " + "VALUES ('" + medarbejderNavn + "', '" + username + "', '" + saelgerpassword + "')");
 
  
 
@@ -27,7 +26,7 @@ public class OpretLoginDB {
  
 
         } catch (Exception e) {
-            System.out.println("Got exception");
+            System.out.println("Got exception in OpretLoginDB");
             System.out.println(e.getMessage());
         }
     }

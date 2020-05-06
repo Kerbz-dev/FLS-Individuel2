@@ -4,13 +4,13 @@ public class Bilsælger {
 
 	private String medarbejderNavn;
 	private String username;
-	private String password;
+	private String saelgerpassword;
 
-	public Bilsælger(String medarbejderNavn, String username, String password) {
+	public Bilsælger(String medarbejderNavn, String username, String saelgerpassword) {
 		
 		this.medarbejderNavn = medarbejderNavn;
 		this.username = username;
-		this.password = password;
+		this.saelgerpassword = saelgerpassword;
 	}
 
 	public String getmedarbejderNavn() {
@@ -29,17 +29,17 @@ public class Bilsælger {
 		return username;
 	}
 
-	public String setpassword() {
-		return this.password;
+	public String setsaelgerpassword() {
+		return this.saelgerpassword;
 	}
 
-	public void getpassword(String password) {
-		this.password = password;
+	public void getsaelgerpassword(String saelgerpassword) {
+		this.saelgerpassword = saelgerpassword;
 	}
 
 	@Override
 	public String toString() {
-		return medarbejderNavn + ": " + username + ": " + password;
+		return medarbejderNavn + ": " + username + ": " + saelgerpassword;
 
 	}
 

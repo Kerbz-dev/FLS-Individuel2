@@ -1,9 +1,14 @@
 package logic;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import javafx.scene.control.Button;
 import presentation.LoginUI;
+import presentation.Main;
+import presentation.adminUI;
 
 public class LoginVerification {
 
@@ -15,7 +20,7 @@ public class LoginVerification {
 
 	}
 
-	public void loginBtn() {
+	public void loginCheck() {
 		String usernameInput = loginui.userLoginField.getText();
 		String passwordInput = loginui.passLoginField.getText();
 		try {
@@ -23,21 +28,50 @@ public class LoginVerification {
 			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
 					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
 			Statement stmt = con.createStatement();
-			String sql = "Select * from bilsealger where username='" + usernameInput + "' and password='"
+			String sql = "Select * from bilsealger where username='" + usernameInput + "' and saelgerpassword='"
 					+ passwordInput + "'";
+
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-				loginui.loginSuccess(); }
-			else {
+				loginui.loginSuccess();
+			} else {
+				adminLoginCheck();
+			}
+			con.close();
+
+		} catch (Exception e) {
+			System.out.println("Got exception from loginCheck() in LoginVerification");
+			System.out.print(e);
+		}
+	}
+
+	public void adminLoginCheck() {
+		String usernameInput = loginui.userLoginField.getText();
+		String passwordInput = loginui.passLoginField.getText();
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
+					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
+			Statement stmt = con.createStatement();
+			String sql2 = "Select * from administrator where adminbrugernavn='" + usernameInput
+					+ "' and adminpassword='" + passwordInput + "'";
+			ResultSet rs2 = stmt.executeQuery(sql2);
+			if (rs2.next()) {
+				loginui.loginSuccess();
+				loginui.adminLoginSuccess();
+			} else {
 				loginui.loginFail();
 			}
 			con.close();
 
 		} catch (Exception e) {
+			System.out.println("Got exception from adminLoginCheck in LoginVerification");
 			System.out.print(e);
 		}
 
 		/*
+		 * Bedre måde at gøre det på, men kan ikke fange info fra DB
+		 * 
 		 * int count = 0; String usernameInput =
 		 * loginui.userLoginField.getText().trim(); String passwordInput =
 		 * loginui.passLoginField.getText().trim(); System.out.println(usernameInput);
