@@ -122,6 +122,10 @@ public class LoginUI {
 		admUI.start();
 	}
 	
-	
+    public void opretLaaneUI() {
+		LaaneUI laan = new LaaneUI();
+		laan.start();
+	}
+    
 
 }

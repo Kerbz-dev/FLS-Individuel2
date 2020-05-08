@@ -65,10 +65,12 @@ public class adminUI {
       
       
       scene = new Scene(pane, 755, 551);
+      adminUIStage.setResizable(false);
       adminUIStage.setScene(scene);
       adminUIStage.show();
       
 		opretSealger.setOnAction(e -> opretLoginUI());
+		laan.setOnAction(e -> opretLaaneUI());
       
 }
     
@@ -77,6 +79,10 @@ public class adminUI {
 		oprlogUI.start();
 	}
     
+    public void opretLaaneUI() {
+		LaaneUI laan = new LaaneUI();
+		laan.start();
+	}
     
     
 }

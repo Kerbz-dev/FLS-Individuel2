@@ -50,14 +50,14 @@ public class OpretBruger {
 
 	public void createUserCheckDuplicate() {
 		String usernameFieldInput = createloginUI.createUsername.getText();
-		String passwordFieldInput = createloginUI.createPassword.getText();
+		// String passwordFieldInput = createloginUI.createPassword.getText();
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
 					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
 			Statement stmt = con.createStatement();
-			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' or saelgerpassword='"
-					+ passwordFieldInput + "'";
+			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' ";
+			//or saelgerpassword='"+ passwordFieldInput + "'
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (rs.next()) {

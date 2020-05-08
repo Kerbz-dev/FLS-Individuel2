@@ -8,14 +8,12 @@ import presentation.LoginUI;
 
 
 public class LoginVerification {
-
 	private LoginUI loginui;
 
 	public LoginVerification(LoginUI loginui) {
 		this.loginui = loginui;
 
 	}
-
 	public void loginCheck() {
 		String usernameInput = loginui.userLoginField.getText();
 		String passwordInput = loginui.passLoginField.getText();
@@ -30,6 +28,7 @@ public class LoginVerification {
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				loginui.loginSuccess();
+				loginui.opretLaaneUI();
 		//hvis user login fails, checker vi admin log in	
 				} else { 
 				adminLoginCheck();
