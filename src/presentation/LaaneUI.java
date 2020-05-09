@@ -1,14 +1,9 @@
 package presentation;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -18,35 +13,28 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.LoginVerification;
+
 
 public class LaaneUI {
 	private BorderPane bp;
 	private Stage LaaneUIStage;
-	private Button opretTilbud, redigerTilbud, fjernTilbud;
+	private Button opretTilbud, redigerTilbud, fjernTilbud, godkendBtn, afvisBtn;
 	private Line bottomLine, upperLine;
-	private Label Lånetilbud, Navn, Tlf, CPR, Addresse, Mail, Bilmodel, Bilpris, Tilbudspris, Laaneperiode, navnOutput,
-			tlfOutput, cprOutput, addresseOutput, mailOutput, bilmodelOutput, bilprisOutput, tilbudsprisOutput,
-			laaneperiodeOutput;
+	private Label Lånetilbud, Navn, Tlf, CPR, Addresse, Mail, Bilmodel, Bilpris, Laaneperiode, navnOutput,
+			tlfOutput, cprOutput, addresseOutput, mailOutput, bilmodelOutput, bilprisOutput, loginName,
+			mdlydelseOutput, udbetalingLbl, mdlydelseLbl, samletprisLbl, prisoutputLbl, periodeoutputLbl, udbtloutputLbl;
 	private Scene scene;
 	private Pane pane1;
 	private Image ferrari;
 	private ImageView ferraripic;
 	private TextField Søg;
-	private Label loginName;
-//private TableView<LaaneUI> laaneTilbudTable;
-//private TableColumn<LaaneUI, String> datoColumn;
-//private TableColumn<LaaneUI, String> laanetilbudColumn;
-
-	/*
-	 * public LaaneUI(String date, String tilbud) { this.date = date; this.tilbud =
-	 * tilbud; }
-	 */
+	
 
 	public void start() {
 
 		LaaneUIStage = new Stage();
 		LaaneUIStage.setTitle("Ferrari lånesystem");
+		LaaneUIStage.getIcons().add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 		pane1 = new Pane();
 		opretTilbud = new Button("Opret Tilbud");
 		redigerTilbud = new Button("Rediger Tilbud");
@@ -59,7 +47,6 @@ public class LaaneUI {
 		Mail = new Label("Mail:");
 		Bilmodel = new Label("Bilmodel:");
 		Bilpris = new Label("Bilpris:");
-		Tilbudspris = new Label("Tilbudspris:");
 		Laaneperiode = new Label("Låneperiode:");
 		navnOutput = new Label("Martin Godthaab Larsen");
 		tlfOutput = new Label("222222222222");
@@ -68,8 +55,7 @@ public class LaaneUI {
 		mailOutput = new Label("55555555");
 		bilmodelOutput = new Label("6666666666");
 		bilprisOutput = new Label("77777777");
-		tilbudsprisOutput = new Label("8888888888");
-		laaneperiodeOutput = new Label("9999999999");
+		mdlydelseOutput = new Label("9999999999");
 		bottomLine = new Line();
 		upperLine = new Line();
 		Søg = new TextField();
@@ -77,7 +63,16 @@ public class LaaneUI {
 		ferraripic = new ImageView();
 		bp = new BorderPane();
 		loginName = new Label();
-
+		udbetalingLbl = new Label("Udbetaling:");
+		mdlydelseLbl = new Label("Mdl. ydelse:"); 
+		samletprisLbl = new Label("Samlet pris: "); 
+		prisoutputLbl = new Label("487.292.200,-"); 
+		periodeoutputLbl = new Label("5 år"); 
+		udbtloutputLbl = new Label("5.000.000");
+		godkendBtn = new Button("Godkend");
+		afvisBtn = new Button("Afvis");
+		
+		
 		bp.setPrefHeight(777);
 		bp.setPrefWidth(1149);
 
@@ -106,70 +101,102 @@ public class LaaneUI {
 		fjernTilbud.setPrefWidth(152);
 		fjernTilbud.setFont(new Font(18));
 		fjernTilbud.relocate(884, 655);
-
+		
+		godkendBtn.setPrefHeight(39);
+		godkendBtn.setPrefWidth(134);
+		godkendBtn.setFont(new Font(18));
+		godkendBtn.relocate(41, 663);
+		
+		afvisBtn.setPrefHeight(39);
+		afvisBtn.setPrefWidth(134);
+		afvisBtn.setFont(new Font(18));
+		afvisBtn.relocate(191, 663);
+		
+		/*
+	    <Button layoutX="41.0" layoutY="663.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="134.0" text="Godkend">
+        <font>
+           <Font size="18.0" />
+        </font>
+     </Button>
+     <Button layoutX="191.0" layoutY="663.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="134.0" text="Afvis">
+		
+*/
+        
 		// Labels
 		Navn.setFont(new Font(24));
-		Navn.relocate(436, 160);
+		Navn.relocate(430, 160);
 
 		Tlf.setFont(new Font(24));
-		Tlf.relocate(436, 210);
+		Tlf.relocate(430, 200);
 
 		CPR.setFont(new Font(24));
-		CPR.relocate(436, 260);
+		CPR.relocate(430, 240);
 
 		Addresse.setFont(new Font(24));
-		Addresse.relocate(436, 310);
+		Addresse.relocate(430, 280);
 
 		Mail.setFont(new Font(24));
-		Mail.relocate(436, 360);
+		Mail.relocate(430, 320);
 
 		Bilmodel.setFont(new Font(24));
-		Bilmodel.relocate(436, 410);
+		Bilmodel.relocate(430, 360);
 
 		Bilpris.setFont(new Font(24));
-		Bilpris.relocate(436, 460);
+		Bilpris.relocate(430, 400);
 
-		Tilbudspris.setFont(new Font(24));
-		Tilbudspris.relocate(436, 510);
 
 		Laaneperiode.setFont(new Font(24));
-		Laaneperiode.relocate(436, 560);
-
+		Laaneperiode.relocate(430, 440);
+		
+		udbetalingLbl.setFont(new Font(24));
+		udbetalingLbl.relocate(430, 560);
+		
+		mdlydelseLbl.setFont(new Font(24));
+		mdlydelseLbl.relocate(430, 520);
+		
+		samletprisLbl.setFont(new Font(24));
+		samletprisLbl.relocate(430, 480);
+		
+		
 		Lånetilbud.setFont(new Font(36));
 		Lånetilbud.relocate(645, 55);
 
 		navnOutput.setFont(new Font(18));
-		navnOutput.relocate(585, 166);
+		navnOutput.relocate(577, 164);
 
 		tlfOutput.setFont(new Font(18));
-		tlfOutput.relocate(585, 216);
+		tlfOutput.relocate(577, 205);
 
 		cprOutput.setFont(new Font(18));
-		cprOutput.relocate(585, 265);
+		cprOutput.relocate(577, 244);
 
 		addresseOutput.setFont(new Font(18));
-		addresseOutput.relocate(585, 316);
+		addresseOutput.relocate(577, 284);
 
 		mailOutput.setFont(new Font(18));
-		mailOutput.relocate(585, 364);
+		mailOutput.relocate(577, 324);
 
 		bilmodelOutput.setFont(new Font(18));
-		bilmodelOutput.relocate(585, 414);
+		bilmodelOutput.relocate(577, 366);
 
 		bilprisOutput.setFont(new Font(18));
-		bilprisOutput.relocate(585, 464);
+		bilprisOutput.relocate(577, 404);
 
-		tilbudsprisOutput.setFont(new Font(18));
-		tilbudsprisOutput.relocate(585, 516);
-
-		laaneperiodeOutput.setFont(new Font(18));
-		laaneperiodeOutput.relocate(585, 566);
+		mdlydelseOutput.setFont(new Font(18));
+		mdlydelseOutput.relocate(577, 524);
 		
-
+		prisoutputLbl.setFont(new Font(18));
+		prisoutputLbl.relocate(577, 480);
+		
+		periodeoutputLbl.setFont(new Font(18));
+		periodeoutputLbl.relocate(577, 444);
+		
+		udbtloutputLbl.setFont(new Font(18));
+		udbtloutputLbl.relocate(577, 564);
+		
 		loginName.relocate(829, 736);
 		loginName.setText("Logget ind som " + ": " + "medarbejderNavn");
 		
-
 
 		// Search function
 		Søg.setLayoutX(23);
@@ -182,7 +209,7 @@ public class LaaneUI {
 
 		// Add bottom line
 		bottomLine.setStartX(-171);
-		bottomLine.setEndX(556);
+		bottomLine.setEndX(625);
 		bottomLine.setLayoutX(553);
 		bottomLine.setLayoutY(632);
 		bottomLine.setStroke(Color.RED);
@@ -201,24 +228,42 @@ public class LaaneUI {
 		Rectangle background = new Rectangle();
 		background.setFill(Color.WHITESMOKE);
 		background.setHeight(681);
+		background.setWidth(727);
 		background.setArcWidth(5);
 		background.setArcHeight(5);
-		background.setWidth(727);
-		background.setHeight(681);
 		background.setStroke(Color.BLACK);
 		background.relocate(382, 37);
-
+//  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8f4f4" height="79.0" layoutX="23.0" layoutY="639.0" stroke="BLACK" strokeType="INSIDE" width="322.0" />
+		//<Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8f4f4" height="77.0" layoutX="23.0" layoutY="641.0" stroke="BLACK" strokeType="INSIDE" width="322.0" />
+		Rectangle background2 = new Rectangle();
+		background2.setFill(Color.WHITESMOKE);
+		background2.setHeight(79);
+		background2.setWidth(322);
+		background2.setArcWidth(5);
+		background2.setArcHeight(5);
+		background2.setStroke(Color.BLACK);
+		background2.relocate(23, 639);
+		
 		// Adding to pane
-		pane1.getChildren().addAll(Søg, background, Addresse, CPR, Tilbudspris, Laaneperiode, Lånetilbud, Bilmodel,
-				Navn, navnOutput, bilmodelOutput, laaneperiodeOutput, Tlf, bilprisOutput, mailOutput, tilbudsprisOutput,
+		pane1.getChildren().addAll(Søg, background, background2, Addresse, CPR, Laaneperiode, Lånetilbud, Bilmodel,
+				Navn, navnOutput, bilmodelOutput, mdlydelseOutput, Tlf, bilprisOutput, mailOutput,
 				tlfOutput, addresseOutput, Mail, cprOutput, Bilpris, upperLine, bottomLine, ferraripic, opretTilbud,
-				redigerTilbud, fjernTilbud, loginName);
+				redigerTilbud, fjernTilbud, loginName, godkendBtn, afvisBtn, prisoutputLbl, periodeoutputLbl, 
+				udbtloutputLbl, samletprisLbl, mdlydelseLbl, udbetalingLbl);
 
 		scene = new Scene(pane1);
 		LaaneUIStage.setScene(scene);
 		LaaneUIStage.show();
+		
+		opretTilbud.setOnAction(e -> opretLaaneUI());
 
 	}
+	
+	  public void opretLaaneUI() {
+			OpretLaanUI opretLaan = new OpretLaanUI();
+			opretLaan.start();
+		}
+	    
 
 //	laaneTilbudTable = new TableView<>();
 	/*

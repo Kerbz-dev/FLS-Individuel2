@@ -29,7 +29,7 @@ public class adminUI {
         ferrari = new Image("https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg%22");
         ferraripic = new ImageView();
         ferraripic.setImage(ferrari);
-        
+    	adminUIStage.getIcons().add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
         
         
       // Button assignments
@@ -84,5 +84,6 @@ public class adminUI {
 		laan.start();
 	}
     
+
     
 }
