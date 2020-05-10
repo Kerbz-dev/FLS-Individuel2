@@ -137,7 +137,7 @@ public class OpretLoginUI {
 		opretLoginStatus.setText("Bruger findes allerede");
 	}
 
-	public void opretBruger() {
+	private void opretBruger() {
 
 		OpretBruger oprBruger = new OpretBruger(this);
 

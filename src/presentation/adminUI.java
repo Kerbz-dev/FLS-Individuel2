@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import logic.GetRente;
 
 public class adminUI {
 	
@@ -71,19 +72,26 @@ public class adminUI {
       
 		opretSealger.setOnAction(e -> opretLoginUI());
 		laan.setOnAction(e -> opretLaaneUI());
+		laaneanmodning.setOnAction(e -> checkKV());
       
 }
     
-    public void opretLoginUI() {
+    private void opretLoginUI() {
 		OpretLoginUI oprlogUI = new OpretLoginUI();
 		oprlogUI.start();
 	}
     
-    public void opretLaaneUI() {
+    private void opretLaaneUI() {
 		LaaneUI laan = new LaaneUI();
 		laan.start();
 	}
     
+    private void checkKV() {
+    GetRente gr = new GetRente();
+     gr.getkreditvaerdighed();
+   
+}
+
 
     
 }

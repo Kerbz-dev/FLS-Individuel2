@@ -259,7 +259,7 @@ public class LaaneUI {
 
 	}
 	
-	  public void opretLaaneUI() {
+	  private void opretLaaneUI() {
 			OpretLaanUI opretLaan = new OpretLaanUI();
 			opretLaan.start();
 		}

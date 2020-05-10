@@ -117,7 +117,7 @@ public class LoginUI {
 		loginStatus.setText("Wrong username or password");
 	}
 
-	public void adminLoginSuccess() throws InterruptedException {
+	public void adminLoginSuccess() {
 		adminUI admUI = new adminUI();
 		admUI.start();
 	}
