@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import db.Datakobling;
 import presentation.LoginUI;
 
 
@@ -17,11 +19,9 @@ public class LoginVerification {
 	public void loginCheck() {
 		String usernameInput = loginui.userLoginField.getText();
 		String passwordInput = loginui.passLoginField.getText();
+		Datakobling DB = new Datakobling();
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;" + "instanceName=SQLEXPRESS;"
-					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
-			Statement stmt = con.createStatement();
+		       Statement stmt = DB.connection.createStatement();
 			String sql = "Select * from bilsealger where username='" + usernameInput + "' and saelgerpassword='"
 					+ passwordInput + "'";
 			
@@ -33,7 +33,8 @@ public class LoginVerification {
 				} else { 
 				adminLoginCheck();
 			}
-			con.close();
+
+            DB.connection.close();
 
 		} catch (Exception e) {
 			System.out.println("Got exception from loginCheck() in LoginVerification");

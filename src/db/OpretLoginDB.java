@@ -11,9 +11,9 @@ public class OpretLoginDB {
  
 
     public void createLogin(String medarbejderNavn, String username, String saelgerpassword) {
-        Datakobling bilsælger = new Datakobling();
+        Datakobling DB = new Datakobling();
         try {
-            Statement statement = bilsælger.connection.createStatement();
+            Statement statement = DB.connection.createStatement();
 
 
             statement.executeUpdate(
@@ -21,7 +21,7 @@ public class OpretLoginDB {
 
  
 
-            bilsælger.connection.close();
+           DB.connection.close();
 
  
 

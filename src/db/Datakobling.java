@@ -12,7 +12,7 @@ import logic.Kunde;
 
 public class Datakobling {
 	 String databaseName;
-	 Connection connection;
+	public Connection connection;
 
 	public Datakobling() {
 		databaseName = "FerrariDB";

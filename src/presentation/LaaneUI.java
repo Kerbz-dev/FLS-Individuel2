@@ -3,6 +3,8 @@ package presentation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,7 +30,7 @@ public class LaaneUI {
 	private Image ferrari;
 	private ImageView ferraripic;
 	private TextField Søg;
-	
+	private TableView tilbudTbl;
 
 	public void start() {
 
@@ -71,6 +73,7 @@ public class LaaneUI {
 		udbtloutputLbl = new Label("5.000.000");
 		godkendBtn = new Button("Godkend");
 		afvisBtn = new Button("Afvis");
+		tilbudTbl = new TableView();
 		
 		
 		bp.setPrefHeight(777);
@@ -223,6 +226,14 @@ public class LaaneUI {
 		upperLine.setStroke(Color.RED);
 		upperLine.setStrokeWidth(3);
 		pane1.setStyle("-fx-background-color: #FF2800");
+		
+		// Making TableView
+		tilbudTbl.setEditable(true);
+		
+		// Creating colums for tblView
+	      TableColumn dateCol = new TableColumn("Dato");
+	      TableColumn tilbudCol = new TableColumn("Lånetilbud");
+	      tilbudTbl.getColumns().addAll(dateCol, tilbudCol);
 
 		// Setting background color for text zone
 		Rectangle background = new Rectangle();
@@ -249,7 +260,7 @@ public class LaaneUI {
 				Navn, navnOutput, bilmodelOutput, mdlydelseOutput, Tlf, bilprisOutput, mailOutput,
 				tlfOutput, addresseOutput, Mail, cprOutput, Bilpris, upperLine, bottomLine, ferraripic, opretTilbud,
 				redigerTilbud, fjernTilbud, loginName, godkendBtn, afvisBtn, prisoutputLbl, periodeoutputLbl, 
-				udbtloutputLbl, samletprisLbl, mdlydelseLbl, udbetalingLbl);
+				udbtloutputLbl, samletprisLbl, mdlydelseLbl, udbetalingLbl, tilbudTbl);
 
 		scene = new Scene(pane1);
 		LaaneUIStage.setScene(scene);

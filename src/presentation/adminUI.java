@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import logic.GetRente;
+import logic.GetKV;
 
 public class adminUI {
 	
@@ -87,7 +87,7 @@ public class adminUI {
 	}
     
     private void checkKV() {
-    GetRente gr = new GetRente();
+    GetKV gr = new GetKV();
      gr.getkreditvaerdighed();
    
 }

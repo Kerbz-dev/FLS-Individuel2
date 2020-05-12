@@ -1,5 +1,6 @@
 package presentation;
 
+import db.Datakobling;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ public class OpretLoginUI {
 
 	private Stage opretLoginStage;
 
-	public TextField name;
+	private TextField name;
 	public TextField createUsername;
 	public TextField createPassword;
 	private Label opretLoginStatus;
@@ -138,11 +139,14 @@ public class OpretLoginUI {
 	}
 
 	private void opretBruger() {
-
 		OpretBruger oprBruger = new OpretBruger(this);
-
-		oprBruger.opretBruger();
+		
+		//oprBruger.opretBruger();
 		oprBruger.createUserCheckDuplicate();
 	}
-
+	
+	public String getName() {
+		
+		return name.getText();
+	}
 }

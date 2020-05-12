@@ -6,11 +6,11 @@ import com.ferrari.finances.dk.rki.CreditRator;
 import com.ferrari.finances.dk.rki.Rating;
 
 
-public class GetRente {
+public class GetKV {
 
 
    // private double udlånsrente;
-    private String cpr = "0000000001";
+    private String cpr = "2802922003";
     
 
 

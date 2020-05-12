@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import db.Datakobling;
 import db.OpretLoginDB;
 
 public class OpretBruger {
@@ -24,7 +26,8 @@ public class OpretBruger {
 
 	public void opretBruger() {
 		OpretLoginDB login = new OpretLoginDB();
-		medarbejderNavn = createloginUI.name.getText();
+		medarbejderNavn = createloginUI.getName(); //createloginUI.name.getText();
+		System.out.println();
 		createUsername = createloginUI.createUsername.getText();
 		createPassword = createloginUI.createPassword.getText();
 		createUserCheckDuplicate();
@@ -50,6 +53,7 @@ public class OpretBruger {
 
 	public void createUserCheckDuplicate() {
 		String usernameFieldInput = createloginUI.createUsername.getText();
+	//	Datakobling DB = new Datakobling();
 		// String passwordFieldInput = createloginUI.createPassword.getText();
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -59,7 +63,6 @@ public class OpretBruger {
 			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' ";
 			//or saelgerpassword='"+ passwordFieldInput + "'
 			ResultSet rs = stmt.executeQuery(sql);
-
 			if (rs.next()) {
 				duplicateCheck = true;
 				// System.out.println(duplicateCheck);
