@@ -119,5 +119,54 @@ public class Datakobling {
 
 		return bilsælger2;
 	}
+	
+	public boolean LoginCheck(String username, String password) {
+		
+		try {
+		       Statement stmt = connection.createStatement();
+			String sql = "Select * from bilsealger where username='" + username + "' and saelgerpassword='"
+					+ password + "'";
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+			return true;
+			}
+			
+				connection.close();
+			
 
+		} catch (Exception e) {
+			System.out.println("Got exception from loginCheck() in LoginVerification");
+			System.out.print(e);
+			
+		}
+		return false;
+
+	}
+	
+	public boolean adminLoginCheck(String username, String password) {
+		try {
+		       Statement stmt = connection.createStatement();
+			String sql = "Select * from administrator where adminbrugernavn='" + username + "' and adminpassword='"
+					+ password + "'";
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+			return true;
+				}
+
+			connection.close();
+
+
+		} catch (Exception e) {
+			System.out.println("Got exception from loginCheck() in LoginVerification");
+			System.out.print(e);
+		}
+		return false;
+		
+	}
+	
+	
 }
+
+

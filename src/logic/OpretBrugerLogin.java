@@ -10,7 +10,7 @@ import java.sql.Statement;
 import db.Datakobling;
 import db.OpretLoginDB;
 
-public class OpretBruger {
+public class OpretBrugerLogin {
 
 	private OpretLoginUI createloginUI;
 	private String medarbejderNavn;
@@ -19,7 +19,7 @@ public class OpretBruger {
 	private boolean duplicateCheck;
 
 
-	public OpretBruger(OpretLoginUI createlogUI) {
+	public OpretBrugerLogin(OpretLoginUI createlogUI) {
 		this.createloginUI = createlogUI;
 
 	}
@@ -61,9 +61,11 @@ public class OpretBruger {
 					+ "databaseName=" + "FerrariDB" + ";" + "integratedSecurity=true;");
 			Statement stmt = con.createStatement();
 			String sql = "Select * from bilsealger where username='" + usernameFieldInput + "' ";
+		
 			//or saelgerpassword='"+ passwordFieldInput + "'
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
+				rs.getString("username");
 				duplicateCheck = true;
 				// System.out.println(duplicateCheck);
 			} else {

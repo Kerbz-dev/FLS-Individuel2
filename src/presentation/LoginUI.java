@@ -100,9 +100,26 @@ public class LoginUI {
 	}
 
 	public void loginCheck() {
-		LoginVerification ctrl = new LoginVerification(this);
-		ctrl.loginCheck();
+		LoginVerification ctrl = new LoginVerification();
 
+		String username = userLoginField.getText();
+		String password = passLoginField.getText();
+
+		ctrl.loginCheck(username, password);
+
+		if (ctrl.loginCheck(username, password) == true) {
+			loginSuccess();
+			startLaaneUI();
+		} else if (ctrl.loginCheck(username, password) == false) {
+			ctrl.adminloginCheck(username, password);
+		
+		if (ctrl.adminloginCheck(username, password) == true) {
+			loginSuccess();
+			adminLoginSuccess();
+		} else {
+			loginFail();
+		}
+		}
 	}
 
 	public void loginSuccess() {
@@ -121,11 +138,10 @@ public class LoginUI {
 		adminUI admUI = new adminUI();
 		admUI.start();
 	}
-	
-    public void opretLaaneUI() {
+
+	public void startLaaneUI() {
 		LaaneUI laan = new LaaneUI();
 		laan.start();
 	}
-    
 
 }

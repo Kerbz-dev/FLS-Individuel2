@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.OpretBruger;
+import logic.OpretBrugerLogin;
 
 public class OpretLoginUI {
 
@@ -139,9 +139,9 @@ public class OpretLoginUI {
 	}
 
 	private void opretBruger() {
-		OpretBruger oprBruger = new OpretBruger(this);
+		OpretBrugerLogin oprBruger = new OpretBrugerLogin(this);
 		
-		//oprBruger.opretBruger();
+		oprBruger.opretBruger();
 		oprBruger.createUserCheckDuplicate();
 	}
 	
