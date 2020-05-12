@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.LoginVerification;
+import logic.LoginVerification.LoginResult;
 
 public class LoginUI {
 
@@ -104,9 +105,24 @@ public class LoginUI {
 
 		String username = userLoginField.getText();
 		String password = passLoginField.getText();
+		
+		LoginResult lgnCheck;
+		lgnCheck = ctrl.loginCheck(username, password);
 
-		ctrl.loginCheck(username, password);
-
+		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
+			loginSuccess();
+			startLaaneUI();
+		}
+		
+		else if (lgnCheck == LoginResult.ADMIN_LOGGED_IN) {
+			loginSuccess();
+			adminLoginSuccess();
+		}
+		
+		else if (lgnCheck == LoginResult.FAILED) {
+			loginFail();
+		}
+/*
 		if (ctrl.loginCheck(username, password) == true) {
 			loginSuccess();
 			startLaaneUI();
@@ -118,9 +134,9 @@ public class LoginUI {
 			adminLoginSuccess();
 		} else {
 			loginFail();
+		}*/
 		}
-		}
-	}
+	
 
 	public void loginSuccess() {
 		loginStatus.relocate(130, 315);

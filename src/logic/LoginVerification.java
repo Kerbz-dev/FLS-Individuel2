@@ -2,32 +2,34 @@ package logic;
 
 import db.Datakobling;
 
+
 public class LoginVerification {
-
-	public boolean loginCheck(String username, String password) {
-
-		Datakobling DB = new Datakobling();
-
-		DB.LoginCheck(username, password);
-		// DB.adminLoginCheck(username, password);
-		if (DB.LoginCheck(username, password) == true) {
-			System.out.println("Login successful");
-			return true;
-		}
-		else if(DB.LoginCheck(username, password) == false) {
-		adminloginCheck(username, password);
-		}
+	public enum LoginResult {FAILED, USER_LOGGED_IN, ADMIN_LOGGED_IN};
+	private Datakobling DB = new Datakobling();
 	
-		return false;
+	public LoginResult loginCheck(String username, String password) {
+
+		
+
+		
+		//-----
+		
+		if (DB.LoginCheck(username, password)) {
+			return LoginResult.USER_LOGGED_IN;
 		}
+		else if (DB.adminLoginCheck(username, password)) {
+			return LoginResult.ADMIN_LOGGED_IN;
+		}
+		else {
+			return LoginResult.FAILED;
+	}
+	}
+}
 	
+	/*
 
 	public boolean adminloginCheck(String username, String password) {
 
-		Datakobling DB = new Datakobling();
-
-		DB.adminLoginCheck(username, password);
-		// DB.adminLoginCheck(username, password);
 		if (DB.adminLoginCheck(username, password) == true) {
 			return true;
 		}
@@ -36,6 +38,8 @@ public class LoginVerification {
 		return false;
 		}
 		}
-	}
+		*/
+	
+
 
 

@@ -11,7 +11,7 @@ import logic.Bilsælger;
 import logic.Kunde;
 
 public class Datakobling {
-	 String databaseName;
+	String databaseName;
 	public Connection connection;
 
 	public Datakobling() {
@@ -119,54 +119,66 @@ public class Datakobling {
 
 		return bilsælger2;
 	}
-	
+
 	public boolean LoginCheck(String username, String password) {
-		
 		try {
-		       Statement stmt = connection.createStatement();
-			String sql = "Select * from bilsealger where username='" + username + "' and saelgerpassword='"
-					+ password + "'";
-			
+			Statement stmt = connection.createStatement();
+			String sql = "Select * from bilsealger where username='" + username + "' and saelgerpassword='" + password
+					+ "'";
+
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-			return true;
+				return true;
 			}
-			
-				connection.close();
-			
 
 		} catch (Exception e) {
-			System.out.println("Got exception from loginCheck() in LoginVerification");
+			System.out.println("Got exception from LoginCheck in Datakobling ");
 			System.out.print(e);
-			
+
 		}
 		return false;
 
 	}
-	
+
 	public boolean adminLoginCheck(String username, String password) {
+
 		try {
-		       Statement stmt = connection.createStatement();
+
+			Statement stmt = connection.createStatement();
 			String sql = "Select * from administrator where adminbrugernavn='" + username + "' and adminpassword='"
 					+ password + "'";
-			
+
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-			return true;
-				}
-
-			connection.close();
-
+				return true;
+			}
 
 		} catch (Exception e) {
-			System.out.println("Got exception from loginCheck() in LoginVerification");
+			System.out.println("Got exception from adminLoginCheck() in Datakobling");
 			System.out.print(e);
 		}
 		return false;
-		
+
 	}
-	
-	
+
+	public boolean userCheckDuplicate(String CreateUsername) {
+
+		try {
+			Statement stmt = connection.createStatement();
+			String sql = "Select * from bilsealger where username='" + CreateUsername + "' ";
+
+			// or saelgerpassword='"+ passwordFieldInput + "'
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+
+				return true;
+				// System.out.println(duplicateCheck);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Got exception from createUserCheckDuplicate in OpretBruger");
+			System.out.print(e);
+		}
+		return false;
+	}
 }
-
-
