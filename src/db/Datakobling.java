@@ -5,10 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
-import logic.Bilsælger;
-import logic.Kunde;
+
 
 public class Datakobling {
 	String databaseName;
@@ -58,67 +56,6 @@ public class Datakobling {
 		}
 	}
 
-	public ArrayList<Kunde> getAllKunde() {
-		ArrayList<Kunde> kunde = new ArrayList<>();
-
-		try {
-			String sql = "SELECT * FROM kunde";
-
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			// iteration starter 'before first'
-			while (resultSet.next()) {
-				// hent data fra denne række
-				int telefonnummer = resultSet.getInt("telefonnummer");
-				String teamname = resultSet.getString("kundenavn");
-				int cpr_nummer = resultSet.getInt("cpr_nummer");
-				String email = resultSet.getString("email");
-				String kreditværdighed = resultSet.getString("kreditværdighed");
-
-				// brug data, e.g. => entitets/model object
-				Kunde kunde1 = new Kunde(telefonnummer, teamname, cpr_nummer, email, kreditværdighed);
-
-				kunde.add(kunde1);
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return kunde;
-	}
-
-	public ArrayList<Bilsælger> getAllBilsælger() {
-		ArrayList<Bilsælger> bilsælger2 = new ArrayList<>();
-
-		try {
-			String sql = "SELECT * FROM bilsealger";
-
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			// iteration starter 'before first'
-			while (resultSet.next()) {
-				// hent data fra denne række
-				String medarbejderNavn = resultSet.getString("medarbejderNavn");
-				String username = resultSet.getString("username");
-				String saelgerpassword = resultSet.getString("saelgerpassword");
-
-				// brug data, e.g. => entitets/model object
-				Bilsælger bilsælger1 = new Bilsælger(medarbejderNavn, username, saelgerpassword);
-
-				bilsælger2.add(bilsælger1);
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return bilsælger2;
-	}
 
 	public boolean LoginCheck(String username, String password) {
 		try {
@@ -152,13 +89,14 @@ public class Datakobling {
 			if (rs.next()) {
 				return true;
 			}
-
+			rs.close();
+			stmt.close();
 		} catch (Exception e) {
 			System.out.println("Got exception from adminLoginCheck() in Datakobling");
 			System.out.print(e);
 		}
 		return false;
-
+		
 	}
 
 	public boolean userCheckDuplicate(String CreateUsername) {
@@ -174,6 +112,7 @@ public class Datakobling {
 				return true;
 				// System.out.println(duplicateCheck);
 			}
+			rs.close();
 
 		} catch (Exception e) {
 			System.out.println("Got exception from createUserCheckDuplicate in OpretBruger");

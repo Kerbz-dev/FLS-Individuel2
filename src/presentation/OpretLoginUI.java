@@ -114,9 +114,7 @@ public class OpretLoginUI {
         // Action buttons
         opretLoginKnap.setOnAction(e -> opretBruger());
 
-
     }
-    
     
     private void opretLoginSuccess() {
         opretLoginStatus.setTextFill(Color.LIGHTGREEN);
@@ -165,7 +163,6 @@ public class OpretLoginUI {
             opretLoginFailAll();
         }
 
-
           else if (medarbejderNavn.isEmpty()) {
             opretLoginFailMNavn();
         } else if (CreateUsername.isEmpty()) {
@@ -177,11 +174,9 @@ public class OpretLoginUI {
 
 
         } else  {
-            opretLoginSuccess();
-            
-        
+            opretLoginSuccess();  
         }
-        }
+    }
     
 
 

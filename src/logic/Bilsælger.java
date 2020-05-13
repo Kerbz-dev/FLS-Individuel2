@@ -1,5 +1,6 @@
 package logic;
 
+
 public class Bilsælger {
 
 	private String medarbejderNavn;
@@ -11,10 +12,12 @@ public class Bilsælger {
 		this.medarbejderNavn = medarbejderNavn;
 		this.username = username;
 		this.saelgerpassword = saelgerpassword;
+		
+		
 	}
 
 	public String getmedarbejderNavn() {
-		return this.medarbejderNavn;
+		return medarbejderNavn;
 	}
 
 	public void setmedarbejderNavn(String medarbejderNavn) {
@@ -29,12 +32,12 @@ public class Bilsælger {
 		return username;
 	}
 
-	public String setsaelgerpassword() {
-		return this.saelgerpassword;
+	public void setsaelgerpassword(String saelgerpassword) {
+		this.saelgerpassword = saelgerpassword;
 	}
 
-	public void getsaelgerpassword(String saelgerpassword) {
-		this.saelgerpassword = saelgerpassword;
+	public String getsaelgerpassword() {
+		return saelgerpassword;
 	}
 
 	@Override

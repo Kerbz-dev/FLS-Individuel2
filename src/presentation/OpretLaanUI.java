@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.OpretLaan;
+import logic.getKunde;
 
 public class OpretLaanUI {
 
@@ -35,8 +37,7 @@ public class OpretLaanUI {
 		opretLaanStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
-		Label lgnNameLbl = new Label("logget in som " + " username");
-		lgnNameLbl.relocate(669.0, 523.0);
+		Label lgnNameLbl = new Label("logget in som " +  "username");
 
 		pane3 = new Pane();
 		ferrari = new Image(
@@ -118,8 +119,8 @@ public class OpretLaanUI {
 		navnTField.setPromptText("Navn:");
 
 		lgnNameLbl.setPrefHeight(17);
-		lgnNameLbl.setPrefWidth(80);
-		lgnNameLbl.relocate(669, 523);
+		lgnNameLbl.setPrefWidth(200);
+		lgnNameLbl.relocate(750, 625);
 		
 		
 		//Font sizes
@@ -148,11 +149,65 @@ public class OpretLaanUI {
 		pane3.getChildren().add(laengdeTField);
 		pane3.getChildren().add(opretLaanBtn);
 	
-
+	      opretLaanBtn.setOnAction(e -> opretLaan()); 
 		// Show scene
 		scene3 = new Scene(pane3, 930, 670);
 		opretLaanStage.setScene(scene3);
 		opretLaanStage.show();
 	}
+	
+	 private void opretLaan() {
+	        String kundenavn = navnTField.getText();
+	        String adr = adrTField.getText();
+	        String tlf = tlfTField.getText();
+	        String cpr = cprTField.getText();
+	        String mail = mailTField.getText();
+	        String bilnavn = bilnavnTField.getText();
+	        String bilpris = bilprisTField.getText();
+	        String udbetalingspris = udbetalingTField.getText();
+	        String laanleangde = laengdeTField.getText();
 
+	        OpretLaan laanlogic = new OpretLaan();
+
+	        if (kundenavn.isEmpty() && adr.isEmpty() && tlf.isEmpty() 
+	                && cpr.isEmpty() && mail.isEmpty() && bilnavn.isEmpty() 
+	                && bilpris.isEmpty() && udbetalingspris.isEmpty() && laanleangde.isEmpty()) {
+	            System.out.println("Lån Fejlede");;
+	        }
+	        else {
+	            laanlogic.opretLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
+	            System.out.println("Great Success");
+	        }
+	 }
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+     /*public void Kundeinfo() {
+    
+    
+     String Fornavn = new String();
+     String Efternavn= new String();
+     String Addresse = new String();
+     String tlfnr = new String();
+     String cprnr = new String();
+     String email = new String();
+    
+     getKunde gK = new getKunde();
+
+     gK.getKundeinfo(Fornavn, Addresse, tlfnr, cprnr, email);
+     System.out.print(Fornavn + Addresse +  tlfnr + cprnr + email);
+     adrTField.setText(Addresse);
+     lgnNameLbl.setText(Addresse);
+     System.out.println(Addresse);
+ }
+*/
 }
