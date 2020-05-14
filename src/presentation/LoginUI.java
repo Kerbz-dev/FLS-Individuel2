@@ -16,9 +16,9 @@ import logic.LoginVerification.LoginResult;
 
 public class LoginUI {
 
-	public TextField userLoginField;
-	public PasswordField passLoginField;
-	public Button loginKnap;
+	private TextField userLoginField;
+	private PasswordField passLoginField;
+	private Button loginKnap;
 	private Label loginStatus;
 	private Scene scene;
 	private Pane pane;
@@ -83,8 +83,8 @@ public class LoginUI {
 
 		// Add to pane
 		pane.getChildren().add(userLoginField);
-		pane.getChildren().add(loginKnap);
 		pane.getChildren().add(passLoginField);
+		pane.getChildren().add(loginKnap);
 		pane.getChildren().add(loginStatus);
 		pane.getChildren().add(ferraripic);
 
@@ -124,24 +124,24 @@ public class LoginUI {
 	}
 	
 
-	public void loginSuccess() {
+	private void loginSuccess() {
 		loginStatus.relocate(130, 315);
 		loginStatus.setTextFill(Color.LIGHTGREEN);
 		loginStatus.setText("Login successful!");
 	}
 
-	public void loginFail() {
+	private void loginFail() {
 		loginStatus.relocate(60, 315);
 		loginStatus.setTextFill(Color.WHITESMOKE);
 		loginStatus.setText("Wrong username or password");
 	}
 
-	public void adminLoginSuccess() {
+	private void adminLoginSuccess() {
 		adminUI admUI = new adminUI();
 		admUI.start();
 	}
 
-	public void startLaaneUI() {
+	private void startLaaneUI() {
 		LaaneUI laan = new LaaneUI();
 		laan.start();
 	}

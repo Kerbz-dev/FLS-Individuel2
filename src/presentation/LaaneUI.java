@@ -18,7 +18,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.Bilsælger;
 import logic.Person;
 
 public class LaaneUI {
@@ -35,7 +34,6 @@ public class LaaneUI {
 	private ImageView ferraripic;
 	private TextField Søg;
 	private TableView tilbudTbl;
-	private Bilsælger bilslg = new Bilsælger(null, null, null);
 	private Person person = new Person(null, null, null);
 
 	public void start() {

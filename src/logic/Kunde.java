@@ -9,7 +9,9 @@ public class Kunde {
 	 private String kreditværdighed;
 	    
 
-	 
+	 public Kunde() {
+		 
+	 }
 
 	    public Kunde (int telefonnummer, String kundenavn, int cpr_nummer, String email, String kreditværdighed)
 	    {

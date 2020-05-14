@@ -11,13 +11,13 @@ import java.util.List;
  
 
 import db.Datakobling;
-
+import logic.Kunde;
  
 
 public class KundeinfoDB {
 
-    /*public List getKundeinfo (String Fornavn, String Addresse, String tlfnr, String cprnr, String email) {
-        ArrayList<Kunde> list = new ArrayList<Kunde>();
+	/*Kunde kunde = new Kunde(0, null, 0, null, null);
+    public List getKundeinfo (String email) {
         Datakobling DB = new Datakobling(); 
         try {
             Statement stmt = DB.connection.createStatement();
@@ -30,11 +30,7 @@ public class KundeinfoDB {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
 
- 
 
-                Fornavn = rs.getString("kundenavn");
-
- 
 
                 Addresse = rs.getString("addresse");
 

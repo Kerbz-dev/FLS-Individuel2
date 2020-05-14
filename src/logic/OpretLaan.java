@@ -9,21 +9,13 @@ public class OpretLaan {
     public boolean opretLaan(String bilnavn, String bilpris, String udbetalingspris, String laanleangde, 
             String tlf, String kundenavn, String cpr, String mail, String adr) {
 
-//
-//        if (DB.userCheckDuplicate(CreateUsername) == true ) {
-//            System.out.println("First duplicateCheck should be true");
-//            System.out.println(DB.userCheckDuplicate(CreateUsername));
-//            return true;
-//        } else if (DB.userCheckDuplicate(CreateUsername) == false ) {
-//            System.out.println("Second duplicateCheck should be tfalse");
-//            System.out.println(DB.userCheckDuplicate(CreateUsername));
-//            login.createLogin(medarbejderNavn, CreateUsername, CreatePassword);
-//
-//
-//
-//        }
+    	if (laan.kundeCheckDuplicate(cpr, tlf) == true) {
+    		return true;
+    	}
 
-        laan.createLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
+    	else if (laan.kundeCheckDuplicate(cpr, tlf) == false) {
+            laan.createLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
+    	}
 
         return false;
 

@@ -7,10 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.OpretLaan;
-import logic.getKunde;
 
 public class OpretLaanUI {
 
@@ -25,6 +25,17 @@ public class OpretLaanUI {
 	private TextField laengdeTField;
 	private Button opretLaanBtn;
 	private Stage opretLaanStage;
+	private OpretLaan laanlogic = new OpretLaan();
+	private String kundenavn;
+	private String adr;
+	private String tlf;
+	private String cpr;
+	private String mail;
+	private String bilnavn;
+	private String bilpris;
+	private String udbetalingspris;
+	private String laanleangde;
+	private Label opretStatusLbl;
 
 	private Scene scene3;
 	private Pane pane3;
@@ -37,7 +48,7 @@ public class OpretLaanUI {
 		opretLaanStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
-		Label lgnNameLbl = new Label("logget in som " +  "username");
+		Label lgnNameLbl = new Label("logget in som " + "username");
 
 		pane3 = new Pane();
 		ferrari = new Image(
@@ -57,6 +68,7 @@ public class OpretLaanUI {
 		bilprisTField = new TextField();
 		udbetalingTField = new TextField();
 		laengdeTField = new TextField();
+		opretStatusLbl = new Label("test");
 
 		navnTField.relocate(298.0, 225.0);
 		navnTField.setPrefHeight(25.0);
@@ -85,6 +97,8 @@ public class OpretLaanUI {
 		laengdeTField.relocate(298, 465);
 		laengdeTField.setPrefHeight(25.0);
 		laengdeTField.setPrefWidth(321.0);
+		opretStatusLbl.setFont(new Font(24));
+		opretLaanBtn.relocate(350.0, 550);
 
 		ferraripic.setFitWidth(350);
 		ferraripic.setFitHeight(175);
@@ -94,7 +108,6 @@ public class OpretLaanUI {
 		pane3.setPrefWidth(842);
 
 		pane3.setPrefWidth(930.0);
-		opretLaanBtn.relocate(347.0, 525);
 
 		// adrTField.relocate(arg0, arg1);
 		laengdeTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
@@ -121,9 +134,8 @@ public class OpretLaanUI {
 		lgnNameLbl.setPrefHeight(17);
 		lgnNameLbl.setPrefWidth(200);
 		lgnNameLbl.relocate(750, 625);
-		
-		
-		//Font sizes
+
+		// Font sizes
 		opretLaanBtn.setFont(new Font(24));
 		lgnNameLbl.setFont(new Font(12));
 		laengdeTField.setFont(new Font(14));
@@ -136,78 +148,75 @@ public class OpretLaanUI {
 		adrTField.setFont(new Font(14));
 		navnTField.setFont(new Font(14));
 		// Add to pane
-		pane3.getChildren().add(ferraripic);
-		pane3.getChildren().add(lgnNameLbl);
-		pane3.getChildren().add(mailTField);
-		pane3.getChildren().add(cprTField);
-		pane3.getChildren().add(navnTField);
-		pane3.getChildren().add(tlfTField);
-		pane3.getChildren().add(adrTField);
-		pane3.getChildren().add(bilnavnTField);
-		pane3.getChildren().add(bilprisTField);
-		pane3.getChildren().add(udbetalingTField);
-		pane3.getChildren().add(laengdeTField);
-		pane3.getChildren().add(opretLaanBtn);
-	
-	      opretLaanBtn.setOnAction(e -> opretLaan()); 
+		pane3.getChildren().addAll(navnTField, adrTField, tlfTField, cprTField, mailTField, bilnavnTField,
+				bilprisTField, udbetalingTField, laengdeTField, opretLaanBtn, opretStatusLbl, ferraripic, lgnNameLbl);
+
+		// Starting opretLaan event when opretLaanBtn is clicked
+		opretLaanBtn.setOnAction(e -> opretLaan());
+
 		// Show scene
 		scene3 = new Scene(pane3, 930, 670);
 		opretLaanStage.setScene(scene3);
 		opretLaanStage.show();
 	}
-	
-	 private void opretLaan() {
-	        String kundenavn = navnTField.getText();
-	        String adr = adrTField.getText();
-	        String tlf = tlfTField.getText();
-	        String cpr = cprTField.getText();
-	        String mail = mailTField.getText();
-	        String bilnavn = bilnavnTField.getText();
-	        String bilpris = bilprisTField.getText();
-	        String udbetalingspris = udbetalingTField.getText();
-	        String laanleangde = laengdeTField.getText();
 
-	        OpretLaan laanlogic = new OpretLaan();
+	private void opretLaan() {
+		kundenavn = navnTField.getText();
+		adr = adrTField.getText();
+		tlf = tlfTField.getText();
+		cpr = cprTField.getText();
+		mail = mailTField.getText();
+		bilnavn = bilnavnTField.getText();
+		bilpris = bilprisTField.getText();
+		udbetalingspris = udbetalingTField.getText();
+		laanleangde = laengdeTField.getText();
 
-	        if (kundenavn.isEmpty() && adr.isEmpty() && tlf.isEmpty() 
-	                && cpr.isEmpty() && mail.isEmpty() && bilnavn.isEmpty() 
-	                && bilpris.isEmpty() && udbetalingspris.isEmpty() && laanleangde.isEmpty()) {
-	            System.out.println("Lån Fejlede");;
-	        }
-	        else {
-	            laanlogic.opretLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
-	            System.out.println("Great Success");
-	        }
-	 }
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-     /*public void Kundeinfo() {
-    
-    
-     String Fornavn = new String();
-     String Efternavn= new String();
-     String Addresse = new String();
-     String tlfnr = new String();
-     String cprnr = new String();
-     String email = new String();
-    
-     getKunde gK = new getKunde();
+		// boolean checkDuplicate = laanlogic.opretLaan(bilnavn, bilpris,
+		// udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
 
-     gK.getKundeinfo(Fornavn, Addresse, tlfnr, cprnr, email);
-     System.out.print(Fornavn + Addresse +  tlfnr + cprnr + email);
-     adrTField.setText(Addresse);
-     lgnNameLbl.setText(Addresse);
-     System.out.println(Addresse);
- }
-*/
+		if (fieldsEmpty() == true) {
+			laanFail();
+
+		} else if (fieldsEmpty() == false) {
+			if (laanlogic.opretLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail,
+					adr) == true) {
+				laanDuplicate();
+			}
+
+			else {
+				laanSuccess();
+				System.out.println("godt brian");
+			}
+		}
+	}
+
+	private boolean fieldsEmpty() {
+		if (kundenavn.isEmpty() || adr.isEmpty() || tlf.isEmpty() || cpr.isEmpty() || mail.isEmpty()
+				|| bilnavn.isEmpty() || bilpris.isEmpty() || udbetalingspris.isEmpty() || laanleangde.isEmpty()) {
+
+			return true;
+		}
+		return false;
+	}
+
+	public void laanSuccess() {
+		opretStatusLbl.setText("Lån successfuldt oprettet!");
+		opretStatusLbl.setTextFill(Color.LIGHTGREEN);
+		opretStatusLbl.relocate(323, 503);
+	}
+
+	public void laanDuplicate() {
+		opretStatusLbl.setText("Bruger eksisterer allerede med valgte CPR og/eller tlfnr");
+		opretStatusLbl.setTextFill(Color.WHITE);
+		opretStatusLbl.relocate(155, 503);
+
+	}
+
+	public void laanFail() {
+		opretStatusLbl.setText("Udfyld venligst alle felter");
+		opretStatusLbl.setTextFill(Color.WHITE);
+		opretStatusLbl.relocate(325, 503);
+
+	}
+
 }
