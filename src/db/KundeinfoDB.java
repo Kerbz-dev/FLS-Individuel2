@@ -26,9 +26,9 @@ public class KundeinfoDB {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
             	String kundenavn = rs.getString("kundenavn");
-            	int telefonnummer = rs.getInt("telefonnummer");
+            	String telefonnummer = rs.getString("telefonnummer");
             	String email = rs.getString("email");
-            	int cpr_nummer = rs.getInt("cpr_nummer");
+            	String cpr_nummer = rs.getString("cpr_nummer");
             	String kreditvaerdighed = rs.getString("addresse");
             /*   kunde.setKundenavn(rs.getString("kundenavn"));
                kunde.setTelefonnummer(rs.getInt("telefonnummer"));

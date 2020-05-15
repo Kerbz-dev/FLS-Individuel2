@@ -2,9 +2,9 @@ package entity;
 
 public class Kunde {
 
-	 private int telefonnummer;
+	 private String telefonnummer;
 	 private String kundenavn;
-	 private int cpr_nummer;
+	 private String cpr_nummer;
 	 private String email;
 	 private String kreditvaerdighed;
 	    
@@ -12,7 +12,7 @@ public class Kunde {
 		 
 	 }
 
-	    public Kunde (int telefonnummer, String kundenavn, int cpr_nummer, String email, String kreditvaerdighed)
+	    public Kunde (String telefonnummer, String kundenavn, String cpr_nummer, String email, String kreditvaerdighed)
 	    {
 	    	
 	        this.telefonnummer = telefonnummer;
@@ -23,11 +23,11 @@ public class Kunde {
 	    }
 
 
-		public int getTelefonnummer() {
+		public String getTelefonnummer() {
 			return telefonnummer;
 		}
 
-		public void setTelefonnummer(int telefonnummer) {
+		public void setTelefonnummer(String telefonnummer) {
 			this.telefonnummer = telefonnummer;
 		}
 
@@ -39,11 +39,11 @@ public class Kunde {
 			this.kundenavn = kundenavn;
 		}
 
-		public int getCpr_nummer() {
+		public String getCpr_nummer() {
 			return cpr_nummer;
 		}
 
-		public void setCpr_nummer(int cpr_nummer) {
+		public void setCpr_nummer(String cpr_nummer) {
 			this.cpr_nummer = cpr_nummer;
 		}
 

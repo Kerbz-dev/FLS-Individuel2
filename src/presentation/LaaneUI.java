@@ -244,18 +244,18 @@ public class LaaneUI {
 		String medarbejderNavn = new String();
 		medarbejderNavn = kunder.get(1).getKundenavn();
 		String medarbejderNavn2 = kunder.get(2).getKundenavn();
-		System.out.println(medarbejderNavn);
+		//System.out.println(medarbejderNavn);
 		tilbudTbl.setPrefHeight(550);
 		tilbudTbl.setPrefWidth(321);
 		tilbudTbl.relocate(23, 83);
 
 		TableView<Kunde> table = new TableView<Kunde>();
 		final ObservableList<Kunde> data = FXCollections.observableArrayList(
-				new Kunde(5, "1", 5, "1", medarbejderNavn),
-				new Kunde(5, "2", 5, "2", medarbejderNavn2),
-				new Kunde(5, "3", 5, "flemse", "vil du"),
-				new Kunde(5, "4", 5, "er", "have"),
-				new Kunde(5, "5", 5, "vild", "noget"));
+				new Kunde("FUCKINT", "1", "hej", "1341", medarbejderNavn),
+				new Kunde("5", "2", "5", "21424", medarbejderNavn2),
+				new Kunde("5", "3", "børge", "flemse", "vil du"),
+				new Kunde("5", "4", "flemse", "er", "have"),
+				new Kunde("5", "5", "YG", "vild", "noget"));
 
 		tilbudTbl.setItems(data);
 		//tilbudTbl.setItems(bilslg.getAllDB());

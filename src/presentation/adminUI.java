@@ -88,7 +88,6 @@ public class adminUI {
     
     private void checkKV() {
     GetKV gr = new GetKV();
-     gr.getkreditvaerdighed();
    
 }
 

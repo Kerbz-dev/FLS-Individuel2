@@ -1,19 +1,24 @@
 package presentation;
 
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.GetKV;
 import logic.OpretLaan;
 
 public class OpretLaanUI {
-
+	DecimalFormat numberFormatter = new DecimalFormat("0");
 	private TextField navnTField;
 	private TextField adrTField;
 	private TextField tlfTField;
@@ -135,6 +140,108 @@ public class OpretLaanUI {
 		lgnNameLbl.setPrefWidth(200);
 		lgnNameLbl.relocate(750, 625);
 
+		//Make TFields number only accept number inputs
+		cprTField.setTextFormatter( new TextFormatter<>(c ->
+		{
+		    if ( c.getControlNewText().isEmpty() )
+		    {
+		        return c;
+		    }
+
+		    ParsePosition parsePosition = new ParsePosition( 0 );
+		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+
+		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+		    {
+		        return null;
+		    }
+		    else
+		    {
+		        return c;
+		    }
+		}));
+		
+		
+		tlfTField.setTextFormatter( new TextFormatter<>(c ->
+		{
+		    if ( c.getControlNewText().isEmpty() )
+		    {
+		        return c;
+		    }
+
+		    ParsePosition parsePosition = new ParsePosition( 0 );
+		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+
+		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+		    {
+		        return null;
+		    }
+		    else
+		    {
+		        return c;
+		    }
+		}));
+		
+		bilprisTField.setTextFormatter( new TextFormatter<>(c ->
+		{
+		    if ( c.getControlNewText().isEmpty() )
+		    {
+		        return c;
+		    }
+
+		    ParsePosition parsePosition = new ParsePosition( 0 );
+		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+
+		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+		    {
+		        return null;
+		    }
+		    else
+		    {
+		        return c;
+		    }
+		}));
+		
+		udbetalingTField.setTextFormatter( new TextFormatter<>(c ->
+		{
+		    if ( c.getControlNewText().isEmpty() )
+		    {
+		        return c;
+		    }
+
+		    ParsePosition parsePosition = new ParsePosition( 0 );
+		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+
+		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+		    {
+		        return null;
+		    }
+		    else
+		    {
+		        return c;
+		    }
+		}));
+		
+		laengdeTField.setTextFormatter( new TextFormatter<>(c ->
+		{
+		    if ( c.getControlNewText().isEmpty() )
+		    {
+		        return c;
+		    }
+
+		    ParsePosition parsePosition = new ParsePosition( 0 );
+		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+
+		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+		    {
+		        return null;
+		    }
+		    else
+		    {
+		        return c;
+		    }
+		}));
+		
 		// Font sizes
 		opretLaanBtn.setFont(new Font(24));
 		lgnNameLbl.setFont(new Font(12));
@@ -170,7 +277,13 @@ public class OpretLaanUI {
 		bilpris = bilprisTField.getText();
 		udbetalingspris = udbetalingTField.getText();
 		laanleangde = laengdeTField.getText();
-
+		GetKV getKV = new GetKV();
+		
+		/*
+		LoginVerification ctrl = new LoginVerification();
+		LoginResult lgnCheck;
+		lgnCheck = ctrl.loginCheck(username, password)
+*/
 		// boolean checkDuplicate = laanlogic.opretLaan(bilnavn, bilpris,
 		// udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
 
@@ -184,8 +297,15 @@ public class OpretLaanUI {
 
 			else {
 				laanSuccess();
+
+			     System.out.println(getKV.getKreditvaerdighed(cpr));
+/*
+				if (lgnCheck == LoginResult.USER_LOGGED_IN) {
+					loginSuccess();
+					startLaaneUI();*/
+				}
 			}
-		}
+		
 	
 	
 	
