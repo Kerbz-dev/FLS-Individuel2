@@ -37,7 +37,9 @@ public class LaaneUI {
 	private ImageView ferraripic;
 	private TextField Søg;
 	private TableView tilbudTbl;
-	private Person person = new Person(null, null, null);
+	private Kunde kunde = new Kunde();
+	getKunde kundelogic = new getKunde();
+	List<Kunde> kunder = kundelogic.getKundeinfo();
 
 	public void start() {
 
@@ -227,25 +229,33 @@ public class LaaneUI {
 
 		// Creating colums for tblView
 		TableColumn dateCol = new TableColumn("Dato");
-		dateCol.setCellValueFactory(new PropertyValueFactory<Person, String>("firstName"));
+		dateCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("telefonnummer"));
 		TableColumn tilbudCol = new TableColumn("Lånetilbud");
-		tilbudCol.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
+		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("kundenavn"));
+		TableColumn tilbudCol1 = new TableColumn("hej");
+		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("cpr_nummer"));
+		TableColumn tilbudCol2 = new TableColumn("med");
+		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("email"));
+		TableColumn tilbudCol3 = new TableColumn("dig");
+		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("kreditvaerdighed"));
 
-		tilbudTbl.getColumns().addAll(dateCol, tilbudCol);
+		tilbudTbl.getColumns().addAll(dateCol, tilbudCol,tilbudCol1,tilbudCol2,tilbudCol3);
 
 		String medarbejderNavn = new String();
-		medarbejderNavn = person.getFirstName();
+		medarbejderNavn = kunder.get(1).getKundenavn();
+		String medarbejderNavn2 = kunder.get(2).getKundenavn();
+		System.out.println(medarbejderNavn);
 		tilbudTbl.setPrefHeight(550);
 		tilbudTbl.setPrefWidth(321);
 		tilbudTbl.relocate(23, 83);
 
-		TableView<Person> table = new TableView<Person>();
-		final ObservableList<Person> data = FXCollections.observableArrayList(
-				new Person("Jacob", medarbejderNavn, "jacob.smith@example.com"),
-				new Person("Isabella", "Johnson", "isabella.johnson@example.com"),
-				new Person("Ethan", "Williams", "ethan.williams@example.com"),
-				new Person("Emma", "Jones", "emma.jones@example.com"),
-				new Person("Michael", "Brown", "michael.brown@example.com"));
+		TableView<Kunde> table = new TableView<Kunde>();
+		final ObservableList<Kunde> data = FXCollections.observableArrayList(
+				new Kunde(5, "1", 5, "1", medarbejderNavn),
+				new Kunde(5, "2", 5, "2", medarbejderNavn2),
+				new Kunde(5, "3", 5, "flemse", "vil du"),
+				new Kunde(5, "4", 5, "er", "have"),
+				new Kunde(5, "5", 5, "vild", "noget"));
 
 		tilbudTbl.setItems(data);
 		//tilbudTbl.setItems(bilslg.getAllDB());
@@ -291,15 +301,12 @@ public class LaaneUI {
 	}
 	
 	private void getMNavn() {
-		String kundenavn = "";
-		getKunde kundelogic = new getKunde();
-		Kunde kunde = new Kunde();
+
 		
 		
-		List<Kunde> kunder = kundelogic.getKundeinfo(kunde);
-		System.out.println("kunder er " + kunde.toString());
+	//	System.out.println("kunder er " + kunde.toString());
 		//System.out.println("direkte fra DB: " + );
-		System.out.println("email er: " + kunde.getTelefonnummer());
+		System.out.println("email er: " + kunde.getKundenavn());
 		System.out.println("presentation får (2) : " + kunder.get(2).getTelefonnummer());
 		System.out.println("presentation får (3) : " + kunder.get(3).getTelefonnummer());
 	//	System.out.println(kunde.getKundenavn());
