@@ -177,18 +177,18 @@ public class OpretLaanUI {
 		if (fieldsEmpty() == true) {
 			laanFail();
 
-		} else if (fieldsEmpty() == false) {
-			if (laanlogic.opretLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail,
-					adr) == true) {
+		} else if (laanlogic.opretLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail,
+				adr) == true) {
 				laanDuplicate();
 			}
 
 			else {
 				laanSuccess();
-				System.out.println("godt brian");
 			}
 		}
-	}
+	
+	
+	
 
 	private boolean fieldsEmpty() {
 		if (kundenavn.isEmpty() || adr.isEmpty() || tlf.isEmpty() || cpr.isEmpty() || mail.isEmpty()

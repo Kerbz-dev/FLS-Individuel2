@@ -1,4 +1,4 @@
-package logic;
+package entity;
 
 import javafx.beans.property.SimpleStringProperty;
 

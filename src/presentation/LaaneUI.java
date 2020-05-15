@@ -1,5 +1,8 @@
 package presentation;
 
+import java.util.List;
+
+import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -18,7 +21,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.Person;
+import logic.getKunde;
 
 public class LaaneUI {
 	private BorderPane bp;
@@ -278,12 +281,33 @@ public class LaaneUI {
 		LaaneUIStage.show();
 
 		opretTilbud.setOnAction(e -> opretLaaneUI());
+		godkendBtn.setOnAction(e -> getMNavn());
 
 	}
 
 	private void opretLaaneUI() {
 		OpretLaanUI opretLaan = new OpretLaanUI();
 		opretLaan.start();
+	}
+	
+	private void getMNavn() {
+		String kundenavn = "";
+		getKunde kundelogic = new getKunde();
+		Kunde kunde = new Kunde();
+		
+		
+		List<Kunde> kunder = kundelogic.getKundeinfo(kunde);
+		System.out.println("kunder er " + kunde.toString());
+		//System.out.println("direkte fra DB: " + );
+		System.out.println("email er: " + kunde.getTelefonnummer());
+		System.out.println("presentation får (2) : " + kunder.get(2).getTelefonnummer());
+		System.out.println("presentation får (3) : " + kunder.get(3).getTelefonnummer());
+	//	System.out.println(kunde.getKundenavn());
+		//kundelogic.getKundeinfo(kundenavn);
+	//	System.out.println("Præsentation print 0" + kundelogic.getKundeinfo(kundenavn));
+	//	System.out.println("Præsentation print:" +kundenavn);
+		//String bas = kunde.getKundenavn();
+
 	}
 
 }
