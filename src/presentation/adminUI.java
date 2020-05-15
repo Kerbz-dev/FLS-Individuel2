@@ -72,7 +72,7 @@ public class adminUI {
       
 		opretSealger.setOnAction(e -> opretLoginUI());
 		laan.setOnAction(e -> opretLaaneUI());
-		laaneanmodning.setOnAction(e -> checkKV());
+
       
 }
     
@@ -86,10 +86,6 @@ public class adminUI {
 		laan.start();
 	}
     
-    private void checkKV() {
-    GetKV gr = new GetKV();
-   
-}
 
 
     

@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.OpretBrugerLogin;
+import logic.userCheckDuplicate;
 
 
 public class OpretLoginUI {
@@ -21,7 +21,7 @@ public class OpretLoginUI {
     private Stage opretLoginStage;
 
 
-    private OpretBrugerLogin OBL = new OpretBrugerLogin();
+    private userCheckDuplicate OBL = new userCheckDuplicate();
     private TextField name;
     private TextField createUsername;
     private TextField createPassword;
@@ -169,7 +169,7 @@ public class OpretLoginUI {
             opretLoginFailUserName();
         } else if (CreatePassword.isEmpty()) {
             opretLoginFailPassword();
-        } else if (OBL.opretBruger(medarbejderNavn, CreateUsername, CreatePassword) == true) {
+        } else if (OBL.UserCheckDuplicate(CreateUsername) == true) {
             opretLoginFailDuplicateBruger();
 
 

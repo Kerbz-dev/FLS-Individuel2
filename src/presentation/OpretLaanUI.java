@@ -15,7 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.GetKV;
-import logic.OpretLaan;
+import logic.laanCheckDuplicate;
+import logic.opretLaan;
 
 public class OpretLaanUI {
 	DecimalFormat numberFormatter = new DecimalFormat("0");
@@ -30,7 +31,7 @@ public class OpretLaanUI {
 	private TextField laengdeTField;
 	private Button opretLaanBtn;
 	private Stage opretLaanStage;
-	private OpretLaan laanlogic = new OpretLaan();
+	private laanCheckDuplicate laanlogic = new laanCheckDuplicate();
 	private String kundenavn;
 	private String adr;
 	private String tlf;
@@ -140,108 +141,82 @@ public class OpretLaanUI {
 		lgnNameLbl.setPrefWidth(200);
 		lgnNameLbl.relocate(750, 625);
 
-		//Make TFields number only accept number inputs
-		cprTField.setTextFormatter( new TextFormatter<>(c ->
-		{
-		    if ( c.getControlNewText().isEmpty() )
-		    {
-		        return c;
-		    }
+		// Make TFields number only accept number inputs
+		cprTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
 
-		    ParsePosition parsePosition = new ParsePosition( 0 );
-		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
 
-		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-		    {
-		        return null;
-		    }
-		    else
-		    {
-		        return c;
-		    }
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
 		}));
-		
-		
-		tlfTField.setTextFormatter( new TextFormatter<>(c ->
-		{
-		    if ( c.getControlNewText().isEmpty() )
-		    {
-		        return c;
-		    }
 
-		    ParsePosition parsePosition = new ParsePosition( 0 );
-		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+		tlfTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
 
-		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-		    {
-		        return null;
-		    }
-		    else
-		    {
-		        return c;
-		    }
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
+
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
 		}));
-		
-		bilprisTField.setTextFormatter( new TextFormatter<>(c ->
-		{
-		    if ( c.getControlNewText().isEmpty() )
-		    {
-		        return c;
-		    }
 
-		    ParsePosition parsePosition = new ParsePosition( 0 );
-		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+		bilprisTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
 
-		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-		    {
-		        return null;
-		    }
-		    else
-		    {
-		        return c;
-		    }
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
+
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
 		}));
-		
-		udbetalingTField.setTextFormatter( new TextFormatter<>(c ->
-		{
-		    if ( c.getControlNewText().isEmpty() )
-		    {
-		        return c;
-		    }
 
-		    ParsePosition parsePosition = new ParsePosition( 0 );
-		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+		udbetalingTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
 
-		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-		    {
-		        return null;
-		    }
-		    else
-		    {
-		        return c;
-		    }
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
+
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
 		}));
-		
-		laengdeTField.setTextFormatter( new TextFormatter<>(c ->
-		{
-		    if ( c.getControlNewText().isEmpty() )
-		    {
-		        return c;
-		    }
 
-		    ParsePosition parsePosition = new ParsePosition( 0 );
-		    Object object = numberFormatter.parse( c.getControlNewText(), parsePosition );
+		laengdeTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
 
-		    if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
-		    {
-		        return null;
-		    }
-		    else
-		    {
-		        return c;
-		    }
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
+
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
 		}));
-		
+
 		// Font sizes
 		opretLaanBtn.setFont(new Font(24));
 		lgnNameLbl.setFont(new Font(12));
@@ -277,38 +252,20 @@ public class OpretLaanUI {
 		bilpris = bilprisTField.getText();
 		udbetalingspris = udbetalingTField.getText();
 		laanleangde = laengdeTField.getText();
-		GetKV getKV = new GetKV();
-		
-		/*
-		LoginVerification ctrl = new LoginVerification();
-		LoginResult lgnCheck;
-		lgnCheck = ctrl.loginCheck(username, password)
-*/
-		// boolean checkDuplicate = laanlogic.opretLaan(bilnavn, bilpris,
-		// udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
 
 		if (fieldsEmpty() == true) {
 			laanFail();
 
-		} else if (laanlogic.opretLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail,
-				adr) == true) {
-				laanDuplicate();
-			}
+		} else if (cprTField.getText().length() != 10) {
+			cprFail();
+		} else if (laanlogic.LaanCheckDuplicate(cpr, tlf) == true) {
+			laanDuplicate();
+		}
 
-			else {
-				laanSuccess();
-
-			     System.out.println(getKV.getKreditvaerdighed(cpr));
-/*
-				if (lgnCheck == LoginResult.USER_LOGGED_IN) {
-					loginSuccess();
-					startLaaneUI();*/
-				}
-			}
-		
-	
-	
-	
+		else {
+			checkRating();
+		}
+	}
 
 	private boolean fieldsEmpty() {
 		if (kundenavn.isEmpty() || adr.isEmpty() || tlf.isEmpty() || cpr.isEmpty() || mail.isEmpty()
@@ -319,24 +276,73 @@ public class OpretLaanUI {
 		return false;
 	}
 
-	public void laanSuccess() {
+	private void laanSuccess() {
+		opretLaan OpretLaan = new opretLaan();
+		
 		opretStatusLbl.setText("Lån successfuldt oprettet!");
 		opretStatusLbl.setTextFill(Color.LIGHTGREEN);
 		opretStatusLbl.relocate(323, 503);
+		OpretLaan.CreateLaan(bilnavn, bilpris, udbetalingspris, laanleangde, tlf, kundenavn, cpr, mail, adr);
 	}
 
-	public void laanDuplicate() {
-		opretStatusLbl.setText("Bruger eksisterer allerede med valgte CPR og/eller tlfnr");
+	private void cprFail() {
+		opretStatusLbl.setText("Der skal være 10 CPR-cifre. Nuværende antal: " + cprTField.getText().length());
 		opretStatusLbl.setTextFill(Color.WHITE);
-		opretStatusLbl.relocate(155, 503);
+		opretStatusLbl.relocate(200, 503);
+	}
+
+	private void laanDuplicate() {
+		opretStatusLbl.setText("Bruger eksisterer allerede med valgte CPR og/eller tlfnr!");
+		opretStatusLbl.setTextFill(Color.WHITE);
+		opretStatusLbl.relocate(152, 503);
 
 	}
 
-	public void laanFail() {
-		opretStatusLbl.setText("Udfyld venligst alle felter");
+	private void laanFail() {
+		opretStatusLbl.setText("Udfyld venligst alle felter!");
 		opretStatusLbl.setTextFill(Color.WHITE);
 		opretStatusLbl.relocate(325, 503);
 
+	}
+
+	private void kreditRatingFail() {
+		opretStatusLbl.setText("Kundens kreditværdighed er under den tilladte grænse!");
+		opretStatusLbl.setTextFill(Color.WHITE);
+		opretStatusLbl.relocate(155, 503);
+	}
+	
+	private void systemError() {
+		opretStatusLbl.setText("Der opstod en fejl i systemet! Genstart venligst programmet.");
+		opretStatusLbl.setTextFill(Color.WHITE);
+		opretStatusLbl.relocate(150, 503);
+	}
+
+	private void checkRating() {
+		GetKV getKV = new GetKV();
+		
+		switch (getKV.getKreditvaerdighed(cpr)) {
+		case rateA:
+			laanSuccess();
+			System.out.println("Kunden er rating: A");
+			break;
+		case rateB:
+			laanSuccess();
+			System.out.println("Kunden er rating: B");
+			break;
+		case rateC:
+			laanSuccess();
+			System.out.println("Kunden er rating: C");
+			break;
+		case rateD:
+			kreditRatingFail();
+			System.out.println("Kunden er rating: D");
+			
+			break;
+		case error:
+			System.out.println("major ERROR BOY");
+			systemError();
+			break;
+		}
 	}
 
 }

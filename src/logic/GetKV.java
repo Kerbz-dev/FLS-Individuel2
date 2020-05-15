@@ -17,9 +17,7 @@ public class GetKV {
    
     private double rate;
     private Rating kv;
-	private Kunde kunde = new Kunde();
-	private getKunde kundelogic = new getKunde();
-	private List<Kunde> kunder = kundelogic.getKundeinfo();
+
     
         public kreditRating getKreditvaerdighed(String cpr) {
         rate = InterestRate.i().todaysRate();
@@ -27,20 +25,18 @@ public class GetKV {
       //  String kv = new String();
         CreditRator.i().rate(cpr);
         if (kv == Rating.A) {
-        	System.out.println("Kreditværdighed er:");
-            System.out.println(CreditRator.i().rate(cpr));
             rate+=0.01;
-            System.out.println("Den nye rate er: " + rate);
+            System.out.println("Tjekker kreditrating " + kv + " med rente: " + rate);
             return kreditRating.rateA;
         } else if(kv == Rating.B) {
-            System.out.println(kv);
+
             rate+=0.02;
-            System.out.println("Den nye rate er: " + rate);
+            System.out.println("Tjekker kreditrating " +  kv + " med rente: " + rate);
             return kreditRating.rateB;
          //   rate+=rateA;
         } else if(kv == Rating.C) {
         	rate+=0.03;
-        	System.out.println("Den nye rate er: " + rate);
+        	 System.out.println("Tjekker kreditrating " + kv + " med rente: " + rate);
         	return kreditRating.rateC;
         	
         }

@@ -1,6 +1,6 @@
 package presentation;
 
-import logic.OpretLaan;
+import logic.laanCheckDuplicate;
 
 public class V2LaanUI {
 /*
