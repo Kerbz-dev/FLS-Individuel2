@@ -8,10 +8,11 @@ public class Kunde {
 	 private String email;
 	 private String kreditvaerdighed;
 	    
-	 public Kunde() {
-		 
-	 }
 
+		public Kunde() {
+			// TODO Auto-generated constructor stub
+		}
+		
 	    public Kunde (String telefonnummer, String kundenavn, String cpr_nummer, String email, String kreditvaerdighed)
 	    {
 	    	
@@ -21,6 +22,9 @@ public class Kunde {
 	        this.email = email;
 	        this.kreditvaerdighed = kreditvaerdighed;
 	    }
+
+	    
+
 
 
 		public String getTelefonnummer() {

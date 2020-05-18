@@ -2,46 +2,47 @@ package entity;
 
 public class LaaneTilbud {
 
-    private int telefonnummer;
-    private int kundeindbetaling;
+    private int bilpris;
     private int laanlaengde;
-    private boolean overstigergraense;
-    private int laanestatus;
-    private int bilid;
-    private int bilsaelgerid;
-    private String rentedato;
+    private String bilnavn;
+    private int udbetalingspris;
+    private int tilbudsid;
 
  public LaaneTilbud() {
 
      }
-    public LaaneTilbud(int telefonnummer, int kundeindbetaling, int laanlaengde, boolean overstigergraense, int laanestatus, int bilid, int bilsaelgerid, String rentedato) {
-            this.telefonnummer = telefonnummer;
-            this.kundeindbetaling = kundeindbetaling;
+ 
+ public LaaneTilbud(int tilbudsid, int laanlaengde) {
+	 this.tilbudsid = tilbudsid;
+	 this.laanlaengde = laanlaengde;
+ }
+    public LaaneTilbud(int bilpris, int tilbudsid, int laanlaengde, String bilnavn, int udbetalingspris) {
+    		
+            this.bilpris = bilpris;
             this.laanlaengde = laanlaengde;
-            this.overstigergraense = overstigergraense;
-            this.laanestatus = laanestatus;
-            this.bilid = bilid;
-            this.bilsaelgerid = bilsaelgerid;
-            this.rentedato = rentedato;
+            this.bilnavn = bilnavn;
+            this.udbetalingspris = udbetalingspris;
     }
 
 
-    public int getTelefonnummer() {
-        return telefonnummer;
+
+    public int getTilbudsid() {
+		return tilbudsid;
+	}
+
+	public void setTilbudsid(int tilbudsid) {
+		this.tilbudsid = tilbudsid;
+	}
+	
+
+
+    public int getBilpris() {
+        return bilpris;
     }
 
 
-    public void setTelefonnummer(int telefonnummer) {
-        this.telefonnummer = telefonnummer;
-    }
-
-    public int getIndbetaling() {
-        return kundeindbetaling;
-    }
-
-
-    public void setIndbetaling(int kundeindbetaling) {
-        this.kundeindbetaling = kundeindbetaling;
+    public void setIndbetaling(int bilpris) {
+        this.bilpris = bilpris;
     }
 
     public int getLaanlaengde() {
@@ -53,53 +54,28 @@ public class LaaneTilbud {
         this.laanlaengde = laanlaengde;
     }
 
-    public Boolean getOverstigergraense() {
-        return overstigergraense;
+    public String getbilnavn() {
+        return bilnavn;
     }
 
 
-    public void setOverstigergraense(boolean overstigergraense) {
-        this.overstigergraense = overstigergraense;
+    public void setbilnavn(String bilnavn) {
+        this.bilnavn = bilnavn;
     }
 
-    public int getLaanestatus() {
-        return laanestatus;
-    }
-
-
-    public void setLaanestatus(int laanestatus) {
-        this.laanestatus = laanestatus;
-    }
-public int getBilid() {
-        return bilid;
+    public int getudbetalingspris() {
+        return udbetalingspris;
     }
 
 
-    public void setBilid(int bilid) {
-        this.bilid = bilid;
+    public void setudbetalingspris(int udbetalingspris) {
+        this.udbetalingspris = udbetalingspris;
     }
 
-    public int getBilsaelgerid() {
-        return bilsaelgerid;
-    }
-
-
-    public void setBilsaelgerid(int bilsaelgerid) {
-        this.bilsaelgerid = bilsaelgerid;
-    }
-
-    public String getRentedato() {
-        return rentedato;
-    }
-
-
-    public void setRentedato(String rentedato) {
-        this.rentedato = rentedato;
-    }
 
 
     public String getAllTilbud() {
-        return  telefonnummer + ": " + kundeindbetaling + ": " + laanlaengde + ": " + overstigergraense+ ": " + laanestatus + ": " + bilid + ": " + bilsaelgerid + ": " + rentedato;
+        return  tilbudsid + ": " + bilpris + ": " + laanlaengde + ": " + bilnavn+ ": " + udbetalingspris;
     }
 }
 	

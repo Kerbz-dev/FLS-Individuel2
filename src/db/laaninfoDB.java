@@ -20,17 +20,15 @@ public class laaninfoDB {
 
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
-                    int telefonnummer = rs.getInt("telefonnummer");
-                    int kundeindbetaling = rs.getInt("kundeindbetaling");
                     int laanlaengde = rs.getInt("laanlaengde");
-                    boolean overstigergraense = rs.getBoolean("overstigergraense");
-                    int laanestatus = rs.getInt("laanestatus");
-                    int bilid = rs.getInt("bilid");
-                    int bilsealgerid = rs.getInt("bilsaelgerid");
-                    String rentedato = rs.getString("rentedato");
+                    String bilnavn = rs.getString("bilnavn");
+                    int bilpris = rs.getInt("bilpris");
+                    int udbetalingspris = rs.getInt("udbetalingspris");
+                    int tilbudsid = rs.getInt("tilbudsid");
 
-                    LaaneTilbud laan = new LaaneTilbud(telefonnummer, kundeindbetaling, laanlaengde,
-                            overstigergraense, laanestatus, bilid, bilsealgerid, rentedato);
+
+                    LaaneTilbud laan = new LaaneTilbud(tilbudsid, laanlaengde,
+                            udbetalingspris, bilnavn, bilpris);
 
                     list.add(laan);
                 }

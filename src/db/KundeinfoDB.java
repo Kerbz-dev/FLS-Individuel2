@@ -19,8 +19,6 @@ public class KundeinfoDB {
         try {
             Statement stmt = DB.connection.createStatement();
             String query = "SELECT * FROM kunde";
- 
-
 
  // String query skal opdateres - skal have where clause på den
             ResultSet rs = stmt.executeQuery(query);
@@ -30,19 +28,23 @@ public class KundeinfoDB {
             	String email = rs.getString("email");
             	String cpr_nummer = rs.getString("cpr_nummer");
             	String kreditvaerdighed = rs.getString("addresse");
-            /*   kunde.setKundenavn(rs.getString("kundenavn"));
-               kunde.setTelefonnummer(rs.getInt("telefonnummer"));
-               kunde.setEmail(rs.getString("email"));
-               kunde.setCpr_nummer(rs.getInt("cpr_nummer"));
-               kunde.setKreditvaerdighed(rs.getString("addresse"));
-*/
-                
-
+            
+            	
+//            	Kunde kunde = new Kunde();
+//               kunde.setKundenavn(rs.getString("kundenavn"));
+//               kunde.setTelefonnummer(rs.getString("telefonnummer"));
+//               kunde.setEmail(rs.getString("email"));
+//               kunde.setCpr_nummer(rs.getString("cpr_nummer"));
+//               kunde.setKreditvaerdighed(rs.getString("addresse"));
+//               
+              
         //        System.out.println(Fornavn + Addresse + tlfnr + cprnr + email);
 
-               Kunde kunde = new Kunde(telefonnummer, kundenavn, cpr_nummer, email, kreditvaerdighed);
+            	Kunde kundeInsert = new Kunde(telefonnummer, kundenavn, cpr_nummer, email, kreditvaerdighed);
+               
+        //   	System.out.println(kunde);
+				list.add(kundeInsert);
 
-				list.add(kunde);
             }
         } catch (SQLException e) {
             System.out.println("Error running SQL statement");
@@ -53,7 +55,7 @@ public class KundeinfoDB {
 }
  
 
-
+	
 
 
 

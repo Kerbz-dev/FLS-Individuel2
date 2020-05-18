@@ -253,6 +253,7 @@ public class OpretLaanUI {
 		udbetalingspris = udbetalingTField.getText();
 		laanleangde = laengdeTField.getText();
 
+		
 		if (fieldsEmpty() == true) {
 			laanFail();
 
@@ -323,19 +324,19 @@ public class OpretLaanUI {
 		switch (getKV.getKreditvaerdighed(cpr)) {
 		case rateA:
 			laanSuccess();
-			System.out.println("Kunden er rating: A");
+			System.out.println("Kunden er oprettet" + "\n" + "rating: A");
 			break;
 		case rateB:
 			laanSuccess();
-			System.out.println("Kunden er rating: B");
+			System.out.println("Kunden er oprettet" + "\n" + "rating: B");
 			break;
 		case rateC:
 			laanSuccess();
-			System.out.println("Kunden er rating: C");
+			System.out.println("Kunden er oprettet" + "\n" + "rating: C");
 			break;
 		case rateD:
 			kreditRatingFail();
-			System.out.println("Kunden er rating: D");
+			System.out.println("Fejl: " + "\n" + "Kunden er rating: D");
 			
 			break;
 		case error:

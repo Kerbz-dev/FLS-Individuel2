@@ -5,6 +5,7 @@ import java.util.List;
 import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.getKunde;
+import logic.getLaan;
 
 public class LaaneUI {
 	private BorderPane bp;
@@ -37,9 +39,13 @@ public class LaaneUI {
 	private ImageView ferraripic;
 	private TextField Søg;
 	private TableView tilbudTbl;
-	private Kunde kunde = new Kunde();
+	Kunde kundeentity = new Kunde();
+	// private Kunde kunde = new Kunde();
 	getKunde kundelogic = new getKunde();
-	List<Kunde> kunder = kundelogic.getKundeinfo();
+	List<Kunde> kunder = kundelogic.getKundeAll();
+	getLaan laanlogic = new getLaan();
+	List<LaaneTilbud> getlaan = laanlogic.getlaaninfo();
+	// ObservableList<Kunde> formList;
 
 	public void start() {
 
@@ -123,7 +129,6 @@ public class LaaneUI {
 		afvisBtn.setPrefWidth(134);
 		afvisBtn.setFont(new Font(18));
 		afvisBtn.relocate(191, 663);
-
 
 		// Labels
 		Navn.setFont(new Font(24));
@@ -229,36 +234,30 @@ public class LaaneUI {
 
 		// Creating colums for tblView
 		TableColumn dateCol = new TableColumn("Dato");
-		dateCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("telefonnummer"));
+		dateCol.setCellValueFactory(new PropertyValueFactory<LaaneTilbud, String>("tilbudsid"));
 		TableColumn tilbudCol = new TableColumn("Lånetilbud");
-		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("kundenavn"));
-		TableColumn tilbudCol1 = new TableColumn("hej");
-		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("cpr_nummer"));
-		TableColumn tilbudCol2 = new TableColumn("med");
-		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("email"));
-		TableColumn tilbudCol3 = new TableColumn("dig");
-		tilbudCol.setCellValueFactory(new PropertyValueFactory<Kunde, String>("kreditvaerdighed"));
+		tilbudCol.setCellValueFactory(new PropertyValueFactory<LaaneTilbud, String>("laanlaengde"));
 
-		tilbudTbl.getColumns().addAll(dateCol, tilbudCol,tilbudCol1,tilbudCol2,tilbudCol3);
+		tilbudTbl.getColumns().addAll(dateCol, tilbudCol);
 
-		String medarbejderNavn = new String();
-		medarbejderNavn = kunder.get(1).getKundenavn();
-		String medarbejderNavn2 = kunder.get(2).getKundenavn();
-		//System.out.println(medarbejderNavn);
+//		//String medarbejderNavn = new String();
+//		medarbejderNavn = kunder.get(1).getKundenavn();
+//		//String medarbejderNavn2 = kunder.get(2).getKundenavn();
+
+		int tilbudsid = getlaan.get(1).getTilbudsid();
+		int laanlaengde = getlaan.get(1).getLaanlaengde();
+
+		// System.out.println(medarbejderNavn);
 		tilbudTbl.setPrefHeight(550);
 		tilbudTbl.setPrefWidth(321);
 		tilbudTbl.relocate(23, 83);
 
-		TableView<Kunde> table = new TableView<Kunde>();
-		final ObservableList<Kunde> data = FXCollections.observableArrayList(
-				new Kunde("FUCKINT", "1", "hej", "1341", medarbejderNavn),
-				new Kunde("5", "2", "5", "21424", medarbejderNavn2),
-				new Kunde("5", "3", "børge", "flemse", "vil du"),
-				new Kunde("5", "4", "flemse", "er", "have"),
-				new Kunde("5", "5", "YG", "vild", "noget"));
+		TableView<LaaneTilbud> table = new TableView<LaaneTilbud>();
+		final ObservableList<LaaneTilbud> data = FXCollections
+				.observableArrayList(new LaaneTilbud(tilbudsid, laanlaengde));
 
 		tilbudTbl.setItems(data);
-		//tilbudTbl.setItems(bilslg.getAllDB());
+		// tilbudTbl.setItems(bilslg.getAllDB());
 
 		// Setting background color for text zone
 		Rectangle background = new Rectangle();
@@ -299,22 +298,57 @@ public class LaaneUI {
 		OpretLaanUI opretLaan = new OpretLaanUI();
 		opretLaan.start();
 	}
-	
+
 	private void getMNavn() {
-
-		
-		
-	//	System.out.println("kunder er " + kunde.toString());
-		//System.out.println("direkte fra DB: " + );
-		System.out.println("email er: " + kunde.getKundenavn());
-		System.out.println("presentation får (2) : " + kunder.get(2).getTelefonnummer());
-		System.out.println("presentation får (3) : " + kunder.get(3).getTelefonnummer());
-	//	System.out.println(kunde.getKundenavn());
-		//kundelogic.getKundeinfo(kundenavn);
-	//	System.out.println("Præsentation print 0" + kundelogic.getKundeinfo(kundenavn));
-	//	System.out.println("Præsentation print:" +kundenavn);
-		//String bas = kunde.getKundenavn();
-
+		System.out.println("Præsentation getKundeAll: " + kundelogic.getKundeAll());
+	//	System.out.println(kundelogic.getKundeAll().get(1).getKundenavn());
+		System.out.println("Præsentation entity.Kunde: " + kundeentity.getCpr_nummer());
+		// String bas = kunde.getKundenavn();
+		// System.out.println("kunder er " + kunde.toString());
+		// System.out.println("direkte fra DB: " + );
+		// System.out.println(kunde.getKundenavn());
 	}
 
 }
+
+
+// Search functionality
+//formList = FXCollections.observableList(kundelogic.getKundeAll());
+//System.out.println("Kunde(fail) :" + kunde.getCpr_nummer());
+//System.out.println("Virkende funktion: " + kunder.get(4).getCpr_nummer());
+/*FilteredList<Kunde> filteredData = new FilteredList<>(formList, p -> true);
+
+Søg.textProperty().addListener((observable, oldValue, newValue) -> {
+	filteredData.setPredicate(formSearch -> {
+
+		// If a filter text (the text field) is empty, show all forms
+		if (newValue == null || newValue.isEmpty()) {
+			return true;
+		}
+
+		// Compares the textfield to the object (the input) with the filter from above
+		String lowerCaseFilter = newValue.toLowerCase();
+
+		// Filter matches with Analyze Title
+		if (formSearch.getCpr_nummer().toLowerCase().contains(lowerCaseFilter)) {
+			return true;
+			// Filter matches with date
+		} else if (formSearch.getKundenavn().toLowerCase()
+				.contains(lowerCaseFilter)) {
+			return true;
+			// Filter matches with Student name
+		} else if (formSearch.getEmail().toLowerCase().contains(lowerCaseFilter)) {
+			return true;
+			// Filter matches with Theme name
+		} else if (formSearch.getKreditvaerdighed().toLowerCase().contains(lowerCaseFilter)) {
+			return true;
+			// Filter matches with Reagent name
+		} else if (formSearch.getTelefonnummer().toLowerCase().contains(lowerCaseFilter)) {
+			return true;
+
+		}
+		// No match at all
+		return false;
+	});
+});
+*/
