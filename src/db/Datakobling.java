@@ -60,7 +60,7 @@ public class Datakobling {
 	public boolean LoginCheck(String username, String password) {
 		try {
 			Statement stmt = connection.createStatement();
-			String sql = "Select * from bilsealger where username='" + username + "' and saelgerpassword='" + password
+			String sql = "Select * from bilsaelger where saelgerbrugernavn='" + username + "' and saelgerpassword='" + password
 					+ "'";
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -103,7 +103,7 @@ public class Datakobling {
 
 		try {
 			Statement stmt = connection.createStatement();
-			String sql = "Select * from bilsealger where username='" + CreateUsername + "' ";
+			String sql = "Select * from bilsaelger where saelgerbrugernavn='" + CreateUsername + "' ";
 
 			// or saelgerpassword='"+ passwordFieldInput + "'
 			ResultSet rs = stmt.executeQuery(sql);

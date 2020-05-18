@@ -4,12 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import db.laaninfoDB;
+import db.LaaneTilbudDB;
 import entity.Kunde;
 import entity.LaaneTilbud;
 
 public class CsvWriter {
-    laaninfoDB db = new laaninfoDB();
+    LaaneTilbudDB db = new LaaneTilbudDB();
 
 
 

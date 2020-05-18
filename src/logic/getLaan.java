@@ -2,11 +2,11 @@ package logic;
 
 import java.util.List;
 
-import db.laaninfoDB;
+import db.LaaneTilbudDB;
 import entity.LaaneTilbud;
 
 public class getLaan {
-    laaninfoDB db = new laaninfoDB();
+    LaaneTilbudDB db = new LaaneTilbudDB();
 
     public List<LaaneTilbud> getlaaninfo() {
         return db.getLaan();

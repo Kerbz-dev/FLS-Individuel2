@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.opretUsrLogin;
 import logic.userCheckDuplicate;
 
 
@@ -21,7 +22,6 @@ public class OpretLoginUI {
     private Stage opretLoginStage;
 
 
-    private userCheckDuplicate OBL = new userCheckDuplicate();
     private TextField name;
     private TextField createUsername;
     private TextField createPassword;
@@ -120,6 +120,7 @@ public class OpretLoginUI {
         opretLoginStatus.setTextFill(Color.LIGHTGREEN);
         opretLoginStatus.relocate(130, 410);
         opretLoginStatus.setText("Medarbejder blev oprettet!");
+        
     }
 
 
@@ -155,6 +156,7 @@ public class OpretLoginUI {
 
 
     private void opretBruger() {
+    	userCheckDuplicate OBL = new userCheckDuplicate();
         String medarbejderNavn = name.getText();
         String CreateUsername = createUsername.getText();
         String CreatePassword = createPassword.getText();
@@ -175,6 +177,8 @@ public class OpretLoginUI {
 
         } else  {
             opretLoginSuccess();  
+        	opretUsrLogin crtLogin = new opretUsrLogin();
+            crtLogin.opretBruger(medarbejderNavn, CreateUsername, CreatePassword);
         }
     }
     

@@ -9,8 +9,11 @@ public class OpretLoginDB {
 		try {
 			Statement statement = DB.connection.createStatement();
 
-			statement.executeUpdate("INSERT INTO bilsealger " + "VALUES ('" + medarbejderNavn + "', '" + CreateUsername
-					+ "', '" + CreatePassword + "')");
+//			statement.executeUpdate("INSERT INTO bilsaelger " + "VALUES ('" + medarbejderNavn + "', '" + CreateUsername
+//					+ "', '" + CreatePassword + "')");
+			
+			statement.executeUpdate("INSERT INTO bilsaelger (saelgerfornavn, saelgerbrugernavn, saelgerpassword) VALUES('" + medarbejderNavn + "', '" + CreateUsername 
+						+ "', '" + CreatePassword + "')");
 
 			DB.connection.close();
 

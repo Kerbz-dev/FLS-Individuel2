@@ -1,5 +1,6 @@
 package presentation;
 
+import java.sql.Date;
 import java.util.List;
 
 import entity.*;
@@ -236,7 +237,7 @@ public class LaaneUI {
 		TableColumn dateCol = new TableColumn("Dato");
 		dateCol.setCellValueFactory(new PropertyValueFactory<LaaneTilbud, String>("tilbudsid"));
 		TableColumn tilbudCol = new TableColumn("Lånetilbud");
-		tilbudCol.setCellValueFactory(new PropertyValueFactory<LaaneTilbud, String>("laanlaengde"));
+		tilbudCol.setCellValueFactory(new PropertyValueFactory<LaaneTilbud, Date>("rentedato"));
 
 		tilbudTbl.getColumns().addAll(dateCol, tilbudCol);
 
@@ -245,7 +246,7 @@ public class LaaneUI {
 //		//String medarbejderNavn2 = kunder.get(2).getKundenavn();
 
 		int tilbudsid = getlaan.get(1).getTilbudsid();
-		int laanlaengde = getlaan.get(1).getLaanlaengde();
+		Date rentedato = getlaan.get(1).getRentedato();
 
 		// System.out.println(medarbejderNavn);
 		tilbudTbl.setPrefHeight(550);
@@ -253,8 +254,7 @@ public class LaaneUI {
 		tilbudTbl.relocate(23, 83);
 
 		TableView<LaaneTilbud> table = new TableView<LaaneTilbud>();
-		final ObservableList<LaaneTilbud> data = FXCollections
-				.observableArrayList(new LaaneTilbud(tilbudsid, laanlaengde));
+		final ObservableList<LaaneTilbud> data = FXCollections.observableArrayList(new LaaneTilbud(rentedato, tilbudsid));
 
 		tilbudTbl.setItems(data);
 		// tilbudTbl.setItems(bilslg.getAllDB());
