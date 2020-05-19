@@ -2,77 +2,119 @@ package entity;
 
 public class Kunde {
 
-	 private String telefonnummer;
-	 private String kundenavn;
-	 private String cpr_nummer;
-	 private String email;
-	 private String kreditvaerdighed;
-	    
+    private int telefonnummer;
+    private String kundefornavn;
+    private String kundeefternavn;
+    private int cpr_nummer;
+    private String mail;
+    private int postnummer;
+    private String bynavn;
+    private String vejnavn;
+    private int husnummer;
+    private String kreditVurdering;
 
-		public Kunde() {
-			// TODO Auto-generated constructor stub
-		}
-		
-	    public Kunde (String telefonnummer, String kundenavn, String cpr_nummer, String email, String kreditvaerdighed)
-	    {
-	    	
-	        this.telefonnummer = telefonnummer;
-	        this.kundenavn = kundenavn;
-	        this.cpr_nummer = cpr_nummer;
-	        this.email = email;
-	        this.kreditvaerdighed = kreditvaerdighed;
-	    }
+       public Kunde() {
+           // TODO Auto-generated constructor stub
+       }
 
-	    
+       public Kunde (int telefonnummer, String kundefornavn, String kundeefternavn, int cpr_nummer, String mail, int postnummer, String bynavn, String vejnavn, int husnummer, String kreditVurdering)
+       {
 
+           this.telefonnummer = telefonnummer;
+           this.kundefornavn = kundefornavn;
+           this.kundeefternavn = kundeefternavn;
+           this.cpr_nummer = cpr_nummer;
+           this.mail = mail;
+           this.postnummer = postnummer;
+           this.bynavn = bynavn;
+           this.vejnavn = vejnavn;
+           this.husnummer = husnummer;
+           this.kreditVurdering = kreditVurdering;
+       }
 
+       public int getTelefonnummer() {
+           return telefonnummer;
+       }
 
-		public String getTelefonnummer() {
-			return telefonnummer;
-		}
+       public void setTelefonnummer(int telefonnummer) {
+           this.telefonnummer = telefonnummer;
+       }
 
-		public void setTelefonnummer(String telefonnummer) {
-			this.telefonnummer = telefonnummer;
-		}
+       public String getKundefornavn() {
+           return kundefornavn;
+       }
 
-		public String getKundenavn() {
-			return kundenavn;
-		}
+       public void setKundefornavn(String kundefornavn) {
+           this.kundefornavn = kundefornavn;
+       }
 
-		public void setKundenavn(String kundenavn) {
-			this.kundenavn = kundenavn;
-		}
+       public String getKundeefternavn() {
+           return kundeefternavn;
+       }
 
-		public String getCpr_nummer() {
-			return cpr_nummer;
-		}
+       public void setKundeefternavn(String kundeefternavn) {
+           this.kundeefternavn = kundeefternavn;
+       }
 
-		public void setCpr_nummer(String cpr_nummer) {
-			this.cpr_nummer = cpr_nummer;
-		}
+       public int getCpr_nummer() {
+           return cpr_nummer;
+       }
 
-		public String getEmail() {
-			return email;
-		}
+       public void setCpr_nummer(int cpr_nummer) {
+           this.cpr_nummer = cpr_nummer;
+       }
+public String getMail() {
+           return mail;
+       }
 
-		public void setEmail(String email) {
-			this.email = email;
-		}
+       public void setMail(String mail) {
+           this.mail = mail;
+       }
 
-		public String getKreditvaerdighed() {
-			return kreditvaerdighed;
-		}
+       public int getPostnummer() {
+           return postnummer;
+       }
 
-		public void setKreditvaerdighed(String kreditvaerdighed) {
-			this.kreditvaerdighed = kreditvaerdighed;
-		}
+       public void setPostnummer(int postnummer) {
+           this.postnummer = postnummer;
+       }
 
-		@Override
-	    public String toString() {
-	        return telefonnummer + ": " + kundenavn + ": " + cpr_nummer + ": " + email + ": " + kreditvaerdighed + ": ";
-	    }
+       public String getBynavn() {
+           return bynavn;
+       }
 
-	 
+       public void setBynavn(String bynavn) {
+           this.bynavn = bynavn;
+       }
 
-	}
+       public String getVejnavn() {
+           return vejnavn;
+       }
 
+       public void setVejnavn(String vejnavn) {
+           this.vejnavn = vejnavn;
+       }
+
+       public int getHusnummer() {
+           return husnummer;
+       }
+
+       public void setHusnummer(int husnummer) {
+           this.husnummer = husnummer;
+       }
+
+       public String getKreditVurdering() {
+           return kreditVurdering;
+       }
+
+       public void setKreditVurdering(String kreditVurdering) {
+           this.kreditVurdering = kreditVurdering;
+       }
+
+       @Override
+       public String toString() {
+           return telefonnummer + kundefornavn + kundeefternavn + cpr_nummer + mail + postnummer
+                   + bynavn + vejnavn + husnummer + kreditVurdering;
+       }
+
+   }

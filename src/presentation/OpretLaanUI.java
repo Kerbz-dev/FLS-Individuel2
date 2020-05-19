@@ -74,7 +74,7 @@ public class OpretLaanUI {
 		bilprisTField = new TextField();
 		udbetalingTField = new TextField();
 		laengdeTField = new TextField();
-		opretStatusLbl = new Label("test");
+		opretStatusLbl = new Label();
 
 		navnTField.relocate(298.0, 225.0);
 		navnTField.setPrefHeight(25.0);

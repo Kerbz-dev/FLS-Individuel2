@@ -28,7 +28,7 @@ public class CsvWriter {
           StringBuilder sb = new StringBuilder();
           sb.append("Name: ");
           for(int i = 0; i < kunder.size(); i++) {
-          sb.append(kunder.get(i).getKundenavn());
+          sb.append(kunder.get(i).getKundefornavn());
           sb.append(", ");
           }
           
@@ -46,7 +46,7 @@ public class CsvWriter {
           sb.append("\n");
           sb.append("E-mail: ");
           for(int i = 0; i < kunder.size(); i++) {
-          sb.append(kunder.get(i).getEmail());
+          sb.append(kunder.get(i).getMail());
           sb.append(", ");
 
           }
