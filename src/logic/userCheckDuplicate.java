@@ -1,14 +1,14 @@
 package logic;
 
-import db.Datakobling;
+import db.DuplicateCheckDB;
 
 public class userCheckDuplicate {
 
-	private Datakobling DB = new Datakobling();
+	private DuplicateCheckDB DB = new DuplicateCheckDB();
 
 	public boolean UserCheckDuplicate(String CreateUsername) {
 
-		if (DB.userCheckDuplicate(CreateUsername) == true) {
+		if (DB.brugerCheckDuplicate(CreateUsername) == true) {
 			return true;
 		}
 		

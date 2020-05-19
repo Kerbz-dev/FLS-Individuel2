@@ -12,19 +12,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.opretUsrLogin;
+import logic.OpretMedarbejderLogin;
 import logic.userCheckDuplicate;
 
 
-public class OpretLoginUI {
+public class OpretMedarbejderUI {
 
 
     private Stage opretLoginStage;
 
 
-    private TextField name;
-    private TextField createUsername;
-    private TextField createPassword;
+    private TextField fornavnTF;
+    private TextField efternavnTF;
+    private TextField brugernavnTF;
+    private TextField passwordTF;
     private Label opretLoginStatus;
     private Image ferrari;
     private ImageView ferraripic;
@@ -45,40 +46,45 @@ public class OpretLoginUI {
         pane2 = new Pane();
         opretLoginKnap = new Button("Opret medarbejder");
         opretLoginStatus = new Label();
-        name = new TextField();
-        createUsername = new TextField();
-        createPassword = new TextField();
+        fornavnTF = new TextField();
+        efternavnTF = new TextField();
+        brugernavnTF = new TextField();
+        passwordTF = new TextField();
         ferrari = new Image("https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg");
         ferraripic = new ImageView();
 
 
-        // name.setPrefHeight(30);
-        // name.setPrefWidth(214);
-        name.setFont(new Font(24));
-        name.setPromptText("Medarbejder navn");
-        name.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-        name.relocate(150, 200);
+        // fornavnTF.setPrefHeight(30);
+        // fornavnTF.setPrefWidth(214);
+        fornavnTF.setFont(new Font(24));
+        fornavnTF.setPromptText("Fornavn");
+        fornavnTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+        fornavnTF.relocate(150, 195);
 
 
-        // createUsername.setPrefHeight(30);
-        // createUsername.setPrefWidth(214);
-        createUsername.setFont(new Font(24));
-        createUsername.setPromptText("Brugernavn");
-        createUsername.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-        createUsername.relocate(150, 273);
+        efternavnTF.setFont(new Font(24));
+        efternavnTF.setPromptText("Efternavn");
+        efternavnTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+        efternavnTF.relocate(150, 255);
+        // brugernavnTF.setPrefHeight(30);
+        // brugernavnTF.setPrefWidth(214);
+        brugernavnTF.setFont(new Font(24));
+        brugernavnTF.setPromptText("Brugernavn");
+        brugernavnTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+        brugernavnTF.relocate(150, 315);
 
 
-        // createPassword.setPrefHeight(30);
-        // createPassword.setPrefWidth(214);
-        createPassword.setFont(new Font(24));
-        createPassword.setPromptText("Password");
-        createPassword.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-        createPassword.relocate(150, 346);
+        // passwordTF.setPrefHeight(30);
+        // passwordTF.setPrefWidth(214);
+        passwordTF.setFont(new Font(24));
+        passwordTF.setPromptText("Password");
+        passwordTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+        passwordTF.relocate(150, 375);
 
 
         // OpretLoginKnap.setPrefHeight(40);
         // OpretLoginKnap.setPrefWidth(154);
-        opretLoginKnap.relocate(180, 470);
+        opretLoginKnap.relocate(180, 505);
         opretLoginKnap.setFont(new Font(24));
 
 
@@ -95,9 +101,10 @@ public class OpretLoginUI {
 
 
         // Add to pane
-        pane2.getChildren().add(name);
-        pane2.getChildren().add(createUsername);
-        pane2.getChildren().add(createPassword);
+        pane2.getChildren().add(fornavnTF);
+        pane2.getChildren().add(efternavnTF);
+        pane2.getChildren().add(brugernavnTF);
+        pane2.getChildren().add(passwordTF);
         pane2.getChildren().add(opretLoginKnap);
         pane2.getChildren().add(opretLoginStatus);
         pane2.getChildren().add(ferraripic);
@@ -118,7 +125,7 @@ public class OpretLoginUI {
     
     private void opretLoginSuccess() {
         opretLoginStatus.setTextFill(Color.LIGHTGREEN);
-        opretLoginStatus.relocate(130, 410);
+        opretLoginStatus.relocate(130, 445);
         opretLoginStatus.setText("Medarbejder blev oprettet!");
         
     }
@@ -126,59 +133,70 @@ public class OpretLoginUI {
 
     private void opretLoginFailAll() {
         opretLoginStatus.setTextFill(Color.WHITE);
-        opretLoginStatus.relocate(135, 410);
+        opretLoginStatus.relocate(135, 445);
         opretLoginStatus.setText("Udfyld venligst alle felter");
     }
     
     private void opretLoginFailMNavn() {
         opretLoginStatus.setTextFill(Color.WHITE);
-        opretLoginStatus.relocate(95, 410);
+        opretLoginStatus.relocate(95, 445);
         opretLoginStatus.setText("Udfyld venligst medarbejder navn");
     }
-    private void opretLoginFailUserName() {
+    private void opretLoginFailUserfornavnTF() {
         opretLoginStatus.setTextFill(Color.WHITE);
-        opretLoginStatus.relocate(125, 410);
+        opretLoginStatus.relocate(125, 445);
         opretLoginStatus.setText("Udfyld venligst brugernavn");
     }
     
     private void opretLoginFailPassword() {
         opretLoginStatus.setTextFill(Color.WHITE);
-        opretLoginStatus.relocate(130, 410);
+        opretLoginStatus.relocate(130, 445);
         opretLoginStatus.setText("Udfyld venligst password");
     }
     
     private void opretLoginFailDuplicateBruger() {
         opretLoginStatus.setTextFill(Color.WHITE);
-        opretLoginStatus.relocate(150, 410);
+        opretLoginStatus.relocate(150, 445);
         opretLoginStatus.setAlignment(Pos.CENTER);
         opretLoginStatus.setText("Bruger findes allerede");
     }
 
 
     private void opretBruger() {
-    	userCheckDuplicate OBL = new userCheckDuplicate();
-        String medarbejderNavn = name.getText();
-        String CreateUsername = createUsername.getText();
-        String CreatePassword = createPassword.getText();
+    	userCheckDuplicate opretLoginLGC = new userCheckDuplicate();
+        int getTextFornavn = 0;
+        String hej = Integer.toString(getTextFornavn);
+        hej = fornavnTF.getText();
+       
+        String getTextEfternavn = efternavnTF.getText();
+        String getTextBrugernavn = brugernavnTF.getText();
+        String getTextPassword = passwordTF.getText();
         
-        if (medarbejderNavn.isEmpty() && CreateUsername.isEmpty() && CreatePassword.isEmpty()) {
+        if (hej.isEmpty() && getTextEfternavn.isEmpty() && getTextBrugernavn.isEmpty() && getTextPassword.isEmpty()) {
             opretLoginFailAll();
         }
 
-          else if (medarbejderNavn.isEmpty()) {
+          else if (hej.isEmpty()) {
             opretLoginFailMNavn();
-        } else if (CreateUsername.isEmpty()) {
-            opretLoginFailUserName();
-        } else if (CreatePassword.isEmpty()) {
+        } 
+          else if (getTextEfternavn.isEmpty()) {
+              opretLoginFailMNavn();
+          }else if (getTextBrugernavn.isEmpty()) {
+            opretLoginFailUserfornavnTF();
+        } else if (getTextPassword.isEmpty()) {
             opretLoginFailPassword();
-        } else if (OBL.UserCheckDuplicate(CreateUsername) == true) {
+        } else if (opretLoginLGC.UserCheckDuplicate(getTextBrugernavn) == true) {
             opretLoginFailDuplicateBruger();
 
 
-        } else  {
+        } else if (opretLoginLGC.UserCheckDuplicate(getTextBrugernavn) == false) {
             opretLoginSuccess();  
-        	opretUsrLogin crtLogin = new opretUsrLogin();
-            crtLogin.opretBruger(medarbejderNavn, CreateUsername, CreatePassword);
+        	OpretMedarbejderLogin crtLogin = new OpretMedarbejderLogin();
+            crtLogin.opretBruger(getTextFornavn, getTextEfternavn, getTextBrugernavn, getTextPassword);
+        }
+        
+        else {
+        	System.out.println("Houston, we have a problem! Ukendt fejlkode.");
         }
     }
     

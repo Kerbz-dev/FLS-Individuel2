@@ -77,7 +77,7 @@ public class adminUI {
 }
     
     private void opretLoginUI() {
-		OpretLoginUI oprlogUI = new OpretLoginUI();
+		OpretMedarbejderUI oprlogUI = new OpretMedarbejderUI();
 		oprlogUI.start();
 	}
     

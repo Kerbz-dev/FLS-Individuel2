@@ -7,13 +7,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.Biler;
 import entity.LaaneTilbud;
 
 public class LaaneTilbudDB {
 
+	Datakobling DB = new Datakobling();
 	public List<LaaneTilbud> getLaan() {
 		ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
-		Datakobling DB = new Datakobling();
 		try {
 			Statement stmt = DB.connection.createStatement();
 			String query = "SELECT * FROM laanetilbud";
@@ -41,4 +42,39 @@ public class LaaneTilbudDB {
 		}
 		return list;
 	}
+	
+	 public ArrayList<Biler> getAllBiler() {
+	        ArrayList<Biler> biler = new ArrayList<>();
+
+	 
+
+	        try {
+	            String sql = "SELECT * FROM Biler";
+	    //        String sql2 = "SELECT bilid, bilnavn, bilpris FROM  Biler";
+
+	            Statement statement = DB.connection.createStatement();
+
+	            ResultSet resultSet = statement.executeQuery(sql);
+
+	            // iteration starter 'before first'
+	            while (resultSet.next()) {
+	                // hent data fra denne række
+	                int bilId = resultSet.getInt("bilid");
+	                String bilnavn = resultSet.getString("bilnavn");
+	                int bilPris = resultSet.getInt("bilpris");
+	                int inventar = resultSet.getInt("inventar");
+
+	                // brug data, e.g. => entitets/model object
+	                Biler biler1 = new Biler(bilId, bilnavn, bilPris, inventar);
+
+	                biler.add(biler1);
+
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return biler;
+	    }
+	
 }

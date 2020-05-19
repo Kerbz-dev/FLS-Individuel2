@@ -4,7 +4,7 @@ import java.sql.Statement;
 
 public class OpretLoginDB {
 
-	public void createLogin(String medarbejderNavn, String CreateUsername, String CreatePassword) {
+	public void opretLogin(int getTextFornavn, String getTextEfternavn, String getTextBrugernavn, String getTextPassword) {
 		Datakobling DB = new Datakobling();
 		try {
 			Statement statement = DB.connection.createStatement();
@@ -12,8 +12,8 @@ public class OpretLoginDB {
 //			statement.executeUpdate("INSERT INTO bilsaelger " + "VALUES ('" + medarbejderNavn + "', '" + CreateUsername
 //					+ "', '" + CreatePassword + "')");
 			
-			statement.executeUpdate("INSERT INTO bilsaelger (saelgerfornavn, saelgerbrugernavn, saelgerpassword) VALUES('" + medarbejderNavn + "', '" + CreateUsername 
-						+ "', '" + CreatePassword + "')");
+			statement.executeUpdate("INSERT INTO bilsaelger (saelgerfornavn, saelgerefternavn, saelgerbrugernavn, saelgerpassword) VALUES('" + getTextFornavn + "', '" + getTextEfternavn + "', '" + getTextBrugernavn 
+						+ "', '" + getTextPassword + "')");
 
 			DB.connection.close();
 

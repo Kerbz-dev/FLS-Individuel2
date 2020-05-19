@@ -1,10 +1,10 @@
 package logic;
 
-import db.OpretLaanDB;
+import db.DuplicateCheckDB;
 
 public class laanCheckDuplicate {
 
-    private OpretLaanDB laan = new OpretLaanDB();
+    private DuplicateCheckDB laan = new DuplicateCheckDB();
 
     public boolean LaanCheckDuplicate(String cpr, String tlf) {
 
