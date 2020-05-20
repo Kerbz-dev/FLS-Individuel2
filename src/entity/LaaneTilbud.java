@@ -1,7 +1,5 @@
 package entity;
 
-import java.sql.Date;
-
 public class LaaneTilbud {
 	private int telefonnummer;
 	private int kundeindbetaling;
@@ -11,27 +9,26 @@ public class LaaneTilbud {
 	private int bilid;
 	private int bilsaelgerid;
 	private int tilbudsid;
-	private Date rentedato;
+	private String rentedato;
 
 	public LaaneTilbud() {
 
 	}
 	
-    public LaaneTilbud(Date rentedato, int tilbudsid) {
-        
-    }
-    
-    public LaaneTilbud(int tilbudsid, int telefonnummer, int kundeindbetaling, int laanlaengde,
-			 int bilid, int bilsealgerid, Date rentedato) {
-    	
-    }
-
-
-	public LaaneTilbud(int tilbudsid, String rentedato) {
+	public LaaneTilbud(String rentedato) {
+		this.rentedato = rentedato;
+	}
+	
+/*tilbudsid, telefonnummer, kundeindbetaling, laanlaengde,
+				 bilid, bilsealgerid, rentedato)*/
+	public LaaneTilbud(String rentedato, int tilbudsid) {
+		this.rentedato = rentedato;
+		this.tilbudsid = tilbudsid;
+		
 	}
 
 	public LaaneTilbud(int tilbudsid, int telefonnummer, int kundeindbetaling, int laanlaengde,
-			boolean overstigergraense, int laanestatus, int bilid, int bilsaelgerid, Date rentedato) {
+			boolean overstigergraense, int laanestatus, int bilid, int bilsaelgerid, String rentedato) {
 		this.tilbudsid = tilbudsid;
 		this.telefonnummer = telefonnummer;
 		this.bilid = bilid;
@@ -108,11 +105,11 @@ public class LaaneTilbud {
 		this.bilsaelgerid = bilsaelgerid;
 	}
 
-	public Date getRentedato() {
+	public String getRentedato() {
 		return rentedato;
 	}
 
-	public void setRentedato(Date rentedato) {
+	public void setRentedato(String rentedato) {
 		this.rentedato = rentedato;
 	}
 

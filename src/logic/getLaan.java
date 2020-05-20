@@ -8,9 +8,13 @@ import entity.LaaneTilbud;
 public class getLaan {
     LaaneTilbudDB db = new LaaneTilbudDB();
 
-    public List<LaaneTilbud> getlaaninfo() {
+    public List<LaaneTilbud> getLaanAll() {
         return db.getLaan();
 }
 
+    public List<LaaneTilbud> getLTBDato() {
+		return db.getLaanDato();
+    	
+    }
 
 }

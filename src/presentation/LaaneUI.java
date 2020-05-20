@@ -1,21 +1,23 @@
 package presentation;
 
-import java.sql.Date;
 import java.util.List;
 
 import entity.*;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -39,15 +41,20 @@ public class LaaneUI {
 	private Image ferrari;
 	private ImageView ferraripic;
 	private TextField Søg;
-	private TableView tilbudTbl;
 	Kunde kundeentity = new Kunde();
 	// private Kunde kunde = new Kunde();
 	getKunde kundelogic = new getKunde();
 	List<Kunde> kunder = kundelogic.getKundeAll();
+	LaaneTilbud laanentity = new LaaneTilbud();
 	getLaan laanlogic = new getLaan();
-	List<LaaneTilbud> getlaan = laanlogic.getlaaninfo();
+	List<LaaneTilbud> getDato = laanlogic.getLTBDato();
+	List<LaaneTilbud> getlaan = laanlogic.getLaanAll();
+	ObservableList<Kunde> formList;
+	TableView<Kunde> formTable = new TableView<Kunde>();
+	String tilbudsidString;
 	// ObservableList<Kunde> formList;
 
+	@SuppressWarnings("unchecked")
 	public void start() {
 
 		LaaneUIStage = new Stage();
@@ -67,14 +74,14 @@ public class LaaneUI {
 		Bilmodel = new Label("Bilmodel:");
 		Bilpris = new Label("Bilpris:");
 		Laaneperiode = new Label("Låneperiode:");
-		navnOutput = new Label("Martin Godthaab Larsen");
-		tlfOutput = new Label("222222222222");
-		cprOutput = new Label("333333333");
-		addresseOutput = new Label("44444444");
-		mailOutput = new Label("55555555");
-		bilmodelOutput = new Label("6666666666");
-		bilprisOutput = new Label("77777777");
-		mdlydelseOutput = new Label("9999999999");
+		navnOutput = new Label();
+		tlfOutput = new Label();
+		cprOutput = new Label();
+		addresseOutput = new Label();
+		mailOutput = new Label();
+		bilmodelOutput = new Label();
+		bilprisOutput = new Label();
+		mdlydelseOutput = new Label();
 		bottomLine = new Line();
 		upperLine = new Line();
 		Søg = new TextField();
@@ -90,7 +97,6 @@ public class LaaneUI {
 		udbtloutputLbl = new Label("5.000.000");
 		godkendBtn = new Button("Godkend");
 		afvisBtn = new Button("Afvis");
-		tilbudTbl = new TableView();
 
 		bp.setPrefHeight(777);
 		bp.setPrefWidth(1149);
@@ -230,34 +236,97 @@ public class LaaneUI {
 		upperLine.setStrokeWidth(3);
 		pane1.setStyle("-fx-background-color: #FF2800");
 
-		// Making TableView
-		tilbudTbl.setEditable(true);
+		formTable.relocate(25, 150);
 
-		// Creating colums for tblView
-		TableColumn dateCol = new TableColumn("Dato");
-		dateCol.setCellValueFactory(new PropertyValueFactory<LaaneTilbud, String>("tilbudsid"));
-		TableColumn tilbudCol = new TableColumn("Lånetilbud");
-		tilbudCol.setCellValueFactory(new PropertyValueFactory<LaaneTilbud, Date>("rentedato"));
+		/*
+		 * //////////////////////////// Table der skal søges/filtreres
+		 *////////////////////////////
 
-		tilbudTbl.getColumns().addAll(dateCol, tilbudCol);
+		TableColumn<Kunde, String> ColumnDato = new TableColumn<Kunde, String>("Dato");
+		TableColumn<Kunde, String> ColumnTilbud = new TableColumn<Kunde, String>("Lånetilbud");
+		TableColumn<Kunde, String> ColumnFornavn = new TableColumn<Kunde, String>("Fornavn");
+		// TableColumn<Kunde, String> ColumnEfternavn = new TableColumn<Kunde,
+		// String>("Efternavn");
+		TableColumn<Kunde, String> ColumnTlf = new TableColumn<Kunde, String>("Tlf. nr");
 
-//		//String medarbejderNavn = new String();
-//		medarbejderNavn = kunder.get(1).getKundenavn();
-//		//String medarbejderNavn2 = kunder.get(2).getKundenavn();
+		ColumnFornavn.setCellValueFactory(e -> {
+			Kunde kunde = e.getValue();
+			return new SimpleStringProperty(kunde.getKundefornavn());
 
-		int tilbudsid = getlaan.get(1).getTilbudsid();
-		Date rentedato = getlaan.get(1).getRentedato();
+		});
 
-		// System.out.println(medarbejderNavn);
-		tilbudTbl.setPrefHeight(550);
-		tilbudTbl.setPrefWidth(321);
-		tilbudTbl.relocate(23, 83);
+		ColumnTlf.setCellValueFactory(e -> {
+			Kunde kunde = e.getValue();
+			int telefonnummer = kunde.getTelefonnummer();
+			String tlfnr = Integer.toString(telefonnummer);
+			return new SimpleStringProperty(tlfnr);
 
-		TableView<LaaneTilbud> table = new TableView<LaaneTilbud>();
-		final ObservableList<LaaneTilbud> data = FXCollections.observableArrayList(new LaaneTilbud(rentedato, tilbudsid));
+		});
 
-		tilbudTbl.setItems(data);
-		// tilbudTbl.setItems(bilslg.getAllDB());
+		ColumnDato.setCellValueFactory(e -> {
+
+			return new SimpleStringProperty(laanlogic.getLaanAll().get(1).getRentedato());
+
+		});
+
+		ColumnTilbud.setCellValueFactory(e -> {
+			setColumnTilbud();
+			return new SimpleStringProperty(tilbudsidString);
+
+		});
+
+		formTable.getColumns().addAll(ColumnDato, ColumnTilbud, ColumnFornavn, /* ColumnEfternavn, */ ColumnTlf);
+
+		formTable.setItems(formList);
+
+		/*
+		 * //////////////////////////////// Søgefunktion til tablecolumn
+		 *////////////////////////////////
+
+		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		formList = FXCollections.observableList(kundelogic.getKundeAll());
+		// System.out.println("getKundeAll returner: " +
+		// formList.get(2).getKreditVurdering());
+		FilteredList<Kunde> filteredData = new FilteredList<>(formList, p -> true);
+
+		Søg.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(formSearch -> {
+				int telefonnummer = formSearch.getTelefonnummer();
+				String tlfnr = Integer.toString(telefonnummer);
+				// If a filter text (the text field) is empty, show all forms
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				// Compares the textfield to the object (the input) with the filter from above
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				// Filter matches with Analyze Title
+				if (formSearch.getKundefornavn().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+					// Filter matches with date
+				}
+
+				else if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+
+				}
+
+				// No match at all
+				return false;
+			});
+		});
+
+		SortedList<Kunde> sortedData = new SortedList<>(filteredData);
+
+		// Connect the SortedList comparator to the TableView comparator
+		// 'The comparator that denotes the order of this SortedList'
+		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
+
+		// Tilføjer sorteret og filtreret data til vores TableView
+		formTable.setItems(sortedData);
+
+		// Fanger det vaglte element
 
 		// Setting background color for text zone
 		Rectangle background = new Rectangle();
@@ -283,7 +352,7 @@ public class LaaneUI {
 				Navn, navnOutput, bilmodelOutput, mdlydelseOutput, Tlf, bilprisOutput, mailOutput, tlfOutput,
 				addresseOutput, Mail, cprOutput, Bilpris, upperLine, bottomLine, ferraripic, opretTilbud, redigerTilbud,
 				fjernTilbud, loginName, godkendBtn, afvisBtn, prisoutputLbl, periodeoutputLbl, udbtloutputLbl,
-				samletprisLbl, mdlydelseLbl, udbetalingLbl, tilbudTbl);
+				samletprisLbl, mdlydelseLbl, udbetalingLbl, formTable);
 
 		scene = new Scene(pane1);
 		LaaneUIStage.setScene(scene);
@@ -291,6 +360,12 @@ public class LaaneUI {
 
 		opretTilbud.setOnAction(e -> opretLaaneUI());
 		godkendBtn.setOnAction(e -> getMNavn());
+
+		formTable.setOnMouseClicked((MouseEvent event) -> {
+			if (event.getClickCount() > 1) {
+				onRowSelect();
+			}
+		});
 
 	}
 
@@ -300,55 +375,45 @@ public class LaaneUI {
 	}
 
 	private void getMNavn() {
-		System.out.println("Præsentation getKundeAll: " + kundelogic.getKundeAll());
-	//	System.out.println(kundelogic.getKundeAll().get(1).getKundenavn());
-		System.out.println("Præsentation entity.Kunde: " + kundeentity.getCpr_nummer());
+		// System.out.println("Præsentation getKundeAll: " + kundelogic.getKundeAll());
+		// System.out.println("Præsentation entity.Kunde: " +
+		// kundeentity.getCpr_nummer());
 		// String bas = kunde.getKundenavn();
 		// System.out.println("kunder er " + kunde.toString());
 		// System.out.println("direkte fra DB: " + );
 		// System.out.println(kunde.getKundenavn());
 	}
 
+	private void onRowSelect() {
+		// check the table's selected item and get selected item
+		if (formTable.getSelectionModel().getSelectedItem() != null) {
+			Kunde selectedPerson = formTable.getSelectionModel().getSelectedItem();
+			navnOutput.setText(selectedPerson.getKundefornavn());
+			int telefonnummer = selectedPerson.getTelefonnummer();
+			String tlfnr = Integer.toString(telefonnummer);
+			tlfOutput.setText(tlfnr);
+			long cpr = selectedPerson.getCpr_nummer();
+			String cprnr = Long.toString(cpr);
+			cprOutput.setText(cprnr);
+			addresseOutput.setText(selectedPerson.getVejnavn() + " " + selectedPerson.getHusnummer() + ", "
+					+ selectedPerson.getPostnummer() + " " + selectedPerson.getBynavn());
+			mailOutput.setText(selectedPerson.getMail());
+
+		}
+	}
+
+	public void setColumnTilbud() {
+		for (int i = 0; i < getlaan.size(); i++) {
+			int tilbudsid = getlaan.get(i).getTilbudsid();
+			tilbudsidString = Integer.toString(tilbudsid);
+			System.out.println(tilbudsidString);
+
+			/*
+			 * ///////////////////////////////////////////////////////////////////////
+			 * Tidligere tests System.out.println("tilbudsid får: " + tilbudsid);
+			 * System.out.println("tilbudsidString får: " + tilbudsidString);
+			 *///////////////////////////////////////////////////////////////////////
+
+		}
+	}
 }
-
-
-// Search functionality
-//formList = FXCollections.observableList(kundelogic.getKundeAll());
-//System.out.println("Kunde(fail) :" + kunde.getCpr_nummer());
-//System.out.println("Virkende funktion: " + kunder.get(4).getCpr_nummer());
-/*FilteredList<Kunde> filteredData = new FilteredList<>(formList, p -> true);
-
-Søg.textProperty().addListener((observable, oldValue, newValue) -> {
-	filteredData.setPredicate(formSearch -> {
-
-		// If a filter text (the text field) is empty, show all forms
-		if (newValue == null || newValue.isEmpty()) {
-			return true;
-		}
-
-		// Compares the textfield to the object (the input) with the filter from above
-		String lowerCaseFilter = newValue.toLowerCase();
-
-		// Filter matches with Analyze Title
-		if (formSearch.getCpr_nummer().toLowerCase().contains(lowerCaseFilter)) {
-			return true;
-			// Filter matches with date
-		} else if (formSearch.getKundenavn().toLowerCase()
-				.contains(lowerCaseFilter)) {
-			return true;
-			// Filter matches with Student name
-		} else if (formSearch.getEmail().toLowerCase().contains(lowerCaseFilter)) {
-			return true;
-			// Filter matches with Theme name
-		} else if (formSearch.getKreditvaerdighed().toLowerCase().contains(lowerCaseFilter)) {
-			return true;
-			// Filter matches with Reagent name
-		} else if (formSearch.getTelefonnummer().toLowerCase().contains(lowerCaseFilter)) {
-			return true;
-
-		}
-		// No match at all
-		return false;
-	});
-});
-*/

@@ -1,7 +1,7 @@
 package db;
 
-import java.sql.ResultSet;
 import java.sql.Statement;
+
 
 public class OpretLaanDB {
 	private Datakobling DB = new Datakobling();
@@ -12,7 +12,7 @@ public class OpretLaanDB {
 
 	public void createLaan(String fornavnGetText, String tlfGetText, String postnrGetText, String byGetText,
 			String vejGetText, String husnrGetText, String cprGetText, String mailGetText, String bilnavnGetText,
-			String bilprisGetText, String udbetalingGetText, String laanleangdeGetText, Enum kreditVurdering) {
+			String bilprisGetText, String udbetalingGetText, String laanleangdeGetText, Enum<?> kreditVurdering) {
 
 		try {
 			Statement statement = DB.connection.createStatement();

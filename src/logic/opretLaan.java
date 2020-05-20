@@ -4,10 +4,12 @@ import db.OpretLaanDB;
 
 public class opretLaan {
     OpretLaanDB oprLaanDB = new OpretLaanDB();
-	public void CreateLaan(String fornavnGetText, String tlfGetText, String postnrGetText, String byGetText, String vejGetText, String husnrGetText, String cprGetText, String mailGetText, String bilnavnGetText
-			, String bilprisGetText, String udbetalingGetText, String laanleangdeGetText, Enum kreditVurdering) {
-		oprLaanDB.createLaan(fornavnGetText, tlfGetText, postnrGetText, byGetText, vejGetText, husnrGetText, cprGetText, mailGetText, bilnavnGetText
-				, bilprisGetText, udbetalingGetText, laanleangdeGetText, kreditVurdering);
+	public void CreateLaan(String fornavn, String tlf, String postnr, String by, String vej, String husnr, String cpr, String mail, String bilnavn
+			, String bilpris, String udbetaling, String laanleangde, Enum<?> kreditVurdering) {
+		//Enum med unbound type, kan bruges til alle typer variable
+		
+		oprLaanDB.createLaan(fornavn, tlf, postnr, by, vej, husnr, cpr, mail, bilnavn
+				, bilpris, udbetaling, laanleangde, kreditVurdering);
 	}
     
 	

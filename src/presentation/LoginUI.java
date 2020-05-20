@@ -49,7 +49,7 @@ public class LoginUI {
 		userLoginField.setPrefHeight(30);
 		userLoginField.setPrefWidth(250);
 		userLoginField.setFont(new Font(24));
-		userLoginField.setPromptText("Username");
+		userLoginField.setPromptText("Brugernavn");
 		userLoginField.relocate(97, 180);
 		userLoginField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 

@@ -29,10 +29,12 @@ public class LaaneTilbudDB {
 				//int laanestatus = rs.getInt("laanestatus");
 				int bilid = rs.getInt("bilid");
 				int bilsealgerid = rs.getInt("bilsaelgerid");
-				Date rentedato = rs.getDate("rentedato");
-
+				String rentedato = rs.getString("rentedato");
+				boolean overstigergraense = rs.getBoolean("overstigergraense");
+				int laanestatus = rs.getInt("laanestatus");
+				
 				LaaneTilbud laan = new LaaneTilbud(tilbudsid, telefonnummer, kundeindbetaling, laanlaengde,
-				 bilid, bilsealgerid, rentedato);
+				overstigergraense, laanestatus, bilid, bilsealgerid, rentedato);
 
 				list.add(laan);
 			}
@@ -77,4 +79,27 @@ public class LaaneTilbudDB {
 	        return biler;
 	    }
 	
+
+
+public List<LaaneTilbud> getLaanDato() {
+	ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
+	try {
+		Statement stmt = DB.connection.createStatement();
+		String query = "SELECT * FROM laanetilbud";
+
+		ResultSet rs = stmt.executeQuery(query);
+		while (rs.next()) {
+
+			String rentedato = rs.getString("rentedato");
+			
+			LaaneTilbud laan = new LaaneTilbud(rentedato);
+
+			list.add(laan);
+		}
+	} catch (SQLException e) {
+		System.out.println("Error running SQL statement");
+		System.out.println(e.getMessage());
+	}
+	return list;
+}
 }

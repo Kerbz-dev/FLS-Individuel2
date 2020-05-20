@@ -25,13 +25,13 @@ public class KundeinfoDB {
             while (rs.next()) {
                 int telefonnummer = rs.getInt("telefonnummer");
                 String kundefornavn = rs.getString("kundefornavn");
-                String kundeefternavn = rs.getString("kundeefternavn");
-                int cpr_nummer = rs.getInt("cpr_nummer");
+              //  String kundeefternavn = rs.getString("kundeefternavn");
+                long cpr_nummer = rs.getLong("cpr_nummer");
                 String mail = rs.getString("mail");
                 int postnummer = rs.getInt("postnummer");
                 String bynavn = rs.getString("bynavn");
                 String vejnavn = rs.getString("vejnavn");
-                int husnummer = rs.getInt("husnummer");
+                int husnummer = rs.getInt("husnr");
                 String kreditVurdering = rs.getString("kreditVurdering");
                 // char kreditVurdering = rs.getCharacterStream("kreditVurdering");
 //                Kunde kunde = new Kunde();
@@ -42,9 +42,8 @@ public class KundeinfoDB {
 //               kunde.setKreditvaerdighed(rs.getString("addresse"));
 //
 
-        //        System.out.println(Fornavn + Addresse + tlfnr + cprnr + email);
 
-                Kunde kundeInsert = new Kunde(telefonnummer, kundefornavn, kundeefternavn, cpr_nummer, mail, postnummer, bynavn, vejnavn, husnummer, kreditVurdering);
+                Kunde kundeInsert = new Kunde(telefonnummer, kundefornavn, cpr_nummer, mail, postnummer, bynavn, vejnavn, husnummer, kreditVurdering);
 
         //       System.out.println(kunde);
                 list.add(kundeInsert);

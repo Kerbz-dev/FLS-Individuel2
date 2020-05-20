@@ -23,7 +23,7 @@ public class CsvWriter {
         try (PrintWriter writer = new PrintWriter(new File(filepath))) {
           getLaan gt = new getLaan();
 
-          List<LaaneTilbud> tilbud = gt.getlaaninfo();
+          List<LaaneTilbud> tilbud = gt.getLaanAll();
 
           StringBuilder sb = new StringBuilder();
           sb.append("Name: ");

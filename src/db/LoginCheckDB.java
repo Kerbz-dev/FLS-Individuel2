@@ -4,9 +4,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class LoginCheckDB {
+	Datakobling DB = new Datakobling();
 	public boolean LoginCheck(String username, String password) {
 		try {
-			Datakobling DB = new Datakobling();
+			
 			Statement stmt = DB.connection.createStatement();
 			String sql = "Select * from bilsaelger where saelgerbrugernavn='" + username + "' and saelgerpassword='" + password
 					+ "'";
@@ -28,7 +29,6 @@ public class LoginCheckDB {
 	public boolean adminLoginCheck(String username, String password) {
 
 		try {
-			Datakobling DB = new Datakobling();
 			
 			Statement stmt = DB.connection.createStatement();
 			String sql = "Select * from administrator where adminbrugernavn='" + username + "' and adminpassword='"
