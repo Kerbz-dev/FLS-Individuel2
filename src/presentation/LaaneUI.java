@@ -199,13 +199,13 @@ public class LaaneUI {
 		mdlydelseOutput.relocate(577, 524);
 
 		prisoutputLbl.setFont(new Font(18));
-		prisoutputLbl.relocate(577, 480);
+		prisoutputLbl.relocate(577, 485);
 
 		periodeoutputLbl.setFont(new Font(18));
-		periodeoutputLbl.relocate(577, 444);
+		periodeoutputLbl.relocate(577, 445);
 
 		udbtloutputLbl.setFont(new Font(18));
-		udbtloutputLbl.relocate(577, 564);
+		udbtloutputLbl.relocate(577, 565);
 
 		loginName.relocate(922, 736);
 		loginName.setText("Logget ind som " + ": " + "medarbejderNavn");
@@ -265,7 +265,7 @@ public class LaaneUI {
 
 		ColumnDato.setCellValueFactory(e -> {
 
-			return new SimpleStringProperty(laanlogic.getLaanAll().get(1).getRentedato());
+			return new SimpleStringProperty(laanlogic.getLaanAll().get(0).getRentedato());
 
 		});
 
@@ -358,8 +358,9 @@ public class LaaneUI {
 		LaaneUIStage.setScene(scene);
 		LaaneUIStage.show();
 
-		opretTilbud.setOnAction(e -> opretLaaneUI());
+		opretTilbud.setOnAction(e -> opretLaaneUIv2());
 		godkendBtn.setOnAction(e -> getMNavn());
+		redigerTilbud.setOnAction(e -> opretKundeUI());
 
 		formTable.setOnMouseClicked((MouseEvent event) -> {
 			if (event.getClickCount() > 1) {
@@ -369,11 +370,16 @@ public class LaaneUI {
 
 	}
 
-	private void opretLaaneUI() {
-		OpretLaanUI opretLaan = new OpretLaanUI();
-		opretLaan.start();
-	}
+	private void opretLaaneUIv2() {
+        OpretLaanUIv2 opretLaan = new OpretLaanUIv2();
+        opretLaan.start();
+    }
 
+	private void opretKundeUI() {
+        OpretKundeUI opretKunde = new OpretKundeUI();
+        opretKunde.start();
+    }
+	
 	private void getMNavn() {
 		// System.out.println("Præsentation getKundeAll: " + kundelogic.getKundeAll());
 		// System.out.println("Præsentation entity.Kunde: " +
@@ -406,7 +412,6 @@ public class LaaneUI {
 		for (int i = 0; i < getlaan.size(); i++) {
 			int tilbudsid = getlaan.get(i).getTilbudsid();
 			tilbudsidString = Integer.toString(tilbudsid);
-			System.out.println(tilbudsidString);
 
 			/*
 			 * ///////////////////////////////////////////////////////////////////////

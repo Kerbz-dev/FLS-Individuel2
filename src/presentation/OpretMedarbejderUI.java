@@ -164,19 +164,16 @@ public class OpretMedarbejderUI {
 
     private void opretBruger() {
     	userCheckDuplicate opretLoginLGC = new userCheckDuplicate();
-        int getTextFornavn = 0;
-        String hej = Integer.toString(getTextFornavn);
-        hej = fornavnTF.getText();
-       
+        String getTextFornavn = fornavnTF.getText();
         String getTextEfternavn = efternavnTF.getText();
         String getTextBrugernavn = brugernavnTF.getText();
         String getTextPassword = passwordTF.getText();
         
-        if (hej.isEmpty() && getTextEfternavn.isEmpty() && getTextBrugernavn.isEmpty() && getTextPassword.isEmpty()) {
+        if (getTextFornavn.isEmpty() && getTextEfternavn.isEmpty() && getTextBrugernavn.isEmpty() && getTextPassword.isEmpty()) {
             opretLoginFailAll();
         }
 
-          else if (hej.isEmpty()) {
+          else if (getTextFornavn.isEmpty()) {
             opretLoginFailMNavn();
         } 
           else if (getTextEfternavn.isEmpty()) {

@@ -1,6 +1,5 @@
 package db;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,11 +12,19 @@ import entity.LaaneTilbud;
 public class LaaneTilbudDB {
 
 	Datakobling DB = new Datakobling();
+
 	public List<LaaneTilbud> getLaan() {
 		ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
 		try {
 			Statement stmt = DB.connection.createStatement();
-			String query = "SELECT * FROM laanetilbud";
+			String query = "SELECT laanetilbud.tilbudsid, kunde.telefonnummer, laanetilbud.bilid, laanetilbud.bilsaelgerid, laanetilbud.kundeindbetaling, laanetilbud.laanlaengde, laanetilbud.overstigergraense, laanetilbud.laanestatus, laanetilbud.rentedato, laanetilbud.rente"
+					+ " FROM laanetilbud "
+					+ " JOIN kunde ON laanetilbud.telefonnummer = kunde.telefonnummer"
+//					+ " JOIN biler ON laanetilbud.bilid = biler.bilid"
+//					+ " JOIN bilsaelger ON laanetilbud.bilsaelgerid = bilsaelger.bilsaelgerid"
+					;
+				
+			
 
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
@@ -44,62 +51,58 @@ public class LaaneTilbudDB {
 		}
 		return list;
 	}
-	
-	 public ArrayList<Biler> getAllBiler() {
-	        ArrayList<Biler> biler = new ArrayList<>();
 
-	 
+	public List<Biler> getAllBiler() {
+		ArrayList<Biler> biler = new ArrayList<>();
 
-	        try {
-	            String sql = "SELECT * FROM Biler";
-	    //        String sql2 = "SELECT bilid, bilnavn, bilpris FROM  Biler";
+		try {
+			String sql = "SELECT * FROM Biler";
+			// String sql2 = "SELECT bilid, bilnavn, bilpris FROM Biler";
 
-	            Statement statement = DB.connection.createStatement();
+			Statement statement = DB.connection.createStatement();
 
-	            ResultSet resultSet = statement.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery(sql);
 
-	            // iteration starter 'before first'
-	            while (resultSet.next()) {
-	                // hent data fra denne række
-	                int bilId = resultSet.getInt("bilid");
-	                String bilnavn = resultSet.getString("bilnavn");
-	                int bilPris = resultSet.getInt("bilpris");
-	                int inventar = resultSet.getInt("inventar");
+			// iteration starter 'before first'
+			while (resultSet.next()) {
+				// hent data fra denne række
+				int bilId = resultSet.getInt("bilid");
+				String bilnavn = resultSet.getString("bilnavn");
+				int bilPris = resultSet.getInt("bilpris");
+				int inventar = resultSet.getInt("inventar");
 
-	                // brug data, e.g. => entitets/model object
-	                Biler biler1 = new Biler(bilId, bilnavn, bilPris, inventar);
+				// brug data, e.g. => entitets/model object
+				Biler biler1 = new Biler(bilId, bilnavn, bilPris, inventar);
 
-	                biler.add(biler1);
+				biler.add(biler1);
 
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-
-	        return biler;
-	    }
-	
-
-
-public List<LaaneTilbud> getLaanDato() {
-	ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
-	try {
-		Statement stmt = DB.connection.createStatement();
-		String query = "SELECT * FROM laanetilbud";
-
-		ResultSet rs = stmt.executeQuery(query);
-		while (rs.next()) {
-
-			String rentedato = rs.getString("rentedato");
-			
-			LaaneTilbud laan = new LaaneTilbud(rentedato);
-
-			list.add(laan);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-	} catch (SQLException e) {
-		System.out.println("Error running SQL statement");
-		System.out.println(e.getMessage());
+
+		return biler;
 	}
-	return list;
-}
+
+	public List<LaaneTilbud> getLaanDato() {
+		ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
+		try {
+			Statement stmt = DB.connection.createStatement();
+			String query = "SELECT * FROM laanetilbud";
+
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+
+				String rentedato = rs.getString("rentedato");
+
+				LaaneTilbud laan = new LaaneTilbud(rentedato);
+
+				list.add(laan);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error running SQL statement");
+			System.out.println(e.getMessage());
+		}
+		return list;
+	}
 }

@@ -104,9 +104,9 @@ public class LoginUI {
 		String username = userLoginField.getText();
 		String password = passLoginField.getText();
 		
-		LoginVerification ctrl = new LoginVerification();
+		LoginVerification lgnctrl = new LoginVerification();
 		LoginResult lgnCheck;
-		lgnCheck = ctrl.loginCheck(username, password);
+		lgnCheck = lgnctrl.loginCheck(username, password);
 
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
 			loginSuccess();

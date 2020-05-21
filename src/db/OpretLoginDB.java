@@ -4,7 +4,7 @@ import java.sql.Statement;
 
 public class OpretLoginDB {
 
-	public void opretLogin(int getTextFornavn, String getTextEfternavn, String getTextBrugernavn, String getTextPassword) {
+	public void opretLogin(String getTextFornavn, String getTextEfternavn, String getTextBrugernavn, String getTextPassword) {
 		Datakobling DB = new Datakobling();
 		try {
 			Statement statement = DB.connection.createStatement();

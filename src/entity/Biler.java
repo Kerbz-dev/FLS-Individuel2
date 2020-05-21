@@ -20,7 +20,12 @@ public class Biler {
     }
     
     
-    public int getBilId() {
+    public Biler() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public int getBilId() {
         return bilId;
     }
     public void setBilId(int bilId) {

@@ -1,5 +1,5 @@
 package presentation;
-
+/*
 public class GetText {
 	
 	private String fornavn;
@@ -20,7 +20,7 @@ public class GetText {
 	public void getTextLaan() {
 		
 	}
-	/*
+
 	fornavn = OpretLaanUI.navnTField.getText();
 	tlf = tlfTField.getText();
 	postnr = PostnrTField.getText();
@@ -33,4 +33,3 @@ public class GetText {
 	bilpris = bilprisTField.getText();
 	udbetaling = udbetalingTField.getText();
 	laanleangde = laengdeTField.getText();*/
-}

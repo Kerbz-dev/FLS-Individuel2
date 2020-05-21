@@ -24,7 +24,7 @@ import logic.GetKV;
 import logic.GetKV.kreditRating;
 import logic.laanCheckDuplicate;
 import logic.opretLaan;
-
+/*
 public class OpretLaanUI {
 
 	DecimalFormat numberFormatter = new DecimalFormat("0");
@@ -303,16 +303,22 @@ public class OpretLaanUI {
 			indsaetBil.setVisible(true);
 			vaelgBil.setDisable(true);
 			for (int i = 0; i < getbiler.size(); i++) {
+		        
+				int bilid = getbiler.get(i).getBilId();
+				String bilidString = Integer.toString(bilid);
 				String bilnavnList = getbiler.get(i).getBilnavn();
+				getbiler1.add(bilidString);
 				getbiler1.add(bilnavnList);
+
 			}
 
 		});
 		indsaetBil.setOnAction(e -> {
 			valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
-		
 			if (bilList1.getSelectionModel().getSelectedItem().isEmpty()) {
 			} else {
+			System.out.println(bilList1.getSelectionModel().getSelectedIndex());	
+				
 				bilnavnTField.setText(valgtBilNavn);
 				bilList1.setVisible(false);
 				indsaetBil.setVisible(false);
@@ -433,4 +439,4 @@ public class OpretLaanUI {
 		return kreditVurdering;
 	}
 
-}
+}*/
