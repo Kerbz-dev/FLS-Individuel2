@@ -8,7 +8,7 @@ public class TFieldLogik {
     };
 
     public TFieldResult TFieldCheck(String tlfGetText, String bilnavnGetText, String bilprisGetText, String udbetalingGetText,
-            String laanleangdeGetText) {
+            String laanleangdeGetText, double rente) {
 
         if (bilnavnGetText.isEmpty() && udbetalingGetText.isEmpty() && bilprisGetText.isEmpty() && udbetalingGetText.isEmpty()
                 && laanleangdeGetText.isEmpty()) {
@@ -22,7 +22,6 @@ public class TFieldLogik {
         } else if (laanleangdeGetText.isEmpty()) {
             return TFieldResult.laanleangdeIsEmpty;
         } else
-            OpretLaan.CreateLaan(tlfGetText, udbetalingGetText, laanleangdeGetText);
         return TFieldResult.Success;
     }
 }

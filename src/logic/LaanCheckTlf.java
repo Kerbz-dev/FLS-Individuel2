@@ -12,4 +12,8 @@ public class LaanCheckTlf {
 		return false;
 	
 	}
+	
+    public String getCPRNR(String tlfGetText) {
+    	return tlfDB.getCPR(tlfGetText);
+    }
 }

@@ -298,7 +298,7 @@ public class OpretKundeUI {
 		opretStatusLbl.relocate(150, 490);
 	}
 
-	private kreditRating checkRating() {
+	public kreditRating checkRating() {
 
 		GetKV getKV = new GetKV();
 		kreditVurdering = getKV.getKreditvaerdighed(cprGetText);
