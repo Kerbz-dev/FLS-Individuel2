@@ -25,7 +25,7 @@ public class KundeinfoDB {
             while (rs.next()) {
                 int telefonnummer = rs.getInt("telefonnummer");
                 String kundefornavn = rs.getString("kundefornavn");
-              //  String kundeefternavn = rs.getString("kundeefternavn");
+                String kundeefternavn = rs.getString("kundeefternavn");
                 long cpr_nummer = rs.getLong("cpr_nummer");
                 String mail = rs.getString("mail");
                 int postnummer = rs.getInt("postnummer");
@@ -43,7 +43,7 @@ public class KundeinfoDB {
 //
 
 
-                Kunde kundeInsert = new Kunde(telefonnummer, kundefornavn, cpr_nummer, mail, postnummer, bynavn, vejnavn, husnummer, kreditVurdering);
+                Kunde kundeInsert = new Kunde(telefonnummer, kundefornavn, kundeefternavn, cpr_nummer, mail, postnummer, bynavn, vejnavn, husnummer, kreditVurdering);
 
         //       System.out.println(kunde);
                 list.add(kundeInsert);

@@ -2,7 +2,8 @@ package presentation;
 
 import java.util.List;
 
-import entity.*;
+import entity.Kunde;
+import entity.LaaneTilbud;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +26,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.FjernLaaneTilbud;
 import logic.getKunde;
 import logic.getLaan;
 
@@ -41,17 +43,19 @@ public class LaaneUI {
 	private Image ferrari;
 	private ImageView ferraripic;
 	private TextField Søg;
-	Kunde kundeentity = new Kunde();
+	private int tlfnr, kndPostnr, kndHusnr, kndTlf;
+	private Kunde kundeentity = new Kunde();
 	// private Kunde kunde = new Kunde();
-	getKunde kundelogic = new getKunde();
-	List<Kunde> kunder = kundelogic.getKundeAll();
-	LaaneTilbud laanentity = new LaaneTilbud();
-	getLaan laanlogic = new getLaan();
-	List<LaaneTilbud> getDato = laanlogic.getLTBDato();
-	List<LaaneTilbud> getlaan = laanlogic.getLaanAll();
-	ObservableList<Kunde> formList;
-	TableView<Kunde> formTable = new TableView<Kunde>();
-	String tilbudsidString;
+	private getKunde kundelogic = new getKunde();
+	private List<Kunde> kunder = kundelogic.getKundeAll();
+	private LaaneTilbud laanentity = new LaaneTilbud();
+	private getLaan laanlogic = new getLaan();
+	private List<LaaneTilbud> getDato = laanlogic.getLTBDato();
+	private List<LaaneTilbud> getlaan = laanlogic.getLaanAll();
+	private ObservableList<Kunde> formList;
+	private TableView<Kunde> formTable = new TableView<Kunde>();
+	private String tilbudsidString, kndFornavn, kndEfternavn, kndMail, kndBy, kndVej;
+	private long kndCpr;
 	// ObservableList<Kunde> formList;
 
 	@SuppressWarnings("unchecked")
@@ -63,7 +67,7 @@ public class LaaneUI {
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 		pane1 = new Pane();
 		opretTilbud = new Button("Opret Tilbud");
-		redigerTilbud = new Button("Rediger Tilbud");
+		redigerTilbud = new Button("Rediger Kunde");
 		fjernTilbud = new Button("Fjern Tilbud");
 		Lånetilbud = new Label("LÅNETILBUD");
 		Navn = new Label("Navn:");
@@ -360,7 +364,8 @@ public class LaaneUI {
 
 		opretTilbud.setOnAction(e -> opretLaaneUIv2());
 		godkendBtn.setOnAction(e -> getMNavn());
-		redigerTilbud.setOnAction(e -> opretKundeUI());
+		redigerTilbud.setOnAction(e -> redigerKundeUI());
+		fjernTilbud.setOnAction(e -> fjernTilbud());
 
 		formTable.setOnMouseClicked((MouseEvent event) -> {
 			if (event.getClickCount() > 1) {
@@ -375,9 +380,9 @@ public class LaaneUI {
         opretLaan.start();
     }
 
-	private void opretKundeUI() {
-        OpretKundeUI opretKunde = new OpretKundeUI();
-        opretKunde.start();
+	private void redigerKundeUI() {
+        RedigerKundeUI redigerUI = new RedigerKundeUI();
+        redigerUI.start();
     }
 	
 	private void getMNavn() {
@@ -407,8 +412,18 @@ public class LaaneUI {
 
 		}
 	}
+	
+	private void fjernTilbud() {
+		if (formTable.getSelectionModel().getSelectedItem() != null) {
+			FjernLaaneTilbud fjerntilbudlogic = new FjernLaaneTilbud();
+			Kunde selectedTilbud = formTable.getSelectionModel().getSelectedItem();
+			tlfnr = selectedTilbud.getTelefonnummer();
+			System.out.println(tilbudsidString);
+			fjerntilbudlogic.FjernLaan(tlfnr, tilbudsidString);
+		}
+	}
 
-	public void setColumnTilbud() {
+	private void setColumnTilbud() {
 		for (int i = 0; i < getlaan.size(); i++) {
 			int tilbudsid = getlaan.get(i).getTilbudsid();
 			tilbudsidString = Integer.toString(tilbudsid);

@@ -4,7 +4,7 @@ public class Kunde {
 
 	private int telefonnummer;
 	private String kundefornavn;
-	// private String kundeefternavn;
+	private String kundeefternavn;
 	private long cpr_nummer;
 	private String mail;
 	private int postnummer;
@@ -16,20 +16,19 @@ public class Kunde {
 	public Kunde() {
 		// TODO Auto-generated constructor stub
 	}
-	
-/*	public Kunde(int telefonnummer, String kreditVurdering) {
-		this.telefonnummer = telefonnummer; 
-		this.kreditVurdering = kreditVurdering;
-	}
-*/
-	public Kunde(int telefonnummer, String kundefornavn/* String kundeefternavn */, long cpr_nummer, String mail,
+
+	/*
+	 * public Kunde(int telefonnummer, String kreditVurdering) { this.telefonnummer
+	 * = telefonnummer; this.kreditVurdering = kreditVurdering; }
+	 */
+	public Kunde(int telefonnummer, String kundefornavn, String kundeefternavn, long cpr_nummer, String mail,
 			int postnummer, String bynavn, String vejnavn, int husnummer, String kreditVurdering)
 
 	{
 
 		this.telefonnummer = telefonnummer;
 		this.kundefornavn = kundefornavn;
-		// this.kundeefternavn = kundeefternavn;
+		this.kundeefternavn = kundeefternavn;
 		this.cpr_nummer = cpr_nummer;
 		this.mail = mail;
 		this.postnummer = postnummer;
@@ -55,12 +54,14 @@ public class Kunde {
 		this.kundefornavn = kundefornavn;
 	}
 
-	/*
-	 * public String getKundeefternavn() { return kundeefternavn; }
-	 * 
-	 * public void setKundeefternavn(String kundeefternavn) { this.kundeefternavn =
-	 * kundeefternavn; }
-	 */
+	public String getKundeefternavn() {
+		return kundeefternavn;
+	}
+
+	public void setKundeefternavn(String kundeefternavn) {
+		this.kundeefternavn = kundeefternavn;
+	}
+
 	public long getCpr_nummer() {
 		return cpr_nummer;
 	}
@@ -119,7 +120,7 @@ public class Kunde {
 
 	@Override
 	public String toString() {
-		return telefonnummer + kundefornavn /* kundeefternavn */ + cpr_nummer + mail + postnummer + bynavn + vejnavn
+		return telefonnummer + kundefornavn + kundeefternavn + +cpr_nummer + mail + postnummer + bynavn + vejnavn
 				+ husnummer + kreditVurdering;
 	}
 

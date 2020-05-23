@@ -238,8 +238,7 @@ public class OpretKundeUI {
 		}
 		else if (cprTField.getText().length() != 10) {
 			cprFail();
-		} else if (kundelogic.KundeCheckDuplicate(cprGetText, tlfGetText) == true) {
-			kundeDuplicate();
+
 		}
 
 		else {

@@ -13,8 +13,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.LoginVerification;
 import logic.LoginVerification.LoginResult;
+import logic.Sleeper;
+import logic.Traade;
 
-public class LoginUI {
+public class LoginUI extends Thread {
 
 	private TextField userLoginField;
 	private PasswordField passLoginField;
@@ -103,43 +105,48 @@ public class LoginUI {
 	public void loginCheck() {
 		String username = userLoginField.getText();
 		String password = passLoginField.getText();
-		
 		LoginVerification lgnctrl = new LoginVerification();
 		LoginResult lgnCheck;
 		lgnCheck = lgnctrl.loginCheck(username, password);
-
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
 			loginSuccess();
 			startLaaneUI();
 		}
-		
+
 		else if (lgnCheck == LoginResult.ADMIN_LOGGED_IN) {
 			loginSuccess();
 			adminLoginSuccess();
 		}
-		
+
 		else if (lgnCheck == LoginResult.FAILED) {
 			loginFail();
 		}
 	}
-	
 
 	private void loginSuccess() {
-		loginStatus.relocate(130, 315);
-		loginStatus.setTextFill(Color.LIGHTGREEN);
-		loginStatus.setText("Login successful!");
+			Traade tråd1 = new Traade(1);
+			tråd1.start();
+			loginStatus.relocate(130, 315);
+			loginStatus.setTextFill(Color.LIGHTGREEN);
+			loginStatus.setText("Login successful!");
+		
 	}
 
 	private void loginFail() {
 		loginStatus.relocate(60, 315);
-		loginStatus.setTextFill(Color.WHITESMOKE);
+		loginStatus.setTextFill(Color.WHITE);
 		loginStatus.setText("Wrong username or password");
 	}
 
 	private void adminLoginSuccess() {
 		adminUI admUI = new adminUI();
-		admUI.start();
-	}
+			Traade tråd2 = new Traade(2);
+			
+				Sleeper.sleep(2);
+				tråd2.start();
+			admUI.start();
+		}
+	
 
 	private void startLaaneUI() {
 		LaaneUI laan = new LaaneUI();

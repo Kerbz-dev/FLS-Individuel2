@@ -12,7 +12,8 @@ public class LoginVerification {
 					/*//////////////////
 					 * MANGLER TRÅDE *
 					*//////////////////
-
+		Traade tråd4 = new Traade(4);
+		tråd4.start();
 		if (lgnDB.LoginCheck(username, password) == true) {
 			return LoginResult.USER_LOGGED_IN;
 		} else if (lgnDB.adminLoginCheck(username, password) == true) {

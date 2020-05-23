@@ -63,10 +63,10 @@ public class OpretLaanUIv2 {
 	private double mdlYdelse;
 	private String mdlydelseString;
 
-	GetBiler billogic = new GetBiler();
-	List<Biler> getbiler = billogic.getAllBilerInfo();
-	ObservableList<String> getbiler1 = FXCollections.observableArrayList();
-	ListView<String> bilList1 = new ListView<>(getbiler1);
+	private GetBiler billogic = new GetBiler();
+	private List<Biler> getbiler = billogic.getAllBilerInfo();
+	private ObservableList<String> getbiler1 = FXCollections.observableArrayList();
+	private ListView<String> bilList1 = new ListView<>(getbiler1);
 
 	public void start() {
 		opretLaanStage = new Stage();
@@ -319,9 +319,6 @@ public class OpretLaanUIv2 {
 			mdlydelseString = Double.toString(mdlYdelse);
 
 			// Setting format for our textfields
-			renteString = String.format("%.2f", rente);
-			samletPrisString = String.format("%.2f", samletPris);
-			mdlydelseString = String.format("%.2f", mdlYdelse);
 
 			renteTField.setText("Renten er: " + renteString + "%");
 			samletprisTField.setText("Samlede pris: " + samletPrisString + "kr.");
@@ -415,10 +412,12 @@ public class OpretLaanUIv2 {
 		GetKV getCPR = new GetKV();
 		cprnr = tlflogic.getCPRNR(tlfGetText);
 		rente = getCPR.getRente(cprnr);
-		System.out.println("Rente format giver os: " + rente);
 		mdlYdelse = getCPR.getMdlYdelse(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
 		samletPris = getCPR.getSamletPris(cprnr, bilprisGetText, udbetalingGetText);
-
+		mdlYdelse = Math.round(mdlYdelse * 100.0) / 100.0;
+		rente = Math.round(rente * 100.0) / 100.0;
+		samletPris = Math.round(samletPris * 100.0) / 100.0;
+		System.out.println("Rente format giver os: " + rente);
 	}
 	
 	private void OpretLaan() {
