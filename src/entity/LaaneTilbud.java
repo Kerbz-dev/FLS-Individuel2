@@ -10,25 +10,31 @@ public class LaaneTilbud {
 	private int bilsaelgerid;
 	private int tilbudsid;
 	private String rentedato;
+	private double rente;
+	private double mdlydelse;
+	private double samletpris;
 
 	public LaaneTilbud() {
 
 	}
-	
+
 	public LaaneTilbud(String rentedato) {
 		this.rentedato = rentedato;
 	}
-	
-/*tilbudsid, telefonnummer, kundeindbetaling, laanlaengde,
-				 bilid, bilsealgerid, rentedato)*/
+
+	/*
+	 * tilbudsid, telefonnummer, kundeindbetaling, laanlaengde, bilid, bilsealgerid,
+	 * rentedato)
+	 */
 	public LaaneTilbud(String rentedato, int tilbudsid) {
 		this.rentedato = rentedato;
 		this.tilbudsid = tilbudsid;
-		
+
 	}
 
 	public LaaneTilbud(int tilbudsid, int telefonnummer, int kundeindbetaling, int laanlaengde,
-			boolean overstigergraense, int laanestatus, int bilid, int bilsaelgerid, String rentedato) {
+			boolean overstigergraense, int laanestatus, int bilid, int bilsaelgerid, String rentedato, double rente,
+			double mdlydelse, double samletpris) {
 		this.tilbudsid = tilbudsid;
 		this.telefonnummer = telefonnummer;
 		this.bilid = bilid;
@@ -38,6 +44,9 @@ public class LaaneTilbud {
 		this.laanlaengde = laanlaengde;
 		this.overstigergraense = overstigergraense;
 		this.laanestatus = laanestatus;
+		this.rente = rente;
+		this.mdlydelse = mdlydelse;
+		this.samletpris = samletpris;
 
 	}
 
@@ -111,6 +120,38 @@ public class LaaneTilbud {
 
 	public void setRentedato(String rentedato) {
 		this.rentedato = rentedato;
+	}
+
+	public int getKundeindbetaling() {
+		return kundeindbetaling;
+	}
+
+	public void setKundeindbetaling(int kundeindbetaling) {
+		this.kundeindbetaling = kundeindbetaling;
+	}
+
+	public double getRente() {
+		return rente;
+	}
+
+	public void setRente(double rente) {
+		this.rente = rente;
+	}
+
+	public double getMdlydelse() {
+		return mdlydelse;
+	}
+
+	public void setMdlydelse(double mdlydelse) {
+		this.mdlydelse = mdlydelse;
+	}
+
+	public double getSamletpris() {
+		return samletpris;
+	}
+
+	public void setSamletpris(double samletpris) {
+		this.samletpris = samletpris;
 	}
 
 	public String getAllTilbud() {

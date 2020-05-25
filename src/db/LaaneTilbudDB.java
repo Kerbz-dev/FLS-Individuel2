@@ -17,10 +17,10 @@ public class LaaneTilbudDB {
 		ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
 		try {
 			Statement stmt = DB.connection.createStatement();
-			String query = "SELECT laanetilbud.tilbudsid, kunde.telefonnummer, laanetilbud.bilid, laanetilbud.bilsaelgerid, laanetilbud.kundeindbetaling, laanetilbud.laanlaengde, laanetilbud.overstigergraense, laanetilbud.laanestatus, laanetilbud.rentedato, laanetilbud.rente"
+			String query = "SELECT laanetilbud.tilbudsid, kunde.telefonnummer, biler.bilid, laanetilbud.bilid, laanetilbud.bilsaelgerid, laanetilbud.kundeindbetaling, laanetilbud.laanlaengde, laanetilbud.overstigergraense, laanetilbud.laanestatus, laanetilbud.rentedato, laanetilbud.rente, laanetilbud.mdlydelse, laanetilbud.samletpris"
 					+ " FROM laanetilbud "
 					+ " JOIN kunde ON laanetilbud.telefonnummer = kunde.telefonnummer"
-//					+ " JOIN biler ON laanetilbud.bilid = biler.bilid"
+					+ " JOIN biler ON laanetilbud.bilid = biler.bilid"
 //					+ " JOIN bilsaelger ON laanetilbud.bilsaelgerid = bilsaelger.bilsaelgerid"
 					;
 				
@@ -39,9 +39,12 @@ public class LaaneTilbudDB {
 				String rentedato = rs.getString("rentedato");
 				boolean overstigergraense = rs.getBoolean("overstigergraense");
 				int laanestatus = rs.getInt("laanestatus");
+				double rente = rs.getDouble("rente");
+				double mdlydelse = rs.getDouble("mdlydelse");
+				double samletpris = rs.getDouble("samletpris");
 				
 				LaaneTilbud laan = new LaaneTilbud(tilbudsid, telefonnummer, kundeindbetaling, laanlaengde,
-				overstigergraense, laanestatus, bilid, bilsealgerid, rentedato);
+				overstigergraense, laanestatus, bilid, bilsealgerid, rentedato, rente, mdlydelse, samletpris);
 
 				list.add(laan);
 			}
@@ -52,38 +55,7 @@ public class LaaneTilbudDB {
 		return list;
 	}
 
-	public List<Biler> getAllBiler() {
-		ArrayList<Biler> biler = new ArrayList<>();
-
-		try {
-			String sql = "SELECT * FROM Biler";
-			// String sql2 = "SELECT bilid, bilnavn, bilpris FROM Biler";
-
-			Statement statement = DB.connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			// iteration starter 'before first'
-			while (resultSet.next()) {
-				// hent data fra denne række
-				int bilId = resultSet.getInt("bilid");
-				String bilnavn = resultSet.getString("bilnavn");
-				int bilPris = resultSet.getInt("bilpris");
-				int inventar = resultSet.getInt("inventar");
-
-				// brug data, e.g. => entitets/model object
-				Biler biler1 = new Biler(bilId, bilnavn, bilPris, inventar);
-
-				biler.add(biler1);
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return biler;
-	}
-
+	
 	public List<LaaneTilbud> getLaanDato() {
 		ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
 		try {

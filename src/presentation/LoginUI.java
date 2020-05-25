@@ -140,9 +140,9 @@ public class LoginUI extends Thread {
 
 	private void adminLoginSuccess() {
 		adminUI admUI = new adminUI();
-			Traade tråd2 = new Traade(2);
+			Traade tråd2 = new Traade(1);
 			
-				Sleeper.sleep(2);
+				//Sleeper.sleep;
 				tråd2.start();
 			admUI.start();
 		}

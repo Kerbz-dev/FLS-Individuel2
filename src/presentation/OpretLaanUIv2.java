@@ -5,16 +5,23 @@ import java.text.ParsePosition;
 import java.util.List;
 
 import entity.Biler;
+import entity.LaaneTilbud;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -62,11 +69,14 @@ public class OpretLaanUIv2 {
 	private String samletPrisString;
 	private double mdlYdelse;
 	private String mdlydelseString;
-
-	private GetBiler billogic = new GetBiler();
-	private List<Biler> getbiler = billogic.getAllBilerInfo();
-	private ObservableList<String> getbiler1 = FXCollections.observableArrayList();
-	private ListView<String> bilList1 = new ListView<>(getbiler1);
+	private String bilnavn;
+	private int bilid, bilpris, bilinventar;
+	GetBiler billogic = new GetBiler();
+	//private List<Biler> getbiler = billogic.getAllBilerInfo();
+	private ObservableList<Biler> bilObserver;
+	private TableView<Biler> bilList1 = new TableView<Biler>();
+//	private ObservableList<LaaneTilbud> formList;
+//	private TableView<LaaneTilbud> formTable = new TableView<LaaneTilbud>();
 
 	public void start() {
 		opretLaanStage = new Stage();
@@ -196,6 +206,11 @@ public class OpretLaanUIv2 {
 		vaelgBilBtn.setVisible(false);
 		opretLaanBtn.setVisible(false);
 		opretStatusLbl.setVisible(false);
+		
+		//Tableview columns
+		
+		
+		//Formatting for number only TFields
 
 		bilprisTField.setTextFormatter(new TextFormatter<>(c -> {
 			if (c.getControlNewText().isEmpty()) {
@@ -246,34 +261,56 @@ public class OpretLaanUIv2 {
 		opretLaanBtn.setOnAction(e -> LaanCheck());
 		tlfSoegBtn.setOnAction(e -> tlfnrCheck());
 		opretKundeBtn.setOnAction(e -> startKundeUI());
+		bilList1.setOnMouseClicked((MouseEvent event) -> {
+			
+			if (event.getClickCount() > 0) {
+				Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
+				if (valgtBilNavn.getInventar() == 0 && bilList1.getSelectionModel().getSelectedItem() != null) {
+					indsaetBil.setDisable(true);
+				}
+				else {
+					indsaetBil.setDisable(false);
+				}
+			}
+		});
 
 		vaelgBilBtn.setOnAction(e -> {
 			bilList1.setVisible(true);
 			indsaetBil.setVisible(true);
 			vaelgBilBtn.setDisable(true);
 			if (isClicked == false) {
-				for (int i = 0; i < getbiler.size(); i++) {
-					String bilnavnList = getbiler.get(i).getBilnavn();
-					getbiler1.add(bilnavnList);
+			//	bilentity.getBilnavn();
+			//	bilObserver.getBilnavn();
+//				for (int i = 0; i < bilObserver.size(); i++) {
+//					bilObserver.get(i).getBilnavn();
+				opretTabel();
 					isClicked = true;
-				}
+			
 			}
 
 		});
 
 		indsaetBil.setOnAction(e -> {
 
-			valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
+			Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
 			// String åge = valgtBilNavn();
 
 			if (valgtBilNavn == null) {
 				lblbilMangler.setVisible(true);
-			} else {
-				bilnavnTField.setText(valgtBilNavn);
+			}
+
+			 else {
+				bilnavnTField.setText(valgtBilNavn.getBilnavn());
+				bilpris = valgtBilNavn.getBilPris();
+				String bilprisString = Integer.toString(bilpris);
+				
+				bilprisTField.setText(bilprisString);
 				bilList1.setVisible(false);
 				indsaetBil.setVisible(false);
 				vaelgBilBtn.setDisable(false);
 				lblbilMangler.setVisible(false);
+				bilid = valgtBilNavn.getBilId();
+				System.out.println(bilid);
 				// int bilprisList = getbiler.get(i).getBilPris();
 			}
 
@@ -381,6 +418,7 @@ public class OpretLaanUIv2 {
 			samletprisTField.setVisible(true);
 			renteTField.setVisible(true);
 			mdlYdelseTField.setVisible(true);
+			vaelgBilBtn.setDisable(false);
 
 		}
 
@@ -397,6 +435,8 @@ public class OpretLaanUIv2 {
 			samletprisTField.setVisible(false);
 			renteTField.setVisible(false);
 			mdlYdelseTField.setVisible(false);
+			bilList1.setVisible(false);
+			indsaetBil.setVisible(false);
 
 		}
 
@@ -422,7 +462,56 @@ public class OpretLaanUIv2 {
 	
 	private void OpretLaan() {
 		opretLaan laanlogic = new opretLaan();
-		laanlogic.CreateLaan(tlfGetText, udbetalingGetText, laanleangdeGetText, rente, mdlYdelse, samletPris);
+		laanlogic.CreateLaan(tlfGetText, bilid, udbetalingGetText, laanleangdeGetText, rente, mdlYdelse, samletPris);
+	}
+	
+	private void opretTabel() {
+
+		TableColumn<Biler, String> ColumnBilnavn = new TableColumn<Biler, String>("Bilnavn");
+		TableColumn<Biler, String> ColumnBilpris = new TableColumn<Biler, String>("Bilpris");
+		TableColumn<Biler, String> ColumnBilinventar = new TableColumn<Biler, String>("Inventar");
+
+
+		ColumnBilnavn.setCellValueFactory(e -> {
+			Biler blr = e.getValue();
+			bilnavn = blr.getBilnavn();
+
+			return new SimpleStringProperty(bilnavn);
+
+		});
+
+		ColumnBilpris.setCellValueFactory(e -> {
+			Biler blr = e.getValue();
+			bilpris = blr.getBilPris();
+			String bilprisString = Integer.toString(bilpris);
+			return new SimpleStringProperty(bilprisString);
+			
+
+		});
+
+		ColumnBilinventar.setCellValueFactory(e -> {
+			Biler blr = e.getValue();
+			bilinventar = blr.getInventar();
+			String bilinventarString = Integer.toString(bilinventar);
+			return new SimpleStringProperty(bilinventarString);
+
+		});
+
+		bilList1.getColumns().addAll(ColumnBilnavn, ColumnBilpris, ColumnBilinventar /* ColumnEfternavn, */);
+
+		bilList1.setItems(bilObserver);
+		
+		bilObserver = FXCollections.observableList(billogic.getAllBilerInfo());
+		FilteredList<Biler> filteredData = new FilteredList<>(bilObserver, p -> true);
+		
+		SortedList<Biler> sortedData = new SortedList<>(filteredData);
+
+		// Connect the SortedList comparator to the TableView comparator
+		// 'The comparator that denotes the order of this SortedList'
+		sortedData.comparatorProperty().bind(bilList1.comparatorProperty());
+
+		// Tilføjer sorteret og filtreret data til vores TableView
+		bilList1.setItems(sortedData);
 	}
 
 }
