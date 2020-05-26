@@ -99,7 +99,7 @@ public class LoginUI extends Thread {
 
 		// Action events
 		loginKnap.setOnAction(e -> loginCheck());
-
+	
 	}
 
 	public void loginCheck() {
@@ -110,6 +110,7 @@ public class LoginUI extends Thread {
 		lgnCheck = lgnctrl.loginCheck(username, password);
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
 			loginSuccess();
+			
 			startLaaneUI();
 		}
 
@@ -125,6 +126,8 @@ public class LoginUI extends Thread {
 
 	private void loginSuccess() {
 			Traade tråd1 = new Traade(1);
+			
+	
 			tråd1.start();
 			loginStatus.relocate(130, 315);
 			loginStatus.setTextFill(Color.LIGHTGREEN);
@@ -140,10 +143,7 @@ public class LoginUI extends Thread {
 
 	private void adminLoginSuccess() {
 		adminUI admUI = new adminUI();
-			Traade tråd2 = new Traade(1);
-			
-				//Sleeper.sleep;
-				tråd2.start();
+
 			admUI.start();
 		}
 	

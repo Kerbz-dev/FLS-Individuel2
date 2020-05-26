@@ -36,7 +36,7 @@ import logic.getLaan;
 public class LaaneUI {
 	private BorderPane bp;
 	private Stage LaaneUIStage;
-	private Button opretTilbud, redigerTilbud, fjernTilbud, godkendBtn, afvisBtn;
+	private Button opretTilbud, redigerTilbud, fjernTilbud, godkendBtn, afvisBtn, exportCsvBtn;
 	private Line bottomLine, upperLine;
 	private Label Lånetilbud, Navn, Tlf, CPR, Addresse, Mail, Bilmodel, Bilpris, Laaneperiode, navnOutput, tlfOutput,
 			cprOutput, addresseOutput, mailOutput, bilmodelOutput, bilprisOutput, loginName, mdlydelseOutput,
@@ -104,6 +104,7 @@ public class LaaneUI {
 		udbtloutputLbl = new Label();
 		godkendBtn = new Button("Godkend");
 		afvisBtn = new Button("Afvis");
+		exportCsvBtn = new Button("Eksporter til CSV");
 
 		bp.setPrefHeight(777);
 		bp.setPrefWidth(1149);
@@ -137,12 +138,18 @@ public class LaaneUI {
 		godkendBtn.setPrefHeight(39);
 		godkendBtn.setPrefWidth(134);
 		godkendBtn.setFont(new Font(18));
-		godkendBtn.relocate(41, 663);
+		godkendBtn.relocate(41, 578);
 
 		afvisBtn.setPrefHeight(39);
 		afvisBtn.setPrefWidth(134);
 		afvisBtn.setFont(new Font(18));
-		afvisBtn.relocate(191, 663);
+		afvisBtn.relocate(191, 578);
+		
+		exportCsvBtn.setPrefHeight(39);
+		exportCsvBtn.setPrefWidth(284);
+		exportCsvBtn.setFont(new Font (18));
+		exportCsvBtn.relocate(41, 658);
+		
 
 		// Labels
 		Navn.setFont(new Font(24));
@@ -219,7 +226,7 @@ public class LaaneUI {
 
 		// Search function
 		Søg.setLayoutX(23);
-		Søg.setLayoutY(39);
+		Søg.setLayoutY(55); //39
 		Søg.setPrefHeight(35);
 		Søg.setPrefWidth(322);
 		Søg.setFont(new Font(18));
@@ -227,7 +234,7 @@ public class LaaneUI {
 		Søg.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
 		// Add bottom line
-		bottomLine.setStartX(-171);
+		bottomLine.setStartX(-571);
 		bottomLine.setEndX(625);
 		bottomLine.setLayoutX(553);
 		bottomLine.setLayoutY(632);
@@ -243,7 +250,10 @@ public class LaaneUI {
 		upperLine.setStrokeWidth(3);
 		pane1.setStyle("-fx-background-color: #FF2800");
 
-		formTable.relocate(25, 150);
+		formTable.relocate(25, 125);
+		formTable.setPrefHeight(425);
+		formTable.setPrefWidth(320);
+	
 
 		/*
 		 * //////////////////////////// Table der skal søges/filtreres
@@ -349,19 +359,21 @@ public class LaaneUI {
 
 		Rectangle background2 = new Rectangle();
 		background2.setFill(Color.WHITESMOKE);
-		background2.setHeight(79);
+		background2.setHeight(155);
 		background2.setWidth(322);
 		background2.setArcWidth(5);
 		background2.setArcHeight(5);
 		background2.setStroke(Color.BLACK);
-		background2.relocate(23, 639);
+		background2.relocate(23, 564);
+		
+		
 
 		// Adding to pane
 		pane1.getChildren().addAll(Søg, background, background2, Addresse, CPR, Laaneperiode, Lånetilbud, Bilmodel,
 				Navn, navnOutput, bilmodelOutput, mdlydelseOutput, Tlf, bilprisOutput, mailOutput, tlfOutput,
-				addresseOutput, Mail, cprOutput, Bilpris, upperLine, bottomLine, ferraripic, opretTilbud, redigerTilbud,
-				fjernTilbud, loginName, godkendBtn, afvisBtn, prisoutputLbl, periodeoutputLbl, udbtloutputLbl,
-				samletprisLbl, mdlydelseLbl, udbetalingLbl, formTable);
+				addresseOutput, Mail, cprOutput, Bilpris, opretTilbud, redigerTilbud,
+				fjernTilbud, loginName, godkendBtn, afvisBtn, exportCsvBtn, prisoutputLbl, periodeoutputLbl, udbtloutputLbl,
+				samletprisLbl, mdlydelseLbl, udbetalingLbl, formTable, ferraripic, upperLine, bottomLine);
 
 		scene = new Scene(pane1);
 		LaaneUIStage.setScene(scene);
@@ -411,17 +423,17 @@ public class LaaneUI {
 			
 			int laanlaengde = selectedTilbud.getLaanlaengde();
 			String laengdeString = Integer.toString(laanlaengde);
-			periodeoutputLbl.setText(laengdeString);
+			periodeoutputLbl.setText(laengdeString + " år");
 
 			selectedTilbud.getSamletpris();
 			double samletPris = selectedTilbud.getSamletpris();
 			String sprisString = Double.toString(samletPris);
-			prisoutputLbl.setText(sprisString);
+			prisoutputLbl.setText(sprisString + " kr.");
 
 			selectedTilbud.getMdlydelse();
 			double mdlydelse = selectedTilbud.getMdlydelse();
 			String ydelseString = Double.toString(mdlydelse);
-			mdlydelseOutput.setText(ydelseString);
+			mdlydelseOutput.setText(ydelseString + " kr.");
 
 			int telefonnummer = selectedTilbud.getTelefonnummer();
 			String tlfnr = Integer.toString(telefonnummer);
@@ -429,7 +441,7 @@ public class LaaneUI {
 
 			int udbtl = selectedTilbud.getIndbetaling();
 			String udbtlString = Integer.toString(udbtl);
-			udbtloutputLbl.setText(udbtlString);
+			udbtloutputLbl.setText(udbtlString + " kr.");
 
 			if (tlfcheck.LaanCheckTlfDB(telefonnummer) == true) {
 				List<Kunde> kndGet = tlfcheck.getKundeWhere(telefonnummer);

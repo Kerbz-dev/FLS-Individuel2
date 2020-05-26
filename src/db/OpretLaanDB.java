@@ -9,7 +9,7 @@ public class OpretLaanDB {
 //    private boolean overstigergraense;
 //    private int laanestatus;
 
-    public void createLaan( int tlf, int bilid, String udbetalingGetText, String laanleangdeGetText, double rente, double mdlydelse, double samletpris) {
+    public void createLaan( int tlf, int bilid, String udbetalingGetText, String laanleangdeGetText, double rente, double mdlydelse, double samletpris, int bilinventar) {
 
         try {
             Statement statement = DB.connection.createStatement();
@@ -19,7 +19,7 @@ public class OpretLaanDB {
              *//////////////////////////////////////////////////////////
             statement.executeUpdate("INSERT INTO laanetilbud  (telefonnummer, bilid, kundeindbetaling,laanlaengde,rente,mdlydelse, samletpris) VALUES ('"
                     + tlf + "', '" + bilid + "', '" + udbetalingGetText + "', '" + laanleangdeGetText +  "', '" + rente + "','" +  mdlydelse +  "', '" + samletpris + "')");
-
+            statement.executeUpdate("UPDATE biler SET inventar = '" + bilinventar + "' WHERE bilid = " + bilid + "");
      /*       statement
                     .executeUpdate("insert into biler (bilnavn,bilpris) VALUES ('" + bilnavnGetText + "', '" + bilprisGetText + "')");*/
 //            statement.executeUpdate("INSERT INTO kunde " + "VALUES ('" + cpr + "', '" + tlf + "', '" + kundenavn

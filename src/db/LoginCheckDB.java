@@ -9,9 +9,8 @@ public class LoginCheckDB {
 		try {
 			
 			Statement stmt = DB.connection.createStatement();
-			String sql = "Select * from bilsaelger where saelgerbrugernavn='" + username + "' and saelgerpassword='" + password
-					+ "'";
-
+			String sql = "Select * FROM bilsaelger WHERE saelgerbrugernavn='"+ username +"' AND saelgerpassword='"+ password +"' COLLATE Latin1_General_CS_AS" ;
+			//SELECT * FROM users WHERE BINARY username='$username' AND BINARY password='$password'
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				return true;
@@ -31,8 +30,8 @@ public class LoginCheckDB {
 		try {
 			
 			Statement stmt = DB.connection.createStatement();
-			String sql = "Select * from administrator where adminbrugernavn='" + username + "' and adminpassword='"
-					+ password + "'";
+			String sql = "Select * from administrator where adminbrugernavn ='" + username + "' and adminpassword ='"
+					+ password + "' COLLATE Latin1_General_CS_AS";
 
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {

@@ -4,7 +4,7 @@ import com.ferrari.finances.dk.bank.InterestRate;
 import com.ferrari.finances.dk.rki.CreditRator;
 import com.ferrari.finances.dk.rki.Rating;
 
-public class GetKV {
+public class GetKV extends Thread {
 	public enum kreditRating {
 		A, B, C, D, error
 	};
@@ -19,10 +19,11 @@ public class GetKV {
 	String C;
 	String D;
 
+
 	public kreditRating getKreditvaerdighed(String cpr) {
 		kv = CreditRator.i().rate(cpr);
 		CreditRator.i().rate(cpr);
-		
+
 		if (kv == Rating.A) {
 			System.out.println("Tjekker kreditrating " + kv);
 			return kreditRating.A;
@@ -52,18 +53,13 @@ public class GetKV {
 		CreditRator.i().rate(cprnr);
 		if (kv == Rating.A) {
 			rente += 1;
-			System.out.println("Tjekker kreditrating " + kv + " og får rente: " + rente);
-			
 			return rente;
 		} else if (kv == Rating.B) {
-
 			rente += 2;
-			System.out.println("Tjekker kreditrating " + kv + " og får rente: " + rente);
 			return rente;
 			// rate+=rateA;
 		} else if (kv == Rating.C) {
 			rente += 3;
-			System.out.println("Tjekker kreditrating " + kv + " og får rente: " + rente);
 			return rente;
 
 		} else if (kv == Rating.D) {
@@ -92,23 +88,22 @@ public class GetKV {
 			rente += 1.01;
 
 			samletpris = ((bilpris - kundeindbetaling) * rente);
-			mdlYdelse = (samletpris / laanlaengde);
-			System.out.println("Tjekker kreditrating " + kv + " og får månedlig ydelse på: " + mdlYdelse + " kr.");
+			mdlYdelse = (samletpris / (laanlaengde * 12));
+			System.out.println("laan laengde er: " + laanlaengde);
 
 			return mdlYdelse;
 		} else if (kv == Rating.B) {
 			rente += 1.02;
 			samletpris = ((bilpris - kundeindbetaling) * rente);
-			mdlYdelse = (samletpris / laanlaengde);
-			System.out.println("Tjekker kreditrating " + kv + " og får månedlig ydelse på: " + mdlYdelse + " kr.");
+			mdlYdelse = (samletpris / (laanlaengde * 12));
+
 
 			return mdlYdelse;
 			// rate+=rateA;
 		} else if (kv == Rating.C) {
 			rente += 1.03;
 			samletpris = ((bilpris - kundeindbetaling) * rente);
-			mdlYdelse = (samletpris / laanlaengde);
-			System.out.println("Tjekker kreditrating " + kv + " og får månedlig ydelse på: " + mdlYdelse + " kr.");
+			mdlYdelse = (samletpris / (laanlaengde * 12));
 
 			return mdlYdelse;
 
@@ -136,10 +131,10 @@ public class GetKV {
 		if (kv == Rating.A) {
 			rente += 1.01;
 			System.out.println("Rente +0.01 giver: " + rente);
-			
+
 			samletpris = ((bilpris - kundeindbetaling) * rente);
 			System.out.println("Tjekker kreditrating " + kv + " og får samletpris: " + samletpris);
-			
+
 			return samletpris;
 		} else if (kv == Rating.B) {
 			rente += 1.02;
@@ -167,6 +162,14 @@ public class GetKV {
 			return -1;
 		}
 	}
+	
+	public void run(String cprnr, String laanleangdeGetText, String bilprisGetText, String udbetalingGetText) {
+		getRente(cprnr);
+		getMdlYdelse(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
+		getSamletPris(cprnr, bilprisGetText, udbetalingGetText);
+	}
+
+
 }
 
 //    	public double getRente(String samletprisGetText, String tlfGetText) {
