@@ -2,14 +2,13 @@ package logic;
 import db.OpretKundeDB;
 
 public class opretKunde {
+	OpretKundeDB oprKundeDB = new OpretKundeDB();
 
-        OpretKundeDB oprKundeDB = new OpretKundeDB();
-        public void CreateKunde(String fornavnGetText, String efternavnGetText, String tlfGetText,
-                String postnrGetText, String byGetText, String vejGetText, String husnrGetText, String cprGetText, String mailGetText, 
-                 Enum<?> kreditVurdering) {
-            oprKundeDB.createKunde(fornavnGetText, efternavnGetText, tlfGetText, postnrGetText, byGetText, vejGetText, husnrGetText, cprGetText, mailGetText,
-                     kreditVurdering);
-        }
+	public void CreateKunde(String fornavnGetText, String efternavnGetText, int	tlf, int postnr,
+			String byGetText, String vejGetText, int husnr, long cpr, String mailGetText,
+			Enum<?> kreditVurdering) {
+		oprKundeDB.createKunde(fornavnGetText, efternavnGetText, tlf, postnr, byGetText, vejGetText,
+				husnr, cpr, mailGetText, kreditVurdering);
+	}
 
-
-    }
+}

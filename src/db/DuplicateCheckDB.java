@@ -28,7 +28,7 @@ public class DuplicateCheckDB {
 	}
 
 
-public boolean kundeCheckDuplicate(String cpr, String tlf) {
+public boolean kundeCheckDuplicate(long cpr, int tlf) {
 
 	try {
 		Statement stmt = DB.connection.createStatement();

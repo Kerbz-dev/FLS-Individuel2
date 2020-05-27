@@ -6,7 +6,7 @@ public class laanCheckDuplicate {
 
     private DuplicateCheckDB laan = new DuplicateCheckDB();
 
-    public boolean LaanCheckDuplicate(String cpr, String tlf) {
+    public boolean LaanCheckDuplicate(long cpr, int tlf) {
 
     	if (laan.kundeCheckDuplicate(cpr, tlf) == true) {
     		return true;

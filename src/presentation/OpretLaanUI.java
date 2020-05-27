@@ -2,70 +2,80 @@ package presentation;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
-import java.util.ArrayList;
 
 import entity.Biler;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.GetBiler;
 import logic.GetKV;
-import logic.GetKV.kreditRating;
-import logic.laanCheckDuplicate;
+import logic.LaanCheckTlf;
+import logic.LaanOverstiger;
+import logic.TFieldLogik;
+import logic.TFieldLogik.TFieldResult;
+import logic.Traade;
 import logic.opretLaan;
-/*
+
 public class OpretLaanUI {
 
 	DecimalFormat numberFormatter = new DecimalFormat("0");
-	private TextField navnTField;
-//	        private TextField adrTField;
 	private TextField tlfTField;
-	private TextField PostnrTField;
-	private TextField ByTField;
-	private TextField VejTField;
-	private TextField HusnrTField;
-	private TextField cprTField;
-	private TextField mailTField;
 	private TextField bilnavnTField;
 	private TextField bilprisTField;
 	private TextField udbetalingTField;
 	private TextField laengdeTField;
-	private Button opretLaanBtn;
+	private TextField samletprisTField;
+	private TextField renteTField;
+	private TextField mdlYdelseTField;
 	private Stage opretLaanStage;
-	private laanCheckDuplicate laanlogic = new laanCheckDuplicate();
-	private String fornavn;
-//	private String efternavn;
-	private String tlf;
-	private String postnr;
-	private String by;
-	private String vej;
-	private String husnr;
-	private String cpr;
-	private String mail;
-	private String bilnavn;
-	private String bilpris;
-	private String udbetaling;
-	private String laanleangde;
-	private String valgtBilNavn;
-	private Label opretStatusLbl;
 	private Scene scene3;
 	private Pane pane3;
+	private String bilnavnGetText;
+	private String bilprisGetText;
+	private String udbetalingGetText;
+	private String laanleangdeGetText;
 	private Image ferrari;
 	private ImageView ferraripic;
-	private Button vaelgBil;
+	private Button vaelgBilBtn;
 	private Button indsaetBil;
-	kreditRating kreditVurdering;
+	private Button opretLaanBtn;
+	private Button tlfSoegBtn;
+	private Button opretKundeBtn;
+	private Label opretStatusLbl, lblbilMangler, lbltlfUgyldig;
+	private String tlfGetText;
+	private String renteString;
+	private double rente;
+	private String cprnr;
+	private boolean isClicked = false;
+	private double samletPris;
+	private String samletPrisString;
+	private double mdlYdelse;
+	private String mdlydelseString;
+	private String bilnavn;
+	private int bilid, bilpris, bilinventar;
+	private boolean overstigergraense;
+	GetBiler billogic = new GetBiler();
+	// private List<Biler> getbiler = billogic.getAllBilerInfo();
+	private ObservableList<Biler> bilObserver;
+	private TableView<Biler> bilList1 = new TableView<Biler>();
+//	private ObservableList<LaaneTilbud> formList;
+//	private TableView<LaaneTilbud> formTable = new TableView<LaaneTilbud>();
 
 	public void start() {
 		opretLaanStage = new Stage();
@@ -78,150 +88,127 @@ public class OpretLaanUI {
 		pane3 = new Pane();
 		ferrari = new Image(
 				"https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg%22");
-		pane3.setPrefHeight(670.0);
 		ferraripic = new ImageView();
 
 		// Button assignments
 		opretLaanBtn = new Button("Opret lånetilbud");
-		vaelgBil = new Button("Vælg Bil");
-		indsaetBil = new Button("Indsæt I lån");
-
-		GetBiler billogic = new GetBiler();
-		ArrayList<Biler> getbiler = billogic.getAllBilerInfo();
-		ObservableList<String> getbiler1 = FXCollections.observableArrayList();
-		ListView<String> bilList1 = new ListView<>(getbiler1);
-
-		navnTField = new TextField();
-		// adrTField = new TextField();
-		PostnrTField = new TextField();
-		ByTField = new TextField();
-		VejTField = new TextField();
-		HusnrTField = new TextField();
+		vaelgBilBtn = new Button("Vælg Bil");
+		indsaetBil = new Button("Indsæt bil i lån");
 		tlfTField = new TextField();
-		cprTField = new TextField();
-		mailTField = new TextField();
+		opretStatusLbl = new Label();
 		bilnavnTField = new TextField();
 		bilprisTField = new TextField();
 		udbetalingTField = new TextField();
 		laengdeTField = new TextField();
-		opretStatusLbl = new Label();
-		navnTField.relocate(298.0, 185.0);
-		navnTField.setPrefHeight(25.0);
-		navnTField.setPrefWidth(321.0);
-		PostnrTField.relocate(298.0, 210.0);
-		PostnrTField.setPrefHeight(25.0);
-		PostnrTField.setPrefWidth(321.0);
-		ByTField.setPrefWidth(321.0);
-		ByTField.relocate(298.0, 240.0);
-		ByTField.setPrefHeight(25.0);
-		VejTField.setPrefWidth(321.0);
-		VejTField.relocate(298.0, 270.0);
-		VejTField.setPrefHeight(25.0);
-		HusnrTField.setPrefWidth(321.0);
-		HusnrTField.relocate(298.0, 300.0);
-		HusnrTField.setPrefHeight(25.0);
-		tlfTField.relocate(298.0, 330.0);
-		tlfTField.setPrefHeight(25.0);
-		tlfTField.setPrefWidth(321.0);
-		cprTField.relocate(298, 360.0);
-		cprTField.setPrefHeight(25.0);
-		cprTField.setPrefWidth(321.0);
-		mailTField.relocate(298, 390);
-		mailTField.setPrefHeight(25.0);
-		mailTField.setPrefWidth(321.0);
-		bilnavnTField.relocate(298, 420);
-		bilnavnTField.setPrefHeight(25.0);
-		bilnavnTField.setPrefWidth(321.0);
-		bilprisTField.relocate(298, 450);
-		bilprisTField.setPrefHeight(25.0);
-		bilprisTField.setPrefWidth(321.0);
-		udbetalingTField.relocate(298, 480);
-		udbetalingTField.setPrefHeight(25.0);
-		udbetalingTField.setPrefWidth(321.0);
-		laengdeTField.relocate(298, 510);
-		laengdeTField.setPrefHeight(25.0);
-		laengdeTField.setPrefWidth(321.0);
-		opretStatusLbl.setFont(new Font(24));
-		opretLaanBtn.relocate(355, 600);
-		vaelgBil.relocate(630, 422);
-		indsaetBil.setPrefWidth(200);
-		indsaetBil.relocate(645, 502);
-		indsaetBil.setVisible(false);
+		samletprisTField = new TextField();
+		renteTField = new TextField();
+		mdlYdelseTField = new TextField();
+		lblbilMangler = new Label("Vælg venligst en bil!");
+		lbltlfUgyldig = new Label("Beklager, denne bruger findes ikke i systemet!");
+		tlfSoegBtn = new Button("Søg");
+		opretKundeBtn = new Button("Opret ny kunde");
 
+		tlfTField.relocate(320.0, 200.0);
+		tlfTField.setPrefHeight(51.0);
+		tlfTField.setPrefWidth(272.0);
+		tlfTField.setFont(new Font(24));
+		tlfSoegBtn.relocate(595, 200);
+		tlfSoegBtn.setFont(new Font(24));
+
+		mdlYdelseTField.relocate(320, 525);
+		mdlYdelseTField.setPrefHeight(35);
+		mdlYdelseTField.setPrefWidth(272.0);
+		mdlYdelseTField.setFont(new Font(14));
+		mdlYdelseTField.setVisible(false);
+		mdlYdelseTField.setEditable(false);
+
+		samletprisTField.relocate(320.0, 575.0);
+		samletprisTField.setPrefHeight(35);
+		samletprisTField.setPrefWidth(272.0);
+		samletprisTField.setFont(new Font(14));
+		samletprisTField.setVisible(false);
+		samletprisTField.setEditable(false);
+
+		renteTField.relocate(320, 475);
+		renteTField.setPrefHeight(35);
+		renteTField.setPrefWidth(272.0);
+		renteTField.setFont(new Font(14));
+		renteTField.setVisible(false);
+		renteTField.setEditable(false);
+		// 60179802
+		bilnavnTField.relocate(320, 275);
+		bilnavnTField.setPrefHeight(35.0);
+		bilnavnTField.setPrefWidth(272.0);
+		bilprisTField.relocate(320, 325);
+		bilprisTField.setPrefHeight(35.0);
+		bilprisTField.setPrefWidth(272.0);
+		udbetalingTField.relocate(320, 375);
+		udbetalingTField.setPrefHeight(35.0);
+		udbetalingTField.setPrefWidth(272.0);
+		laengdeTField.relocate(320, 425);
+		laengdeTField.setPrefHeight(35.0);
+		laengdeTField.setPrefWidth(272.0);
+		vaelgBilBtn.relocate(595, 277);
+		vaelgBilBtn.setPrefHeight(30.0);
+		vaelgBilBtn.setPrefWidth(80);
+		indsaetBil.setPrefWidth(200);
+		indsaetBil.relocate(620, 575);
+		indsaetBil.setVisible(false);
+		bilList1.setPrefHeight(300);
+		bilList1.setPrefWidth(250);
+		// bilList1.relocate(0, 275);
+		bilList1.relocate(600, 270);
+		bilList1.setVisible(false);
+		opretLaanBtn.relocate(360, 630);
+		lgnNameLbl.relocate(800, 675);
+		lblbilMangler.relocate(642, 535);
+		lblbilMangler.setVisible(false);
+		lblbilMangler.setFont(new Font(24));
+		lblbilMangler.setTextFill(Color.WHITE);
 		ferraripic.setFitWidth(350);
 		ferraripic.setFitHeight(130);
 		ferraripic.setImage(ferrari);
-		ferraripic.relocate(282, 25);
+		ferraripic.relocate(285, 25);
+		bilnavnTField.setEditable(false);
+		bilprisTField.setEditable(true);
+		lbltlfUgyldig.relocate(250, 290);
+		lbltlfUgyldig.setFont(new Font(24));
+		lbltlfUgyldig.setTextFill(Color.WHITE);
+		lbltlfUgyldig.setVisible(false);
+		opretKundeBtn.setVisible(false);
+		opretKundeBtn.setFont(new Font(24));
+		opretKundeBtn.relocate(375, 380);
 
-		bilList1.setPrefHeight(300);
-		bilList1.setPrefWidth(250);
-		//bilList1.relocate(0, 275);
-		 bilList1.relocate(625, 200);
-		bilList1.setVisible(false);
-
-		//Setting prompt text style to only appear once a character has been inserted
+		// Setting prompt text style to only appear once a character has been inserted
+		mdlYdelseTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+		renteTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+		tlfTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		laengdeTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		udbetalingTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		bilprisTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		bilnavnTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		mailTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		cprTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		tlfTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		PostnrTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		navnTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		ByTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		VejTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		HusnrTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		pane3.setStyle("-fx-background-color: #ff2800");
+		samletprisTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-		//Setting prompt text
-		laengdeTField.setPromptText("Lånets længde:");
+		// Setting prompt text
+		mdlYdelseTField.setPromptText("Her vises den månedlige ydelse");
+		renteTField.setPromptText("Her vises renten på lånet");
+		samletprisTField.setPromptText("Her vises den samlede pris for lånetilbuddet");
+		tlfTField.setPromptText("Indtast telefonnummer");
+		laengdeTField.setPromptText("Lånets længde i år:");
 		udbetalingTField.setPromptText("Udbetaling:");
 		bilprisTField.setPromptText("Bilpris:");
 		bilnavnTField.setPromptText("Bilnavn:");
-		mailTField.setPromptText("E-Mail:");
-		cprTField.setPromptText("CPR-nr:");
-		tlfTField.setPromptText("Tlf.nr:");
-		PostnrTField.setPromptText("Postnr:");
-		HusnrTField.setPromptText("Husnr:");
-		VejTField.setPromptText("Vejnavn:");
-		ByTField.setPromptText("By:");
-		navnTField.setPromptText("Navn:");
+		bilnavnTField.setVisible(false);
+		bilprisTField.setVisible(false);
+		udbetalingTField.setVisible(false);
+		laengdeTField.setVisible(false);
+		vaelgBilBtn.setVisible(false);
+		opretLaanBtn.setVisible(false);
+		opretStatusLbl.setVisible(false);
 
-		lgnNameLbl.setPrefHeight(17);
-		lgnNameLbl.setPrefWidth(200);
-		lgnNameLbl.relocate(750, 625);
+		// Tableview columns
 
-		// Make TFields number only accept number inputs
-		cprTField.setTextFormatter(new TextFormatter<>(c -> {
-			if (c.getControlNewText().isEmpty()) {
-				return c;
-			}
-
-			ParsePosition parsePosition = new ParsePosition(0);
-			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
-
-			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
-				return null;
-			} else {
-				return c;
-			}
-		}));
-
-		tlfTField.setTextFormatter(new TextFormatter<>(c -> {
-			if (c.getControlNewText().isEmpty()) {
-				return c;
-			}
-
-			ParsePosition parsePosition = new ParsePosition(0);
-			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
-
-			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
-				return null;
-			} else {
-				return c;
-			}
-		}));
+		// Formatting for number only TFields
 
 		bilprisTField.setTextFormatter(new TextFormatter<>(c -> {
 			if (c.getControlNewText().isEmpty()) {
@@ -268,175 +255,278 @@ public class OpretLaanUI {
 			}
 		}));
 
-		// Font sizes
-		vaelgBil.setFont(new Font(12));
+		// Event handlers
+		opretLaanBtn.setOnAction(e -> LaanCheck());
+		tlfSoegBtn.setOnAction(e -> tlfnrCheck());
+		opretKundeBtn.setOnAction(e -> startKundeUI());
+		bilList1.setOnMouseClicked((MouseEvent event) -> {
+
+			if (event.getClickCount() > 0) {
+				Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
+				if (valgtBilNavn.getInventar() == 0 && bilList1.getSelectionModel().getSelectedItem() != null) {
+					indsaetBil.setDisable(true);
+				} else {
+					indsaetBil.setDisable(false);
+				}
+			}
+		});
+
+		vaelgBilBtn.setOnAction(e -> {
+			bilList1.setVisible(true);
+			indsaetBil.setVisible(true);
+			vaelgBilBtn.setDisable(true);
+
+			if (isClicked == false) {
+
+				opretTabel();
+				isClicked = true;
+			}
+
+		});
+
+		indsaetBil.setOnAction(e -> {
+
+			Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
+			// String åge = valgtBilNavn();
+
+			if (valgtBilNavn == null) {
+				lblbilMangler.setVisible(true);
+			}
+
+			else {
+				bilnavnTField.setText(valgtBilNavn.getBilnavn());
+				bilpris = valgtBilNavn.getBilPris();
+				String bilprisString = Integer.toString(bilpris);
+
+				bilprisTField.setText(bilprisString);
+				bilList1.setVisible(false);
+				indsaetBil.setVisible(false);
+				vaelgBilBtn.setDisable(false);
+				lblbilMangler.setVisible(false);
+				bilid = valgtBilNavn.getBilId();
+				// int bilprisList = getbiler.get(i).getBilPris();
+			}
+
+		});
+
+		// font size
 		opretLaanBtn.setFont(new Font(24));
-		lgnNameLbl.setFont(new Font(12));
 		laengdeTField.setFont(new Font(14));
 		udbetalingTField.setFont(new Font(14));
 		bilprisTField.setFont(new Font(14));
 		bilnavnTField.setFont(new Font(14));
-		mailTField.setFont(new Font(14));
-		cprTField.setFont(new Font(14));
-		tlfTField.setFont(new Font(14));
-		PostnrTField.setFont(new Font(14));
-		HusnrTField.setFont(new Font(14));
-		VejTField.setFont(new Font(14));
-		ByTField.setFont(new Font(14));
+		vaelgBilBtn.setFont(new Font(12));
 		indsaetBil.setFont(new Font(14));
-		
-		
+		opretStatusLbl.setFont(new Font(24));
+
+		// Set color to pane
+		pane3.setStyle("-fx-background-color: #F40808");
+
 		// Add to pane
-		pane3.getChildren().addAll(navnTField, PostnrTField, ByTField, VejTField, HusnrTField, tlfTField,
-				cprTField, mailTField, bilnavnTField, vaelgBil, bilprisTField, udbetalingTField, laengdeTField,
-				opretLaanBtn, bilList1, opretStatusLbl, ferraripic, lgnNameLbl, indsaetBil);
+		pane3.getChildren().addAll(opretLaanBtn, opretStatusLbl, ferraripic, tlfTField, lgnNameLbl, bilnavnTField,
+				bilprisTField, udbetalingTField, laengdeTField, renteTField, mdlYdelseTField, samletprisTField,
+				vaelgBilBtn, indsaetBil, bilList1, lblbilMangler, lbltlfUgyldig, tlfSoegBtn, opretKundeBtn);
 
 		// Show scene
-		scene3 = new Scene(pane3, 950, 670);
+		scene3 = new Scene(pane3, 950, 700);
 		opretLaanStage.setScene(scene3);
 		opretLaanStage.show();
-
-		// Event handlers
-		opretLaanBtn.setOnAction(e -> opretLaan());
-		vaelgBil.setOnAction(e -> {
-			bilList1.setVisible(true);
-			indsaetBil.setVisible(true);
-			vaelgBil.setDisable(true);
-			for (int i = 0; i < getbiler.size(); i++) {
-		        
-				int bilid = getbiler.get(i).getBilId();
-				String bilidString = Integer.toString(bilid);
-				String bilnavnList = getbiler.get(i).getBilnavn();
-				getbiler1.add(bilidString);
-				getbiler1.add(bilnavnList);
-
-			}
-
-		});
-		indsaetBil.setOnAction(e -> {
-			valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
-			if (bilList1.getSelectionModel().getSelectedItem().isEmpty()) {
-			} else {
-			System.out.println(bilList1.getSelectionModel().getSelectedIndex());	
-				
-				bilnavnTField.setText(valgtBilNavn);
-				bilList1.setVisible(false);
-				indsaetBil.setVisible(false);
-				vaelgBil.setDisable(false);
-				//				int bilprisList = getbiler.get(i).getBilPris();
-			}
-
-		});
 	}
 
-	private void opretLaan() {
-		fornavn = navnTField.getText();
-		tlf = tlfTField.getText();
-		postnr = PostnrTField.getText();
-		by = ByTField.getText();
-		vej = VejTField.getText();
-		husnr = HusnrTField.getText();
-		cpr = cprTField.getText();
-		mail = mailTField.getText();
-		bilnavn = bilnavnTField.getText();
-		bilpris = bilprisTField.getText();
-		udbetaling = udbetalingTField.getText();
-		laanleangde = laengdeTField.getText();
+	private void LaanCheck() {
+		LaanOverstiger LO = new LaanOverstiger();
+		// add tlf
+		bilnavnGetText = bilnavnTField.getText();
+		bilprisGetText = bilprisTField.getText();
+		udbetalingGetText = udbetalingTField.getText();
+		laanleangdeGetText = laengdeTField.getText();
 
-		if (fieldsEmpty() == true) {
-			laanFail();
+		if (checkTFieldsEmpty() == true) {
+		} else {
+			getRente();
+			System.out.println("Checker rente...");
+			System.out.println("Check 2!");
+			renteString = Double.toString(rente);
+			samletPrisString = Double.toString(samletPris);
+			mdlydelseString = Double.toString(mdlYdelse);
 
-		} else if (cprTField.getText().length() != 10) {
-			cprFail();
-		} else if (laanlogic.LaanCheckDuplicate(cpr, tlf) == true) {
-			laanDuplicate();
+			// Setting format for our textfields
+
+			renteTField.setText("Renten er: " + renteString + "%");
+			samletprisTField.setText("Samlede pris: " + samletPrisString + "kr.");
+			mdlYdelseTField.setText(
+					"Månedlig ydelse: " + mdlydelseString + ",- pr. måned over " + laanleangdeGetText + "mdr.");
+			if (LO.overstigerGraense(samletPris) == true) {
+                overstigergraense = true;
+            } else {
+                overstigergraense = false;
+            }
+			OpretLaan();
 		}
 
-		else {
-			checkRating();
-		}
 	}
 
-	private boolean fieldsEmpty() {
-		if (fornavn.isEmpty() || tlf.isEmpty() || postnr.isEmpty() || by.isEmpty()
-				|| vej.isEmpty() || husnr.isEmpty() || cpr.isEmpty() || mail.isEmpty()
-				|| bilnavn.isEmpty() || bilnavn.isEmpty() || bilpris.isEmpty()
-				|| udbetaling.isEmpty() || laanleangde.isEmpty()) {
+	private boolean checkTFieldsEmpty() {
+		TFieldLogik tflog = new TFieldLogik();
+		TFieldResult tfCheck = tflog.TFieldCheck(tlfGetText, bilnavnGetText, bilprisGetText, udbetalingGetText,
+				laanleangdeGetText, rente);
+		opretStatusLbl.setTextFill(Color.WHITE);
+
+		switch (tfCheck) {
+		case bilnavnIsEmpty:
+			opretStatusLbl.setText("Udfyld venligst bilnavn");
+			opretStatusLbl.relocate(350, 575);
 			return true;
+		case bilprisIsEmpty:
+			opretStatusLbl.setText("Udfyld venligst bilpris");
+			opretStatusLbl.relocate(355, 575);
+			return true;
+		case udbetalingIsEmpty:
+			opretStatusLbl.setText("Udfyld venligst udbetaling");
+			opretStatusLbl.relocate(335, 575);
+			return true;
+		case laanleangdeIsEmpty:
+			opretStatusLbl.setText("Udfyld venligst lånets længde");
+			opretStatusLbl.relocate(320, 575);
+			return true;
+		case allIsEmpty:
+			opretStatusLbl.setText("Udfyld venligst alle manglende felter");
+			opretStatusLbl.relocate(275, 575);
+			return true;
+		case Success:
+			opretStatusLbl.setText("Lån Oprettet!");
+			opretStatusLbl.relocate(400, 575);
+			return false;
 		}
-		return false;
+		return true;
 	}
 
-	private void laanSuccess() {
-		opretLaan OpretLaan = new opretLaan();
+	private void tlfnrCheck() {
+		tlfGetText = tlfTField.getText();
+		LaanCheckTlf tlfLogic = new LaanCheckTlf();
+		if (tlfLogic.CheckTlfDB(tlfGetText) == true) {
+			bilnavnTField.setVisible(true);
+			bilprisTField.setVisible(true);
+			udbetalingTField.setVisible(true);
+			laengdeTField.setVisible(true);
+			vaelgBilBtn.setVisible(true);
+			lbltlfUgyldig.setVisible(false);
+			opretKundeBtn.setVisible(false);
+			opretLaanBtn.setVisible(true);
+			opretStatusLbl.setVisible(true);
+			samletprisTField.setVisible(true);
+			renteTField.setVisible(true);
+			mdlYdelseTField.setVisible(true);
+			vaelgBilBtn.setDisable(false);
 
-		opretStatusLbl.setText("Lån successfuldt oprettet!");
-		opretStatusLbl.setTextFill(Color.LIGHTGREEN);
-		opretStatusLbl.relocate(323, 553);
-		OpretLaan.CreateLaan(fornavn, tlf, postnr, by, vej, husnr, cpr,
-				mail, bilnavn, bilpris, udbetaling, laanleangde, kreditVurdering);
-	}
-
-	private void cprFail() {
-		opretStatusLbl.setText("Der skal vaare 10 CPR-cifre. Nuværende antal: " + cprTField.getText().length());
-		opretStatusLbl.setTextFill(Color.WHITE);
-		opretStatusLbl.relocate(200, 553);
-	}
-
-	private void laanDuplicate() {
-		opretStatusLbl.setText("Bruger eksisterer allerede med valgte CPR og/eller tlfnr!");
-		opretStatusLbl.setTextFill(Color.WHITE);
-		opretStatusLbl.relocate(152, 553);
-
-	}
-
-	private void laanFail() {
-		opretStatusLbl.setText("Udfyld venligst alle felter!");
-		opretStatusLbl.setTextFill(Color.WHITE);
-		opretStatusLbl.relocate(325, 553);
-
-	}
-
-	private void kreditRatingFail() {
-		opretStatusLbl.setText("Kundens kreditvaerdighed er under den tilladte graense!");
-		opretStatusLbl.setTextFill(Color.WHITE);
-		opretStatusLbl.relocate(155, 553);
-	}
-
-	private void systemError() {
-		opretStatusLbl.setText("Der opstod en fejl i systemet! Genstart venligst programmet.");
-		opretStatusLbl.setTextFill(Color.WHITE);
-		opretStatusLbl.relocate(150, 553);
-	}
-
-	private kreditRating checkRating() {
-		GetKV getKV = new GetKV();
-		kreditVurdering = getKV.getKreditvaerdighed(cpr);
-
-		switch (kreditVurdering) {
-		case A:
-			laanSuccess();
-			System.out.println("Kunden er oprettet" + "\n" + "rating: A");
-			break;
-		case B:
-			laanSuccess();
-			System.out.println("Kunden er oprettet" + "\n" + "rating: B");
-			break;
-		case C:
-			laanSuccess();
-			System.out.println("Kunden er oprettet" + "\n" + "rating: C");
-			break;
-		case D:
-			kreditRatingFail();
-			System.out.println("Fejl: " + "\n" + "Kunden er rating: D");
-			break;
-		case error:
-			System.out.println("major ERROR BOY");
-			systemError();
-			break;
 		}
-		System.out.println("Rating: " + kreditVurdering + " blev printet til DB!");
-		return kreditVurdering;
+
+		else if (tlfLogic.CheckTlfDB(tlfGetText) == false) {
+			bilnavnTField.setVisible(false);
+			bilprisTField.setVisible(false);
+			udbetalingTField.setVisible(false);
+			laengdeTField.setVisible(false);
+			vaelgBilBtn.setVisible(false);
+			opretLaanBtn.setVisible(false);
+			lbltlfUgyldig.setVisible(true);
+			opretKundeBtn.setVisible(true);
+			opretStatusLbl.setVisible(false);
+			samletprisTField.setVisible(false);
+			renteTField.setVisible(false);
+			mdlYdelseTField.setVisible(false);
+			bilList1.setVisible(false);
+			indsaetBil.setVisible(false);
+
+		}
+
 	}
 
-}*/
+	private void startKundeUI() {
+		OpretKundeUI kundeUI = new OpretKundeUI();
+		kundeUI.start();
+	}
+
+	private void getRente() {
+		LaanCheckTlf tlflogic = new LaanCheckTlf();
+		GetKV getCPR = new GetKV();
+
+		getCPR.start();
+		for (int i = 0; i < 5; i++) {
+
+			Traade tråd = new Traade(i);
+			tråd.start();
+
+		}
+		cprnr = tlflogic.getCPRNR(tlfGetText);
+		rente = getCPR.getRente(cprnr);
+		mdlYdelse = getCPR.getMdlYdelse(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
+		samletPris = getCPR.getSamletPris(cprnr, bilprisGetText, udbetalingGetText);
+		mdlYdelse = Math.round(mdlYdelse * 100.0) / 100.0;
+		rente = Math.round(rente * 100.0) / 100.0;
+		samletPris = Math.round(samletPris * 100.0) / 100.0;
+	}
+
+	private void OpretLaan() {
+		opretLaan laanlogic = new opretLaan();
+
+		Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
+		bilinventar = valgtBilNavn.getInventar();
+		System.out.println("bilinventar før: " + bilinventar);
+		if (bilinventar >= 1) {
+			bilinventar -= 1;
+			System.out.println("bilinventar efter: " + bilinventar);
+
+		}
+		laanlogic.CreateLaan(tlfGetText, bilid, udbetalingGetText, laanleangdeGetText, overstigergraense, rente, mdlYdelse, samletPris,
+				bilinventar);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void opretTabel() {
+
+		TableColumn<Biler, String> ColumnBilnavn = new TableColumn<Biler, String>("Bilnavn");
+		TableColumn<Biler, String> ColumnBilpris = new TableColumn<Biler, String>("Bilpris");
+		TableColumn<Biler, String> ColumnBilinventar = new TableColumn<Biler, String>("Inventar");
+
+		ColumnBilnavn.setCellValueFactory(e -> {
+			Biler blr = e.getValue();
+			bilnavn = blr.getBilnavn();
+
+			return new SimpleStringProperty(bilnavn);
+
+		});
+
+		ColumnBilpris.setCellValueFactory(e -> {
+			Biler blr = e.getValue();
+			bilpris = blr.getBilPris();
+			String bilprisString = Integer.toString(bilpris);
+			return new SimpleStringProperty(bilprisString);
+
+		});
+
+		ColumnBilinventar.setCellValueFactory(e -> {
+			Biler blr = e.getValue();
+			bilinventar = blr.getInventar();
+			String bilinventarString = Integer.toString(bilinventar);
+			return new SimpleStringProperty(bilinventarString);
+
+		});
+
+		bilList1.getColumns().addAll(ColumnBilnavn, ColumnBilpris, ColumnBilinventar);
+
+		bilList1.setItems(bilObserver);
+
+		bilObserver = FXCollections.observableList(billogic.getAllBilerInfo());
+		FilteredList<Biler> filteredData = new FilteredList<>(bilObserver, p -> true);
+
+		SortedList<Biler> sortedData = new SortedList<>(filteredData);
+
+		// Connect the SortedList comparator to the TableView comparator
+		// 'The comparator that denotes the order of this SortedList'
+		sortedData.comparatorProperty().bind(bilList1.comparatorProperty());
+
+		// Tilføjer sorteret og filtreret data til vores TableView
+		bilList1.setItems(sortedData);
+	}
+
+}

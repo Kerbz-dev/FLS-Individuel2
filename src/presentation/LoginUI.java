@@ -18,14 +18,13 @@ import logic.Traade;
 
 public class LoginUI extends Thread {
 
+
 	private TextField userLoginField;
 	private PasswordField passLoginField;
 	private Button loginKnap;
-	private Label loginStatus;
+	private Label loginStatus, ferrariLabel;
 	private Scene scene;
-	private Pane pane;
-	private Pane ferraripane;
-	private Label ferrariLabel;
+	private Pane pane, ferraripane;
 	private Stage loginStage;
 	// private GridPane gp;
 	private Image ferrari;
@@ -48,6 +47,7 @@ public class LoginUI extends Thread {
 		pane = new Pane();
 		ferraripane = new Pane();
 
+		// location + font + promt
 		userLoginField.setPrefHeight(30);
 		userLoginField.setPrefWidth(250);
 		userLoginField.setFont(new Font(24));
@@ -71,6 +71,7 @@ public class LoginUI extends Thread {
 		loginStatus.setFont(new Font(24));
 		// loginStatus.relocate(100, 450);
 
+		// LOGO location
 		ferraripic.setFitWidth(250);
 		ferraripic.setFitHeight(135);
 		ferraripic.setImage(ferrari);
@@ -78,7 +79,7 @@ public class LoginUI extends Thread {
 
 		ferraripane.setPrefHeight(64);
 		ferraripane.setPrefWidth(428);
-		pane.setStyle("-fx-background-color: #FF2800");
+		pane.setStyle("-fx-background-color: #F40808");
 		// #CF0E0E
 		ferrariLabel.relocate(170, 15);
 		ferrariLabel.setFont(new Font(24));
@@ -99,7 +100,7 @@ public class LoginUI extends Thread {
 
 		// Action events
 		loginKnap.setOnAction(e -> loginCheck());
-	
+
 	}
 
 	public void loginCheck() {
@@ -110,7 +111,6 @@ public class LoginUI extends Thread {
 		lgnCheck = lgnctrl.loginCheck(username, password);
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
 			loginSuccess();
-			
 			startLaaneUI();
 		}
 
@@ -125,14 +125,12 @@ public class LoginUI extends Thread {
 	}
 
 	private void loginSuccess() {
-			Traade tråd1 = new Traade(1);
-			
-	
-			tråd1.start();
-			loginStatus.relocate(130, 315);
-			loginStatus.setTextFill(Color.LIGHTGREEN);
-			loginStatus.setText("Login successful!");
-		
+		Traade trød1 = new Traade(1);
+		trød1.start();
+		loginStatus.relocate(130, 315);
+		loginStatus.setTextFill(Color.LIGHTGREEN);
+		loginStatus.setText("Login successful!");
+
 	}
 
 	private void loginFail() {
@@ -143,10 +141,12 @@ public class LoginUI extends Thread {
 
 	private void adminLoginSuccess() {
 		adminUI admUI = new adminUI();
+		Traade trød2 = new Traade(2);
 
-			admUI.start();
-		}
-	
+		Sleeper.sleep(2);
+		trød2.start();
+		admUI.start();
+	}
 
 	private void startLaaneUI() {
 		LaaneUI laan = new LaaneUI();

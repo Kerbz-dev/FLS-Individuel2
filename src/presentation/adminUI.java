@@ -9,11 +9,8 @@ import javafx.stage.Stage;
 import logic.GetKV;
 
 public class adminUI {
-	
-	private Button laan;
-	private Button laaneanmodning;
-	private Button opretSealger;
-	
+	private Button laan,laaneanmodning,opretSealger;
+
 	private Scene scene;
     private Pane pane;
     private Image ferrari;
@@ -27,6 +24,7 @@ public class adminUI {
         
         
         pane = new Pane();
+        pane.setStyle("-fx-background-color: #ff2800");
         ferrari = new Image("https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg%22");
         ferraripic = new ImageView();
         ferraripic.setImage(ferrari);
@@ -39,13 +37,15 @@ public class adminUI {
       opretSealger = new Button("Opret Sælger");
        
       
-      pane.setStyle("-fx-background-color: #ff2800");
-      
+      	
+      	
+      // LOGO location
       
       ferraripic.relocate(223,30);
       ferraripic.setFitWidth(300);
       ferraripic.setFitHeight(150);
       
+      // Button location  
       laan.setPrefHeight(62);
       laan.setPrefWidth(189);
       laan.relocate(274, 235);
@@ -72,6 +72,7 @@ public class adminUI {
       
 		opretSealger.setOnAction(e -> opretLoginUI());
 		laan.setOnAction(e -> opretLaaneUI());
+		laaneanmodning.setOnAction(e -> opretAnmodningerUI());
 
       
 }
@@ -86,7 +87,10 @@ public class adminUI {
 		laan.start();
 	}
     
-
+    private void opretAnmodningerUI() {
+    	LaaneAnmodningerUI laUI = new LaaneAnmodningerUI();
+    	laUI.start();
+    }
 
     
 }

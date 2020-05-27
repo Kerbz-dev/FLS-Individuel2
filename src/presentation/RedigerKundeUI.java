@@ -29,27 +29,11 @@ import logic.KundeOpdatering;
 
 public class RedigerKundeUI {
 	DecimalFormat numberFormatter = new DecimalFormat("0");
-	private TextField kundefornavnTField;
-	private TextField kundeefternavnTField;
-	private TextField tlfTField;
-	private TextField PostnrTField;
-	private TextField ByTField;
-	private TextField VejTField;
-	private TextField HusnrTField;
-	private TextField cprTField;
-	private TextField mailTField;
+	private TextField kundefornavnTField, kundeefternavnTField, tlfTField, PostnrTField, ByTField, ejTField, VejTField,
+			HusnrTField, cprTField, mailTField, SoegTField;
 	private Button opdaterKundeBtn;
 	private Stage opretKundeStage;
-	private String fornavnGT;
-	private String efternavnGT;
-	private String tlfGT;
-	private String postnrGT;
-	private String byGT;
-	private String vejGT;
-	private String husnrGT;
-	private String cprGT;
-	private TextField SoegTField;
-	private String mailGT;
+	private String fornavnGT, efternavnGT, tlfGT, postnrGT, byGT, vejGT, husnrGT, cprGT, mailGT;
 	private Label opretStatusLbl;
 	private Scene scene4;
 	private Pane pane4;
@@ -66,7 +50,7 @@ public class RedigerKundeUI {
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
 		Label lgnNameLbl = new Label("logget in som " + "username");
-
+		// logo assignments
 		pane4 = new Pane();
 		ferrari = new Image(
 				"https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg%22");
@@ -76,6 +60,7 @@ public class RedigerKundeUI {
 //		// Button assignments
 		opdaterKundeBtn = new Button("Opdater kunde");
 
+		// TextField assignments
 		kundefornavnTField = new TextField();
 		kundeefternavnTField = new TextField();
 		// adrTField = new TextField();
@@ -89,6 +74,8 @@ public class RedigerKundeUI {
 		SoegTField = new TextField();
 
 		opretStatusLbl = new Label();
+
+		// locations
 		kundefornavnTField.relocate(320.0, 195.0);
 		kundefornavnTField.setPrefHeight(25.0);
 		kundefornavnTField.setPrefWidth(321);
@@ -116,7 +103,6 @@ public class RedigerKundeUI {
 		mailTField.relocate(320.0, 435);
 		mailTField.setPrefHeight(25.0);
 		mailTField.setPrefWidth(321.0);
-		opretStatusLbl.setFont(new Font(24));
 		opdaterKundeBtn.relocate(390, 550);
 		formTable.setPrefWidth(250);
 		formTable.setPrefHeight(500);
@@ -125,7 +111,6 @@ public class RedigerKundeUI {
 		SoegTField.setLayoutY(25);
 		SoegTField.setPrefHeight(35);
 		SoegTField.setPrefWidth(250);
-		SoegTField.setFont(new Font(18));
 		SoegTField.setPromptText("Søg - fx tlf. nr.");
 		SoegTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
@@ -275,6 +260,8 @@ public class RedigerKundeUI {
 		}));
 
 		// Font sizes
+		SoegTField.setFont(new Font(18));
+		opretStatusLbl.setFont(new Font(24));
 		kundeefternavnTField.setFont(new Font(14));
 		kundefornavnTField.setFont(new Font(14));
 		opdaterKundeBtn.setFont(new Font(24));
@@ -384,3 +371,5 @@ public class RedigerKundeUI {
 	}
 
 }
+
+

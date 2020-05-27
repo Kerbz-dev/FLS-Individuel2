@@ -21,35 +21,21 @@ import logic.opretKunde;
 
 public class OpretKundeUI {
 
+	long cpr;
+	int tlf, postnr, husnr;
 	DecimalFormat numberFormatter = new DecimalFormat("0");
-	
-	private TextField tlfTField;
-	private TextField PostnrTField;
-	private TextField ByTField;
-	private TextField VejTField;
-	private TextField HusnrTField;
-	private TextField cprTField;
-	private TextField mailTField;
+	private TextField tlfTField, PostnrTField, VejTField, ByTField, HusnrTField, cprTField, mailTField,
+			kundefornavnTField, kundeefternavnTField;
 	private Button opretKundeBtn;
 	private Stage opretKundeStage;
 	private kundeCheckDuplicate kundelogic = new kundeCheckDuplicate();
-	private String fornavnGetText;
-	private String efternavnGetText;
-	private String tlfGetText;
-	private String postnrGetText;
-	private String byGetText;
-	private String vejGetText;
-	private String husnrGetText;
-	private String cprGetText;
-	private String mailGetText;
-	private TextField kundefornavnTField;
-	private TextField kundeefternavnTField;
+	private String fornavnGetText, efternavnGetText, tlfGetText, postnrGetText, byGetText, vejGetText, husnrGetText,
+			cprGetText, mailGetText, kv;
 	private Label opretStatusLbl;
 	private Scene scene4;
 	private Pane pane4;
 	private Image ferrari;
 	private ImageView ferraripic;
-	private String kv;
 	private kreditRating kreditVurdering;
 
 	public void start() {
@@ -60,6 +46,7 @@ public class OpretKundeUI {
 
 		Label lgnNameLbl = new Label("logget in som " + "username");
 
+		// Assignments
 		pane4 = new Pane();
 		ferrari = new Image(
 				"https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg%22");
@@ -68,11 +55,9 @@ public class OpretKundeUI {
 
 //		// Button assignments
 		opretKundeBtn = new Button("Opret Kunde!");
-
-
+		// TextField assignments
 		kundefornavnTField = new TextField();
 		kundeefternavnTField = new TextField();
-		// adrTField = new TextField();
 		PostnrTField = new TextField();
 		ByTField = new TextField();
 		VejTField = new TextField();
@@ -80,8 +65,10 @@ public class OpretKundeUI {
 		tlfTField = new TextField();
 		cprTField = new TextField();
 		mailTField = new TextField();
-
+		// Label assigments
 		opretStatusLbl = new Label();
+
+		// TextField location
 		kundefornavnTField.relocate(320.0, 195.0);
 		kundefornavnTField.setPrefHeight(25.0);
 		kundefornavnTField.setPrefWidth(321);
@@ -109,9 +96,9 @@ public class OpretKundeUI {
 		mailTField.relocate(320.0, 435);
 		mailTField.setPrefHeight(25.0);
 		mailTField.setPrefWidth(321.0);
-		opretStatusLbl.setFont(new Font(24));
+		// Button location
 		opretKundeBtn.relocate(390, 550);
-
+		// LOGO location
 		ferraripic.setFitWidth(350);
 		ferraripic.setFitHeight(130);
 		ferraripic.setImage(ferrari);
@@ -139,7 +126,6 @@ public class OpretKundeUI {
 		HusnrTField.setPromptText("Husnr:");
 		VejTField.setPromptText("Vejnavn:");
 		ByTField.setPromptText("By:");
-		
 
 		lgnNameLbl.setPrefHeight(17);
 		lgnNameLbl.setPrefWidth(200);
@@ -159,8 +145,38 @@ public class OpretKundeUI {
 			} else {
 				return c;
 			}
+
 		}));
 
+		PostnrTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
+
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
+
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
+
+		}));
+		HusnrTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
+
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
+
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
+		}));
 		tlfTField.setTextFormatter(new TextFormatter<>(c -> {
 			if (c.getControlNewText().isEmpty()) {
 				return c;
@@ -177,6 +193,7 @@ public class OpretKundeUI {
 		}));
 
 		// Font sizes
+		opretStatusLbl.setFont(new Font(24));
 		kundeefternavnTField.setFont(new Font(14));
 		kundefornavnTField.setFont(new Font(14));
 		opretKundeBtn.setFont(new Font(24));
@@ -190,8 +207,8 @@ public class OpretKundeUI {
 		ByTField.setFont(new Font(14));
 
 		// Add to pane
-		pane4.getChildren().addAll(kundefornavnTField,kundeefternavnTField ,PostnrTField, ByTField, VejTField, HusnrTField, tlfTField, cprTField,
-				mailTField, opretKundeBtn, opretStatusLbl, ferraripic, lgnNameLbl);
+		pane4.getChildren().addAll(kundefornavnTField, kundeefternavnTField, PostnrTField, ByTField, VejTField,
+				HusnrTField, tlfTField, cprTField, mailTField, opretKundeBtn, opretStatusLbl, ferraripic, lgnNameLbl);
 
 		// Show scene
 		scene4 = new Scene(pane4, 950, 670);
@@ -200,7 +217,7 @@ public class OpretKundeUI {
 
 		// Event handlers
 		opretKundeBtn.setOnAction(e -> opretKunde());
-		
+
 //		indsaetBil.setOnAction(e -> {
 //			valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
 //		
@@ -225,9 +242,11 @@ public class OpretKundeUI {
 		vejGetText = VejTField.getText();
 		husnrGetText = HusnrTField.getText();
 		cprGetText = cprTField.getText();
+		cpr = Long.parseLong(cprGetText);
 		mailGetText = mailTField.getText();
-
-		
+		tlf = Integer.parseInt(tlfGetText);
+		postnr = Integer.parseInt(postnrGetText);
+		husnr = Integer.parseInt(husnrGetText);
 //		String getTlf = tlfTField.getText();
 //        int getTextTlf = Integer.valueof(tlfTField.getText());
 //        System.out.println(tlfGetText);
@@ -235,22 +254,23 @@ public class OpretKundeUI {
 		if (fieldsEmpty() == true) {
 			kundeFail();
 
-		}
-		else if (cprTField.getText().length() != 10) {
+		} else if (cprTField.getText().length() != 10) {
 			cprFail();
 
 		}
-
+		else if (kundelogic.KundeCheckDuplicate(cpr, tlf) == true) {
+			kundeDuplicate();
+		}
 		else {
 			checkRating();
 		}
-		
-}
 
+	}
 
 	private boolean fieldsEmpty() {
-		if (fornavnGetText.isEmpty() || efternavnGetText.isEmpty() || tlfGetText.isEmpty() || postnrGetText.isEmpty() || byGetText.isEmpty()
-				|| vejGetText.isEmpty() || husnrGetText.isEmpty() || cprGetText.isEmpty() || mailGetText.isEmpty()) {
+		if (fornavnGetText.isEmpty() || efternavnGetText.isEmpty() || tlfGetText.isEmpty() || postnrGetText.isEmpty()
+				|| byGetText.isEmpty() || vejGetText.isEmpty() || husnrGetText.isEmpty() || cprGetText.isEmpty()
+				|| mailGetText.isEmpty()) {
 			return true;
 		}
 		return false;
@@ -268,9 +288,10 @@ public class OpretKundeUI {
 		opretStatusLbl.setText("Kunde Oprettet!");
 		opretStatusLbl.setTextFill(Color.LIGHTGREEN);
 		opretStatusLbl.relocate(390.5, 490);
-		OpretKunde.CreateKunde(fornavnGetText, efternavnGetText, tlfGetText, postnrGetText, byGetText, vejGetText, husnrGetText, cprGetText, mailGetText, kreditVurdering);
+		OpretKunde.CreateKunde(fornavnGetText, efternavnGetText, tlf, postnr, byGetText, vejGetText,
+				husnr, cpr, mailGetText, kreditVurdering);
 	}
-		
+
 	private void kundeDuplicate() {
 		opretStatusLbl.setText("Bruger eksisterer allerede med valgte CPR og/eller tlfnr!");
 		opretStatusLbl.setTextFill(Color.WHITE);
@@ -329,4 +350,3 @@ public class OpretKundeUI {
 	}
 
 }
-

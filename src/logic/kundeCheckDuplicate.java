@@ -6,7 +6,7 @@ public class kundeCheckDuplicate {
 
     private DuplicateCheckDB duplicateDB = new DuplicateCheckDB();
 
-    public boolean KundeCheckDuplicate(String cpr, String tlf) {
+    public boolean KundeCheckDuplicate(Long cpr, int tlf) {
 
         if (duplicateDB.kundeCheckDuplicate(cpr, tlf) == true) {
             return true;
