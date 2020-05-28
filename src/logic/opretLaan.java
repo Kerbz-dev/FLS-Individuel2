@@ -14,6 +14,10 @@ public class opretLaan {
     	
     }
     
+    public void inventarUpdate(int bilid, int bilinventar) {
+        oprLaanDB.inventarOpdatering(bilid, bilinventar);
+    }
+
     public void CreateStatus(int laanestatus, int tilbudsid) {
         oprLaanDB.createStatus(laanestatus, tilbudsid);
     }

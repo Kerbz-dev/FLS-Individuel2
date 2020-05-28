@@ -13,7 +13,6 @@ public class LoginVerification {
 					/*//////////////////
 					 * MANGLER TRÅDE *
 					*//////////////////
-
 		if (lgnDB.LoginCheck(username, password) == true) {
 			System.out.println(getUserinfo(username));
 			return LoginResult.USER_LOGGED_IN;
@@ -31,6 +30,10 @@ public class LoginVerification {
 			this.saelgerID = saelgerID;
 	}
 		return saelgerID;
+	}
+	
+	public void run() {
+		
 	}
 
 }

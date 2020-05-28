@@ -1,6 +1,5 @@
 package presentation;
 
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,7 +13,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.OpretMedarbejderLogin;
 import logic.userCheckDuplicate;
-
 
 public class OpretMedarbejderUI {
 	private Stage opretLoginStage;
@@ -78,7 +76,7 @@ public class OpretMedarbejderUI {
 
 		opretLoginStatus.setFont(new Font(24));
 		opretLoginStatus.setFont(new Font(30));
-
+		
 		ferraripic.setFitWidth(250);
 		ferraripic.setFitHeight(135);
 		ferraripic.setImage(ferrari);
@@ -175,24 +173,3 @@ public class OpretMedarbejderUI {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

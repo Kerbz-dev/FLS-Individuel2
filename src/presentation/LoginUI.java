@@ -18,7 +18,6 @@ import logic.getBilsaelger;
 
 public class LoginUI extends Thread {
 
-
 	private TextField userLoginField;
 	private PasswordField passLoginField;
 	private Button loginKnap;
@@ -102,7 +101,6 @@ public class LoginUI extends Thread {
 
 		// Action events
 		loginKnap.setOnAction(e -> loginCheck());
-
 	}
 
 	public void loginCheck() {
@@ -113,17 +111,19 @@ public class LoginUI extends Thread {
 		Singleton singleton = Singleton.getSingletoninstance();
 		lgnCheck = lgnctrl.loginCheck(username, password);
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
-			loginSuccess();
+
 			singleton.setUsername(username);
 			startLaaneUI();
-			//Singleton singleton = new Singleton();
+			loginStage.close();
+			// Singleton singleton = new Singleton();
 		}
 
 		else if (lgnCheck == LoginResult.ADMIN_LOGGED_IN) {
-			loginSuccess();
+//			loginSuccess();
 			singleton.setUsername(username);
 			adminLoginSuccess();
 			getUserinfo();
+			loginStage.close();
 		}
 
 		else if (lgnCheck == LoginResult.FAILED) {
@@ -132,23 +132,22 @@ public class LoginUI extends Thread {
 	}
 
 	public String getUsername() {
-		
+
 		return username;
 	}
+
 	private void loginSuccess() {
 		loginStatus.relocate(130, 315);
 		loginStatus.setTextFill(Color.LIGHTGREEN);
 		loginStatus.setText("Login successful!");
-	
-	
 	}
-	
+
 	public int getUserinfo() {
 		getBilsaelger getBS = new getBilsaelger();
-		for (int i=0; i <  getBS.getSaelgerWhereID(username).size(); i++) {
+		for (int i = 0; i < getBS.getSaelgerWhereID(username).size(); i++) {
 			int saelgerID = getBS.getSaelgerWhereID(username).get(i).getbilsaelgerid();
 			this.saelgerID = saelgerID;
-	}
+		}
 		return saelgerID;
 	}
 
@@ -168,4 +167,7 @@ public class LoginUI extends Thread {
 		laan.start();
 	}
 
+	public void run() {
+		loginSuccess();
+	}
 }

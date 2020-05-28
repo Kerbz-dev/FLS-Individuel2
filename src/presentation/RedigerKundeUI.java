@@ -24,8 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.getKunde;
 import logic.KundeOpdatering;
+import logic.getKunde;
 
 public class RedigerKundeUI {
 	DecimalFormat numberFormatter = new DecimalFormat("0");
@@ -371,5 +371,3 @@ public class RedigerKundeUI {
 	}
 
 }
-
-

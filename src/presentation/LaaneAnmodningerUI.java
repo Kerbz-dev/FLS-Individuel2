@@ -1,18 +1,17 @@
 package presentation;
 
-
+import java.text.NumberFormat;
 import java.util.List;
 
 import entity.Biler;
 import entity.Kunde;
 import entity.LaaneTilbud;
+import entity.Singleton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,11 +29,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import logic.FjernLaaneTilbud;
 import logic.GetBiler;
 import logic.LaanCheckTlf;
 import logic.LaanOverstiger;
-import logic.getKunde;
 import logic.getLaan;
 import logic.opretLaan;
 
@@ -51,21 +48,17 @@ public class LaaneAnmodningerUI {
 	private Image ferrari;
 	private ImageView ferraripic;
 	private TextField Søg;
-	private int tlfnr;
-	private Kunde kundeentity = new Kunde();
+
 	// private Kunde kunde = new Kunde();
-	private getKunde kundelogic = new getKunde();
-	private List<Kunde> kunder = kundelogic.getKundeAll();
-	private LaaneTilbud laanentity = new LaaneTilbud();
 	private getLaan laanlogic = new getLaan();
-	private List<LaaneTilbud> getDato;
+
 	private List<LaaneTilbud> getlaanHvorOG = laanlogic.getLaanHvorOG();
 	private ObservableList<LaaneTilbud> formList;
 	private TableView<LaaneTilbud> formTable = new TableView<LaaneTilbud>();
 	private String tilbudsidString;
 	private String laanstatus;
-	private FilteredList<LaaneTilbud> filteredData;
-
+	private int bilid;
+	private int bilinventar;
 	private double samletPris;
 	private int laanestatus;
 	// ObservableList<Kunde> formList;
@@ -78,7 +71,7 @@ public class LaaneAnmodningerUI {
 		LaaneUIStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 		pane1 = new Pane();
-		Lånetilbud = new Label("LÅNETILBUD");
+		Lånetilbud = new Label("Låneanmodninger for salgschef");
 		Navn = new Label("Navn:");
 		Tlf = new Label("Tlf:");
 		CPR = new Label("CPR-nr:");
@@ -176,7 +169,7 @@ public class LaaneAnmodningerUI {
 		samletprisLbl.relocate(430, 560);
 
 		Lånetilbud.setFont(new Font(36));
-		Lånetilbud.relocate(645, 55);
+		Lånetilbud.relocate(490, 55);
 
 		navnOutput.setFont(new Font(18));
 		navnOutput.relocate(577, 164);
@@ -211,7 +204,7 @@ public class LaaneAnmodningerUI {
 		prisoutputLbl.relocate(577, 565);
 
 		loginName.relocate(922, 736);
-		loginName.setText("Logget ind som " + ": " + "medarbejderNavn");
+		loginName.setText("Logget ind som " + ": " + Singleton.getUsername());
 
 		// Search function
 		Søg.setLayoutX(23);
@@ -237,7 +230,7 @@ public class LaaneAnmodningerUI {
 		upperLine.setLayoutX(491);
 		upperLine.setStroke(Color.RED);
 		upperLine.setStrokeWidth(3);
-		pane1.setStyle("-fx-background-color: #FF2800");
+		pane1.setStyle("-fx-background-color: #F40808");
 
 		formTable.relocate(25, 125);
 		formTable.setPrefHeight(425);
@@ -252,35 +245,27 @@ public class LaaneAnmodningerUI {
 
 		TableColumn<LaaneTilbud, String> ColumnTlf = new TableColumn<LaaneTilbud, String>("Tlf. nr");
 		TableColumn<LaaneTilbud, String> ColumnStatus = new TableColumn<LaaneTilbud, String>("Status");
-		
-		for (int i=0; i < getlaanHvorOG.size(); i++) {
+
+		for (int i = 0; i < getlaanHvorOG.size(); i++) {
 			samletPris = getlaanHvorOG.get(i).getSamletpris();
-			System.out.println(samletPris);
-			System.out.println(getlaanHvorOG.size());
 			LaanOverstiger LO = new LaanOverstiger();
-			if ( LO.overstigerGraense(samletPris) == true) {
+			if (LO.overstigerGraense(samletPris) == true) {
 				String tlbdato = getlaanHvorOG.get(i).getRentedato();
-		ColumnDato.setCellValueFactory(e -> {
+				ColumnDato.setCellValueFactory(e -> {
 
 //			String tlbdato;
-			return new SimpleStringProperty(tlbdato);
-		
-		});
+					return new SimpleStringProperty(tlbdato);
+				});
 			}
-		
 		}
-		
-		
-			
-		
+
 		ColumnTilbud.setCellValueFactory(e -> {
-			
+
 			LaaneTilbud ltb = e.getValue();
 			int tilbudsid = ltb.getTilbudsid();
 			tilbudsidString = Integer.toString(tilbudsid);
-			
-			return new SimpleStringProperty(tilbudsidString);
 
+			return new SimpleStringProperty(tilbudsidString);
 		});
 
 		ColumnTlf.setCellValueFactory(e -> {
@@ -288,9 +273,8 @@ public class LaaneAnmodningerUI {
 			int telefonnummer = ltb.getTelefonnummer();
 			String tlfnr = Integer.toString(telefonnummer);
 			return new SimpleStringProperty(tlfnr);
-
 		});
-		
+
 		ColumnStatus.setCellValueFactory(e -> {
 			LaaneTilbud ltb = e.getValue();
 			int laanestatus = ltb.getLaanestatus();
@@ -307,58 +291,60 @@ public class LaaneAnmodningerUI {
 
 		});
 		formTable.getColumns().addAll(ColumnDato, ColumnTilbud, ColumnTlf, ColumnStatus);
-		
+
 		formTable.setItems(formList);
 
-		/*
-		 * //////////////////////////////// Søgefunktion til tablecolumn
-		 *////////////////////////////////
-
-		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		formList = FXCollections.observableList(laanlogic.getLaanHvorOG());
-		// System.out.println("getKundeAll returner: " +
-		// formList.get(2).getKreditVurdering());
-		filteredData = new FilteredList<>(formList, p -> true);
-		Søg.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(formSearch -> {;
-			
-				
-
-				int telefonnummer = formSearch.getTelefonnummer();
-				String tlfnr = Integer.toString(telefonnummer);
-				// If a filter text (the text field) is empty, show all forms
-				if (newValue == null || newValue.isEmpty()) {
-					return true;
-				}
-
-				// Compares the textfield to the object (the input) with the filter from above
-				String lowerCaseFilter = newValue.toLowerCase();
-
-				// Filter matches with Analyze Title
-
-				if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
-					return true;
-
-				}
-				
-
-				// No match at all
-				return false;
-				
-			});
-		});
-
-		SortedList<LaaneTilbud> sortedData = new SortedList<>(filteredData);
-
-		// Connect the SortedList comparator to the TableView comparator
-		// 'The comparator that denotes the order of this SortedList'
-		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
-
-		// Tilføjer sorteret og filtreret data til vores TableView
-
-		formTable.setItems(sortedData);
-		
-		
+		fyldTable();
+//
+//		/*
+//		 * //////////////////////////////// Søgefunktion til tablecolumn
+//		 *////////////////////////////////
+//
+//		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//		formList = FXCollections.observableList(laanlogic.getLaanHvorOG());
+//		// System.out.println("getKundeAll returner: " +
+//		// formList.get(2).getKreditVurdering());
+//		filteredData = new FilteredList<>(formList, p -> true);
+//		Søg.textProperty().addListener((observable, oldValue, newValue) -> {
+//			filteredData.setPredicate(formSearch -> {;
+//			
+//				
+//
+//				int telefonnummer = formSearch.getTelefonnummer();
+//				String tlfnr = Integer.toString(telefonnummer);
+//				// If a filter text (the text field) is empty, show all forms
+//				if (newValue == null || newValue.isEmpty()) {
+//					return true;
+//				}
+//
+//				// Compares the textfield to the object (the input) with the filter from above
+//				String lowerCaseFilter = newValue.toLowerCase();
+//
+//				// Filter matches with Analyze Title
+//
+//				if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
+//					return true;
+//
+//				}
+//				
+//
+//				// No match at all
+//				return false;
+//				
+//			});
+//		});
+//
+//		SortedList<LaaneTilbud> sortedData = new SortedList<>(filteredData);
+//
+//		// Connect the SortedList comparator to the TableView comparator
+//		// 'The comparator that denotes the order of this SortedList'
+//		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
+//
+//		// Tilføjer sorteret og filtreret data til vores TableView
+//
+//		formTable.setItems(sortedData);
+//		
+//		
 		// Fanger det vaglte element
 
 		// Setting background color for text zone
@@ -383,53 +369,31 @@ public class LaaneAnmodningerUI {
 		// Adding to pane
 		pane1.getChildren().addAll(Søg, background, background2, Addresse, CPR, Laaneperiode, Lånetilbud, Bilmodel,
 				Navn, navnOutput, bilmodelOutput, mdlydelseOutput, Tlf, bilprisOutput, mailOutput, tlfOutput,
-				addresseOutput, Mail, cprOutput, Bilpris, loginName,
-				godkendBtn, afvisBtn, exportCsvBtn, prisoutputLbl, periodeoutputLbl, udbtloutputLbl, samletprisLbl,
-				mdlydelseLbl, udbetalingLbl, formTable, ferraripic, upperLine, bottomLine);
+				addresseOutput, Mail, cprOutput, Bilpris, loginName, godkendBtn, afvisBtn, exportCsvBtn, prisoutputLbl,
+				periodeoutputLbl, udbtloutputLbl, samletprisLbl, mdlydelseLbl, udbetalingLbl, formTable, ferraripic,
+				upperLine, bottomLine);
 
 		scene = new Scene(pane1);
 		LaaneUIStage.setScene(scene);
 		LaaneUIStage.show();
 
-		
 		godkendBtn.setOnAction(e -> getstatusInfo());
 		afvisBtn.setOnAction(e -> getstatusInfo2());
-		
 
-	
 		formTable.setOnMouseClicked((MouseEvent event) -> {
 			if (event.getClickCount() > 1) {
 				onRowSelect();
 				onRowSelect1();
 			}
 		});
-	
-//	godkendBtn.setOnAction(new EventHandler<ActionEvent>() {
-//	    @Override
-//	    public void handle(ActionEvent event) {
-//	        if (formList.size() > 0) {
-//	        	
-//	        	formList.clear();
-//	        	formTable.setItems(formList);
-//	        	
-//	        	SortedList<LaaneTilbud> sortedData = new SortedList<>(filteredData);
-//
-//	    		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
-//	    		formTable.setItems(sortedData);
-//	    		formList.addAll(sortedData);
-//	    		formTable.getItems();
-//	     //   	formTable.refresh();
-//	        	
-//	        //    formTable.getItems().removeAll(formList);
-//	      //      formTable.getItems().addAll(formList);
-//	        }
-//	    }
-//	});
 	}
+
 	private void onRowSelect() {
 		// check the table's selected item and get selected item
 		LaanCheckTlf tlfcheck = new LaanCheckTlf();
 		GetBiler billogic = new GetBiler();
+		NumberFormat pengeformat = NumberFormat.getCurrencyInstance();
+
 		if (formTable.getSelectionModel().getSelectedItem() != null) {
 			LaaneTilbud selectedTilbud = formTable.getSelectionModel().getSelectedItem();
 			// navnOutput.setText(selectedTilbud.getKundefornavn());
@@ -440,26 +404,31 @@ public class LaaneAnmodningerUI {
 			periodeoutputLbl.setText(laengdeString + " år");
 
 			selectedTilbud.getLaanestatus();
-			
+
 			samletPris = selectedTilbud.getSamletpris();
-			String sprisString = Double.toString(samletPris);
-			prisoutputLbl.setText(sprisString + " kr.");
+			// String sprisString = Double.toString(samletPris);
+			// prisoutputLbl.setText(sprisString + " kr.");
+			String sprisString = pengeformat.format(samletPris);
+			prisoutputLbl.setText(sprisString);
 
 			selectedTilbud.getMdlydelse();
 			double mdlydelse = selectedTilbud.getMdlydelse();
-			String ydelseString = Double.toString(mdlydelse);
-			mdlydelseOutput.setText(ydelseString + " kr.");
+			// String ydelseString = Double.toString(mdlydelse);
+			// mdlydelseOutput.setText(ydelseString + " kr.");
+			String ydelseString = pengeformat.format(mdlydelse);
+			mdlydelseOutput.setText(ydelseString);
 
 			int telefonnummer = selectedTilbud.getTelefonnummer();
 			String tlfnr = Integer.toString(telefonnummer);
 			tlfOutput.setText(tlfnr);
 
 			int udbtl = selectedTilbud.getIndbetaling();
-			String udbtlString = Integer.toString(udbtl);
-			udbtloutputLbl.setText(udbtlString + " kr.");
-			
+			// String udbtlString = Integer.toString(udbtl);
+			// udbtloutputLbl.setText(udbtlString + " kr.");
+			String udbtlString = pengeformat.format(udbtl);
+			udbtloutputLbl.setText(udbtlString);
+
 			laanestatus = selectedTilbud.getLaanestatus();
-			
 
 			if (tlfcheck.LaanCheckTlfDB(telefonnummer) == true) {
 				List<Kunde> kndGet = tlfcheck.getKundeWhere(telefonnummer);
@@ -482,7 +451,8 @@ public class LaaneAnmodningerUI {
 				for (int i = 0; i < bilGet.size(); i++) {
 					String bilnavn = bilGet.get(i).getBilnavn();
 					int bilpris = bilGet.get(i).getBilPris();
-					String bilprisString = Integer.toString(bilpris);
+					// String bilprisString = Integer.toString(bilpris);
+					String bilprisString = pengeformat.format(bilpris);
 
 					bilmodelOutput.setText(bilnavn);
 					bilprisOutput.setText(bilprisString);
@@ -490,28 +460,16 @@ public class LaaneAnmodningerUI {
 				}
 
 			}
-			// long cpr = selectedTilbud.getCpr_nummer();
-			// String cprnr = Long.toString(cpr);
-			// cprOutput.setText(cprnr);
-			// addresseOutput.setText(selectedTilbud.getVejnavn() + " " +
-			// selectedTilbud.getHusnummer() + ", "
-			// + selectedTilbud.getPostnummer() + " " + selectedTilbud.getBynavn());
-			// mailOutput.setText(selectedTilbud.getMail());
-
 		}
 	}
 
 	private void opdaterTable() {
-        if (formList.size() > 0) {
-        	formList.clear();
-        	formList = FXCollections.observableList(laanlogic.getLaanHvorOG());
-        	for(int i=0; i < formList.size(); i++) {
-        	formList.get(i).getAllTilbud();
-        	formTable.setItems(formList);
-        	}
+		if (formList.size() > 0) {
+			formList.clear();
+			fyldTable();
+		}
 	}
-	}
-	
+
 	private void getstatusInfo() {
 		LaanOverstiger LO = new LaanOverstiger();
 		opretLaan ol = new opretLaan();
@@ -538,21 +496,95 @@ public class LaaneAnmodningerUI {
 		opdaterTable();
 	}
 
+	private void fyldTable() {
+		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		formList = FXCollections.observableList(laanlogic.getLaanHvorOG());
+		// System.out.println("getKundeAll returner: " +
+		// formList.get(2).getKreditVurdering());
+		FilteredList<LaaneTilbud> filteredData = new FilteredList<>(formList, p -> true);
+
+		Søg.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(formSearch -> {
+				int telefonnummer = formSearch.getTelefonnummer();
+				int status = formSearch.getLaanestatus();
+				if (status == 2) {
+					laanstatus = "Godkendt";
+				} else if (status == 1) {
+					laanstatus = "Afventer";
+				}
+
+				else if (status == 0) {
+					laanstatus = "Afvist";
+				}
+				String tlfnr = Integer.toString(telefonnummer);
+				// If a filter text (the text field) is empty, show all forms
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				// Compares the textfield to the object (the input) with the filter from above
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				// Filter matches with Analyze Title
+
+				if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+
+				}
+
+				if (laanstatus.toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+
+				}
+
+				// No match at all
+				return false;
+			});
+		});
+
+		SortedList<LaaneTilbud> sortedData = new SortedList<>(filteredData);
+
+		// Connect the SortedList comparator to the TableView comparator
+		// 'The comparator that denotes the order of this SortedList'
+		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
+
+		// Tilføjer sorteret og filtreret data til vores TableView
+		formTable.setItems(sortedData);
+
+	}
+
 	private void onRowSelect1() {
 		LaanOverstiger LO = new LaanOverstiger();
 		// check the table's selected item and get selected item
 		if (formTable.getSelectionModel().getSelectedItem() != null && LO.laaneStatus(laanestatus) == true) {
 
-			 godkendBtn.setDisable(false);
-			 
-			 afvisBtn.setDisable(false);
-		
-		} else  {
+			godkendBtn.setDisable(false);
+
+			afvisBtn.setDisable(false);
+
+		} else {
 			godkendBtn.setDisable(true);
-			 afvisBtn.setDisable(true);
+			afvisBtn.setDisable(true);
 		}
+		
+		
 
 	}
+	
+	public void inventarUpdate() {
+        opretLaan ol = new opretLaan();
+        GetBiler gb = new GetBiler();
+        LaaneTilbud valgtBilNavn = formTable.getSelectionModel().getSelectedItem();
+        bilid = valgtBilNavn.getBilid();
+        List<Biler> bilGet = gb.getBilerWhere(bilid);
+        for (int i = 0; i < bilGet.size(); i++)
+        bilinventar = gb.getBilerWhere(bilid).get(i).getInventar() + 1;
+        System.out.println("bilid før: " + bilid);
+
+        ol.inventarUpdate(bilid, bilinventar);
+            System.out.println("bilid efter: " + bilid);
+
+    }
 
 //		private void setColumnTilbud() {
 //			for (int i = 0; i < getlaan.size(); i++) {

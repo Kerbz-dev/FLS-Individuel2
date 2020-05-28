@@ -61,4 +61,19 @@ public class OpretLaanDB {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public void inventarOpdatering (int bilid, int bilinventar) {
+
+        try {
+            Statement statement = DB.connection.createStatement();
+
+
+            statement.executeUpdate("UPDATE biler SET inventar='" + bilinventar + "' WHERE bilid = " + bilid + "");
+
+        } catch (Exception e) {
+            System.out.println("Got exception in OpretLaanDB - InventarUpdate");
+            System.out.println(e.getMessage());
+        }
+
+    }
 }

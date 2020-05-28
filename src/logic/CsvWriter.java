@@ -7,7 +7,6 @@ import java.util.List;
 import db.LaaneTilbudDB;
 import entity.Kunde;
 import entity.LaaneTilbud;
-import presentation.LaaneUI;
 
 public class CsvWriter {
     LaaneTilbudDB db = new LaaneTilbudDB();
@@ -35,12 +34,7 @@ public class CsvWriter {
 
     				List<LaaneTilbud> GigaJohn = gl.getLaanWhere(tilbudsid);
     				List<Kunde> GigaKunde = gl.getKundeWhere(tlfnr);
-//    				lnUI.testcsv();
-//    				flemse = lnUI.testcsv();
-//    				System.out.println(lnUI.testcsv());
-//    				System.out.println(flemse);
-//    				sb.append(flemse);
-    				// sb.append("Alt fra tilbud: ");
+
     				for (int i = 0; i < gl.getKundeWhere(tlfnr).size(); i++) {
     				sb.append(GigaKunde.get(i).getKundefornavn() + " " + GigaKunde.get(i).getKundeefternavn());
 					sb.append(", ");
@@ -98,13 +92,8 @@ public void exportAllCsv() {
 	
 //	Kunde kundeentity = new Kunde();
 	// private Kunde kunde = new Kunde();
-	getKunde kundelogic = new getKunde();
-	List<Kunde> kunder = kundelogic.getKundeAll();
 	String filepath = "C:\\CSV\\CSVtest.csv";
 
-	LaaneUI lnUI = new LaaneUI();
-	
-	//Det eneste de skal gøre, er at lave en ny funktion, som de kalder exportAllCsv, og så kalde den i præsentation's else
 
 	try (PrintWriter writer = new PrintWriter(new File(filepath))) {
 
@@ -121,39 +110,7 @@ public void exportAllCsv() {
 			sb.append(gl.getLaanAll().get(i));
 			sb.append(", ");
 			sb.append("\n");
-			// sb.append(gl.getLaanWhere(tilbudsid).get(i).getAllTilbud());
-			// sb.append(", ");
-//			Scanner scan = new Scanner((Readable) gl.getLaanWhere(tilbudsid));
-//			scan.useDelimiter(":");
-//			scan.
-//			sb.useDelimiter(",");
-//			sb.next();
-//			// sb.replace(gl.getLaanWhere(tilbudsid), ':', ',');
-//			System.out.println(GigaJohn);
-////			System.out.println(scan);
-//
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getTelefonnummer());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getIndbetaling());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getLaanlaengde());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getBilid());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getBilsaelgerid());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getRentedato());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getOverstigergraense());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getLaanestatus());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getRente());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getMdlydelse());
-//			sb.append(", ");
-//			sb.append(gl.getLaanWhere(tilbudsid).get(i).getSamletpris());
-//			sb.append("\n");
+
 		}
 
 		writer.write(sb.toString());

@@ -6,7 +6,7 @@ import db.LaaneTilbudDB;
 import entity.LaaneTilbud;
 
 public class LaanOverstiger {
-    private int maksgraense = 3000000;
+    private int maksgraense = 5000000;
     LaaneTilbudDB db = new LaaneTilbudDB();
     
 
@@ -22,7 +22,7 @@ public class LaanOverstiger {
         return false;
         }
     }
-    
+  
     public boolean laaneStatus(int laanestatus) {
 		if(laanestatus == 1 ) {
 			return true;

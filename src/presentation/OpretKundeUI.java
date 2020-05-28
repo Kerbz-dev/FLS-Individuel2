@@ -1,8 +1,8 @@
 package presentation;
 
 import java.text.DecimalFormat;
-
 import java.text.ParsePosition;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -242,15 +242,8 @@ public class OpretKundeUI {
 		vejGetText = VejTField.getText();
 		husnrGetText = HusnrTField.getText();
 		cprGetText = cprTField.getText();
-		cpr = Long.parseLong(cprGetText);
 		mailGetText = mailTField.getText();
-		tlf = Integer.parseInt(tlfGetText);
-		postnr = Integer.parseInt(postnrGetText);
-		husnr = Integer.parseInt(husnrGetText);
-//		String getTlf = tlfTField.getText();
-//        int getTextTlf = Integer.valueof(tlfTField.getText());
-//        System.out.println(tlfGetText);
-//		
+
 		if (fieldsEmpty() == true) {
 			kundeFail();
 
@@ -258,10 +251,10 @@ public class OpretKundeUI {
 			cprFail();
 
 		}
-		else if (kundelogic.KundeCheckDuplicate(cpr, tlf) == true) {
+
+		else if (kundelogic.KundeCheckDuplicate(cprGetText, tlfGetText) == true) {
 			kundeDuplicate();
-		}
-		else {
+		} else {
 			checkRating();
 		}
 
@@ -277,7 +270,7 @@ public class OpretKundeUI {
 	}
 
 	private void cprFail() {
-		opretStatusLbl.setText("Der skal vaare 10 CPR-cifre. Nuvaerende antal: " + cprTField.getText().length());
+		opretStatusLbl.setText("Der skal være 10 CPR-cifre. Nuværende antal: " + cprTField.getText().length());
 		opretStatusLbl.setTextFill(Color.WHITE);
 		opretStatusLbl.relocate(200, 490);
 	}
@@ -288,8 +281,12 @@ public class OpretKundeUI {
 		opretStatusLbl.setText("Kunde Oprettet!");
 		opretStatusLbl.setTextFill(Color.LIGHTGREEN);
 		opretStatusLbl.relocate(390.5, 490);
-		OpretKunde.CreateKunde(fornavnGetText, efternavnGetText, tlf, postnr, byGetText, vejGetText,
-				husnr, cpr, mailGetText, kreditVurdering);
+		cpr = Long.parseLong(cprGetText);
+		tlf = Integer.parseInt(tlfGetText);
+		postnr = Integer.parseInt(postnrGetText);
+		husnr = Integer.parseInt(husnrGetText);
+		OpretKunde.CreateKunde(fornavnGetText, efternavnGetText, tlf, postnr, byGetText, vejGetText, husnr, cpr,
+				mailGetText, kreditVurdering);
 	}
 
 	private void kundeDuplicate() {

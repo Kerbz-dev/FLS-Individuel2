@@ -17,12 +17,6 @@ public class Singleton {
     public static Singleton getSingletonInstance() {
         return singletonInstance;
     }
-    
-    public void printSingleton(){
-        System.out.println("Se om det virker: " + username);
-       
-        
-    }
 
  
 
