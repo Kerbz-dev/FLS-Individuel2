@@ -12,4 +12,8 @@ public class getBilsaelger {
     public List<Bilsaelger> getsaelgerinfo() {
         return db.getSealger();
 }
+    
+    public List<Bilsaelger> getSaelgerWhereID(String username) {
+    	return db.getSaelgerWhereID(username);
+    }
 }

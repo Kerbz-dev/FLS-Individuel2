@@ -19,15 +19,15 @@ public class Datakobling {
 
 	public boolean loadJdbcDriver() {
 		try {
-			System.out.println("Loading JDBC driver...");
+			//System.out.println("Loading JDBC driver...");
 
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-			System.out.println("JDBC driver loaded");
+			//System.out.println("JDBC driver loaded");
 
 			return true;
 		} catch (ClassNotFoundException e) {
-			System.out.println("Could not load JDBC driver!");
+		//	System.out.println("Could not load JDBC driver!");
 			return false;
 		}
 	}
@@ -39,11 +39,11 @@ public class Datakobling {
 
 			connection = null;
 
-			System.out.println("Connecting to database...");
+			//System.out.println("Connecting to database...");
 
 			connection = DriverManager.getConnection(connectionString);
 
-			System.out.println("Connected to database");
+			//System.out.println("Connected to database");
 
 			return true;
 		} catch (SQLException e) {

@@ -17,11 +17,11 @@ public class LaaneTilbudDB {
 		ArrayList<LaaneTilbud> list = new ArrayList<LaaneTilbud>();
 		try {
 			Statement stmt = DB.connection.createStatement();
-			String query = "SELECT laanetilbud.tilbudsid, kunde.telefonnummer, biler.bilid, laanetilbud.bilid, laanetilbud.bilsaelgerid, laanetilbud.kundeindbetaling, laanetilbud.laanlaengde, laanetilbud.overstigergraense, laanetilbud.laanestatus, laanetilbud.rentedato, laanetilbud.rente, laanetilbud.mdlydelse, laanetilbud.samletpris"
+			String query = "SELECT laanetilbud.tilbudsid, kunde.telefonnummer, biler.bilid, bilsaelger.bilsaelgerid, laanetilbud.bilid, laanetilbud.bilsaelgerid, laanetilbud.kundeindbetaling, laanetilbud.laanlaengde, laanetilbud.overstigergraense, laanetilbud.laanestatus, laanetilbud.rentedato, laanetilbud.rente, laanetilbud.mdlydelse, laanetilbud.samletpris"
 					+ " FROM laanetilbud "
 					+ " JOIN kunde ON laanetilbud.telefonnummer = kunde.telefonnummer"
 					+ " JOIN biler ON laanetilbud.bilid = biler.bilid"
-//					+ " JOIN bilsaelger ON laanetilbud.bilsaelgerid = bilsaelger.bilsaelgerid"
+					+ " JOIN bilsaelger ON laanetilbud.bilsaelgerid = bilsaelger.bilsaelgerid"
 					;
 				
 			
@@ -32,6 +32,7 @@ public class LaaneTilbudDB {
 				int telefonnummer = rs.getInt("telefonnummer");
 				int kundeindbetaling = rs.getInt("kundeindbetaling");
 				int laanlaengde = rs.getInt("laanlaengde");
+				int bilsaelger = rs.getInt("bilsaelgerid");
 			//	boolean overstigergraense = rs.getBoolean("overstigergraense");
 				//int laanestatus = rs.getInt("laanestatus");
 				int bilid = rs.getInt("bilid");

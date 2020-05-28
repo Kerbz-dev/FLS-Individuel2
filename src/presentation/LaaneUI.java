@@ -5,6 +5,7 @@ import java.util.List;
 import entity.Biler;
 import entity.Kunde;
 import entity.LaaneTilbud;
+import entity.Singleton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,7 @@ import logic.FjernLaaneTilbud;
 import logic.GetBiler;
 import logic.LaanCheckTlf;
 import logic.LaanOverstiger;
+import logic.getBilsaelger;
 import logic.getKunde;
 import logic.getLaan;
 import logic.opretLaan;
@@ -66,11 +68,13 @@ public class LaaneUI {
 	private int laanestatus;
 	private String laanstatus;
 	private int tilbudsid;
+	private String username;
+	private int saelgerID;
 	// ObservableList<Kunde> formList;
 
 	@SuppressWarnings("unchecked")
 	public void start() {
-
+		username = Singleton.getUsername();
 		LaaneUIStage = new Stage();
 		LaaneUIStage.setTitle("Ferrari lånesystem");
 		LaaneUIStage.getIcons()
@@ -228,7 +232,7 @@ public class LaaneUI {
 		prisoutputLbl.relocate(577, 565);
 
 		loginName.relocate(922, 736);
-		loginName.setText("Logget ind som " + ": " + "medarbejderNavn");
+		loginName.setText("Logget ind som " + ": " + username);
 
 		// Search function
 		Søg.setLayoutX(23);
@@ -340,18 +344,33 @@ public class LaaneUI {
 		Søg.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(formSearch -> {
 				int telefonnummer = formSearch.getTelefonnummer();
+				int status = formSearch.getLaanestatus();
+				if (status == 2) {
+					laanstatus = "Godkendt";
+				} else if (status == 1) {
+					laanstatus = "Afventer";
+				}
+
+				else if (status == 0) {
+					laanstatus = "Afvist";
+				}
 				String tlfnr = Integer.toString(telefonnummer);
 				// If a filter text (the text field) is empty, show all forms
 				if (newValue == null || newValue.isEmpty()) {
 					return true;
 				}
-
+				
 				// Compares the textfield to the object (the input) with the filter from above
 				String lowerCaseFilter = newValue.toLowerCase();
 
 				// Filter matches with Analyze Title
 
 				if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+
+				}
+				
+				if (laanstatus.toLowerCase().contains(lowerCaseFilter)) {
 					return true;
 
 				}
@@ -520,7 +539,9 @@ public class LaaneUI {
 			System.out.println(tilbudsidString);
 			fjerntilbudlogic.FjernLaan(tlfnr, tilbudsidString);
 		}
-	}
+
+		}
+	
 
 	private void getstatusInfo() {
 		if (formTable.getSelectionModel().getSelectedItem() != null) {
@@ -565,9 +586,9 @@ public class LaaneUI {
 
 	}
     public void exportCSV() {
-    	
+    	CsvWriter CsvW = new CsvWriter();
         if (formTable.getSelectionModel().getSelectedItem() != null) {
-        	CsvWriter CsvW = new CsvWriter();
+        	
             List<LaaneTilbud> laanGet = laanlogic.getLaanWhere(tilbudsid);
 
             LaaneTilbud selectedTilbud = formTable.getSelectionModel().getSelectedItem();
@@ -577,7 +598,7 @@ public class LaaneUI {
             CsvW.exportCsv(tilbudsid, tlfnr);
 
             }else {
-                laanlogic.getLaanAll();
+                CsvW.exportAllCsv();
 
             }
 

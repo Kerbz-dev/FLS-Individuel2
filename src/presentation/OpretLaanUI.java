@@ -3,7 +3,10 @@ package presentation;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 
+import entity.Admin;
 import entity.Biler;
+import entity.Bilsaelger;
+import entity.Singleton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,13 +26,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.CheckID;
 import logic.GetBiler;
 import logic.GetKV;
 import logic.LaanCheckTlf;
 import logic.LaanOverstiger;
 import logic.TFieldLogik;
 import logic.TFieldLogik.TFieldResult;
-import logic.Traade;
+import logic.getBilsaelger;
 import logic.opretLaan;
 
 public class OpretLaanUI {
@@ -70,6 +74,7 @@ public class OpretLaanUI {
 	private String bilnavn;
 	private int bilid, bilpris, bilinventar;
 	private boolean overstigergraense;
+	private int saelgerID;
 	GetBiler billogic = new GetBiler();
 	// private List<Biler> getbiler = billogic.getAllBilerInfo();
 	private ObservableList<Biler> bilObserver;
@@ -354,13 +359,13 @@ public class OpretLaanUI {
 
 			renteTField.setText("Renten er: " + renteString + "%");
 			samletprisTField.setText("Samlede pris: " + samletPrisString + "kr.");
-			mdlYdelseTField.setText(
-					"Månedlig ydelse: " + mdlydelseString + ",- pr. måned over " + laanleangdeGetText + "mdr.");
+			mdlYdelseTField
+					.setText("Månedlig ydelse: " + mdlydelseString + ",- pr. måned over " + laanleangdeGetText + "år");
 			if (LO.overstigerGraense(samletPris) == true) {
-                overstigergraense = true;
-            } else {
-                overstigergraense = false;
-            }
+				overstigergraense = true;
+			} else {
+				overstigergraense = false;
+			}
 			OpretLaan();
 		}
 
@@ -402,6 +407,9 @@ public class OpretLaanUI {
 	}
 
 	private void tlfnrCheck() {
+
+		// rente = getCPR.getRente(cprnr);
+
 		tlfGetText = tlfTField.getText();
 		LaanCheckTlf tlfLogic = new LaanCheckTlf();
 		if (tlfLogic.CheckTlfDB(tlfGetText) == true) {
@@ -448,27 +456,41 @@ public class OpretLaanUI {
 
 	private void getRente() {
 		LaanCheckTlf tlflogic = new LaanCheckTlf();
-		GetKV getCPR = new GetKV();
 
-		getCPR.start();
-		for (int i = 0; i < 5; i++) {
+		// getCPR.start();
 
-			Traade tråd = new Traade(i);
-			tråd.start();
-
-		}
 		cprnr = tlflogic.getCPRNR(tlfGetText);
-		rente = getCPR.getRente(cprnr);
-		mdlYdelse = getCPR.getMdlYdelse(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
-		samletPris = getCPR.getSamletPris(cprnr, bilprisGetText, udbetalingGetText);
+		GetKV getKV = new GetKV(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
+		getKV.start();
+		System.out.println("den anden tråd");
+
+		// getKV.join();
+		rente = getKV.getRente2();
+		System.out.println("opretLaan får: " + getKV.getRente2());
+		mdlYdelse = 223292929;
+
+		// mdlYdelse = getCPR.getMdlYdelse(cprnr, bilprisGetText, udbetalingGetText,
+		// laanleangdeGetText);
+		// samletPris = getCPR.getSamletPris(cprnr, bilprisGetText, udbetalingGetText,
+		// laanleangdeGetText);
 		mdlYdelse = Math.round(mdlYdelse * 100.0) / 100.0;
 		rente = Math.round(rente * 100.0) / 100.0;
 		samletPris = Math.round(samletPris * 100.0) / 100.0;
+
+//			Thread tråd = new Thread(new GetKV());
+//			tråd.start();
+
 	}
 
 	private void OpretLaan() {
 		opretLaan laanlogic = new opretLaan();
-
+		String username = Singleton.getUsername();
+		System.out.println(username);
+		CheckID ID = new CheckID();
+		ID.setID(username);
+		saelgerID = Singleton.getSaelgerid();
+		System.out.println("Singleton i OpretLaanUI giver: " + saelgerID);
+		// saelgerID = checkID.setID(username);
 		Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
 		bilinventar = valgtBilNavn.getInventar();
 		System.out.println("bilinventar før: " + bilinventar);
@@ -477,8 +499,8 @@ public class OpretLaanUI {
 			System.out.println("bilinventar efter: " + bilinventar);
 
 		}
-		laanlogic.CreateLaan(tlfGetText, bilid, udbetalingGetText, laanleangdeGetText, overstigergraense, rente, mdlYdelse, samletPris,
-				bilinventar);
+		laanlogic.CreateLaan(tlfGetText, bilid, saelgerID, udbetalingGetText, laanleangdeGetText, overstigergraense,
+				rente, mdlYdelse, samletPris, bilinventar);
 	}
 
 	@SuppressWarnings("unchecked")

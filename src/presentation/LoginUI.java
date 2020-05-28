@@ -1,5 +1,6 @@
 package presentation;
 
+import entity.Singleton;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,8 +14,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.LoginVerification;
 import logic.LoginVerification.LoginResult;
-import logic.Sleeper;
-import logic.Traade;
+import logic.getBilsaelger;
 
 public class LoginUI extends Thread {
 
@@ -29,6 +29,8 @@ public class LoginUI extends Thread {
 	// private GridPane gp;
 	private Image ferrari;
 	private ImageView ferraripic;
+	private String username;
+	private int saelgerID;
 
 	public void start() {
 		loginStage = new Stage();
@@ -104,19 +106,24 @@ public class LoginUI extends Thread {
 	}
 
 	public void loginCheck() {
-		String username = userLoginField.getText();
+		username = userLoginField.getText();
 		String password = passLoginField.getText();
 		LoginVerification lgnctrl = new LoginVerification();
 		LoginResult lgnCheck;
+		Singleton singleton = Singleton.getSingletoninstance();
 		lgnCheck = lgnctrl.loginCheck(username, password);
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
 			loginSuccess();
+			singleton.setUsername(username);
 			startLaaneUI();
+			//Singleton singleton = new Singleton();
 		}
 
 		else if (lgnCheck == LoginResult.ADMIN_LOGGED_IN) {
 			loginSuccess();
+			singleton.setUsername(username);
 			adminLoginSuccess();
+			getUserinfo();
 		}
 
 		else if (lgnCheck == LoginResult.FAILED) {
@@ -124,13 +131,25 @@ public class LoginUI extends Thread {
 		}
 	}
 
+	public String getUsername() {
+		
+		return username;
+	}
 	private void loginSuccess() {
-		Traade trød1 = new Traade(1);
-		trød1.start();
 		loginStatus.relocate(130, 315);
 		loginStatus.setTextFill(Color.LIGHTGREEN);
 		loginStatus.setText("Login successful!");
-
+	
+	
+	}
+	
+	public int getUserinfo() {
+		getBilsaelger getBS = new getBilsaelger();
+		for (int i=0; i <  getBS.getSaelgerWhereID(username).size(); i++) {
+			int saelgerID = getBS.getSaelgerWhereID(username).get(i).getbilsaelgerid();
+			this.saelgerID = saelgerID;
+	}
+		return saelgerID;
 	}
 
 	private void loginFail() {
@@ -141,10 +160,6 @@ public class LoginUI extends Thread {
 
 	private void adminLoginSuccess() {
 		adminUI admUI = new adminUI();
-		Traade trød2 = new Traade(2);
-
-		Sleeper.sleep(2);
-		trød2.start();
 		admUI.start();
 	}
 

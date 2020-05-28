@@ -71,14 +71,6 @@ public class LaanCheckTlfDB {
                 String vejnavn = rs.getString("vejnavn");
                 int husnummer = rs.getInt("husnr");
                 String kreditVurdering = rs.getString("kreditVurdering");
-                // char kreditVurdering = rs.getCharacterStream("kreditVurdering");
-//                Kunde kunde = new Kunde();
-//               kunde.setKundenavn(rs.getString("kundenavn"));
-//               kunde.setTelefonnummer(rs.getString("telefonnummer"));
-//               kunde.setEmail(rs.getString("email"));
-//               kunde.setCpr_nummer(rs.getString("cpr_nummer"));
-//               kunde.setKreditvaerdighed(rs.getString("addresse"));
-//
 
 
                 Kunde kundeInsert = new Kunde(telefonnummer, kundefornavn, kundeefternavn, cpr_nummer, mail, postnummer, bynavn, vejnavn, husnummer, kreditVurdering);
@@ -113,15 +105,6 @@ public class LaanCheckTlfDB {
                 String vejnavn = rs.getString("vejnavn");
                 int husnummer = rs.getInt("husnr");
                 String kreditVurdering = rs.getString("kreditVurdering");
-                // char kreditVurdering = rs.getCharacterStream("kreditVurdering");
-//                Kunde kunde = new Kunde();
-//               kunde.setKundenavn(rs.getString("kundenavn"));
-//               kunde.setTelefonnummer(rs.getString("telefonnummer"));
-//               kunde.setEmail(rs.getString("email"));
-//               kunde.setCpr_nummer(rs.getString("cpr_nummer"));
-//               kunde.setKreditvaerdighed(rs.getString("addresse"));
-//
-
 
                 Kunde kundeInsert = new Kunde(tlfnr, kundefornavn, kundeefternavn, cpr_nummer, mail, postnummer, bynavn, vejnavn, husnummer, kreditVurdering);
 

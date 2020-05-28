@@ -55,6 +55,8 @@ public class KundeinfoDB {
         }
         return list;
 } 
+    
+    
 }
 
 

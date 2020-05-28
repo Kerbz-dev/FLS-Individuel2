@@ -4,7 +4,7 @@ package entity;
 
 public class Bilsaelger {
 
-
+	private int bilsaelgerid;
     private String medarbejderfornavn;
     private String saelgerbrugernavn;
     private String saelgerpassword;
@@ -12,9 +12,9 @@ public class Bilsaelger {
     private int maksgraense;
 
 
-    public Bilsaelger(String medarbejderfornavn, String saelgerbrugernavn, String saelgerpassword, String medarbejderefternavn, int maksgraense) {
+    public Bilsaelger(int bilsaelgerid, String medarbejderfornavn, String saelgerbrugernavn, String saelgerpassword, String medarbejderefternavn, int maksgraense) {
 
-
+    	this.bilsaelgerid = bilsaelgerid;
         this.medarbejderfornavn = medarbejderfornavn;
         this.saelgerbrugernavn = saelgerbrugernavn;
         this.saelgerpassword = saelgerpassword;
@@ -25,7 +25,22 @@ public class Bilsaelger {
     }
 
 
-    public String getmedarbejderfornavn() {
+    public Bilsaelger() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public int getbilsaelgerid() {
+		return bilsaelgerid;
+	}
+
+
+	public void setbilsaelgerid(int bilsaelgerid) {
+		this.bilsaelgerid = bilsaelgerid;
+	}
+
+
+	public String getmedarbejderfornavn() {
         return medarbejderfornavn;
     }
 

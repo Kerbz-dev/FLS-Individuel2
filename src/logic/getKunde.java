@@ -15,6 +15,7 @@ public class getKunde {
 	}
 	
 	
+	
 /*
 	public List<Kunde> getKundeAll() {
 		return db.getAllKunde();

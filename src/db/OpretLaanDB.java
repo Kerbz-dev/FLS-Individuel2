@@ -9,7 +9,7 @@ public class OpretLaanDB {
 //    private boolean overstigergraense;
 //    private int laanestatus;
 
-	public void createLaan(int tlf, int bilid, String udbetalingGetText, String laanleangdeGetText, boolean overstigergraense,double rente,
+	public void createLaan(int tlf, int bilid, int saelgerID, String udbetalingGetText, String laanleangdeGetText, boolean overstigergraense,double rente,
 			double mdlydelse, double samletpris, int bilinventar) {
 
 		try {
@@ -20,8 +20,8 @@ public class OpretLaanDB {
 			 * overstigergraense + laanestatus til første update
 			 *//////////////////////////////////////////////////////////
 			statement.executeUpdate(
-					"INSERT INTO laanetilbud  (telefonnummer, bilid, kundeindbetaling,laanlaengde, overstigergraense, rente,mdlydelse, samletpris) VALUES ('"
-							+ tlf + "', '" + bilid + "', '" + udbetalingGetText + "', '" + laanleangdeGetText + "', '" + overstigergraense + "', '"
+					"INSERT INTO laanetilbud  (telefonnummer, bilid, bilsaelgerid, kundeindbetaling,laanlaengde, overstigergraense, rente,mdlydelse, samletpris) VALUES ('"
+							+ tlf + "', '" + bilid + "', '" + saelgerID + "', '" + udbetalingGetText + "', '" + laanleangdeGetText + "', '" + overstigergraense + "', '"
 							+ rente + "','" + mdlydelse + "', '" + samletpris + "')");
 			statement.executeUpdate("UPDATE biler SET inventar = '" + bilinventar + "' WHERE bilid = " + bilid + "");
 			/*
@@ -32,7 +32,7 @@ public class OpretLaanDB {
 //            + "', '" + adr + "', '" + mail + "')");
 
 		} catch (Exception e) {
-			System.out.println("Got exception in OpretLaanDB");
+			System.out.println("Got exception in OpretLaanDB - Createlaan");
 			System.out.println(e.getMessage());
 		}
 
@@ -57,7 +57,7 @@ public class OpretLaanDB {
 //               + "', '" + adr + "', '" + mail + "')");
 
 		} catch (Exception e) {
-			System.out.println("Got exception in OpretLaanDB laanestatus");
+			System.out.println("Got exception in OpretLaanDB createstatus");
 			System.out.println(e.getMessage());
 		}
 	}
