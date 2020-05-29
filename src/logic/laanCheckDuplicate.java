@@ -4,18 +4,16 @@ import db.DuplicateCheckDB;
 
 public class laanCheckDuplicate {
 
-    private DuplicateCheckDB laan = new DuplicateCheckDB();
+	private DuplicateCheckDB laan = new DuplicateCheckDB();
 
-    public boolean LaanCheckDuplicate(long cpr, int tlf) {
+	public boolean LaanCheckDuplicate(long cpr, int tlf) {
 
-    	if (laan.kundeCheckDuplicate(cpr, tlf) == true) {
-    		return true;
-    	}
+		if (laan.kundeCheckDuplicate(cpr, tlf) == true) {
+			return true;
+		}
 
+		return false;
 
-        return false;
-
-    }
-
+	}
 
 }

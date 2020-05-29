@@ -2,12 +2,12 @@ package logic;
 
 import java.util.List;
 
-import db.saelgerinfoDB;
+import db.SaelgerDB;
 import entity.Bilsaelger;
 
 public class getBilsaelger {
 
-    saelgerinfoDB db = new saelgerinfoDB();
+    SaelgerDB db = new SaelgerDB();
 
     public List<Bilsaelger> getsaelgerinfo() {
         return db.getSealger();

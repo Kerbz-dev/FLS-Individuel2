@@ -4,7 +4,6 @@ import java.util.List;
 
 import db.BilDB;
 import entity.Biler;
-import entity.Kunde;
 
 public class GetBiler {
 	BilDB bildb = new BilDB();
@@ -24,5 +23,5 @@ public class GetBiler {
 
 	public List<Biler> getBilerWhere(int bilid) {
 		return bildb.getBilerWhereID(bilid);
-}
+	}
 }

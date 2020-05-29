@@ -25,8 +25,7 @@ public class Bilsaelger {
     }
 
 
-    public Bilsaelger() {
-		// TODO Auto-generated constructor stub
+	public Bilsaelger() {
 	}
 
 

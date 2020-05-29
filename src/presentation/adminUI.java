@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 public class adminUI {
 	private Button laan, laaneanmodning, opretSealger;
-
 	private Scene scene;
 	private Pane pane;
 	private Image ferrari;
@@ -19,7 +18,7 @@ public class adminUI {
 	public void start() {
 
 		adminUIStage = new Stage();
-
+		adminUIStage.setTitle("Ferrari lånesystem");
 		pane = new Pane();
 		pane.setStyle("-fx-background-color: #F40808");
 		ferrari = new Image(
@@ -29,17 +28,17 @@ public class adminUI {
 		adminUIStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
-		// Button assignments
+		// Laver knapper
 		laan = new Button("Opret lån");
 		laaneanmodning = new Button("Låneanmodninger");
 		opretSealger = new Button("Opret Sælger");
 
-		// LOGO location
+		// LOGO Placering
 		ferraripic.relocate(223, 30);
 		ferraripic.setFitWidth(300);
 		ferraripic.setFitHeight(150);
 
-		// Button location
+		// Button Placering
 		laan.setPrefHeight(62);
 		laan.setPrefWidth(189);
 		laan.relocate(274, 235);
@@ -62,11 +61,14 @@ public class adminUI {
 		adminUIStage.setScene(scene);
 		adminUIStage.show();
 
+		// Laver set on action på knapper
 		opretSealger.setOnAction(e -> opretLoginUI());
 		laan.setOnAction(e -> opretLaaneUI());
 		laaneanmodning.setOnAction(e -> opretAnmodningerUI());
+		adminUIStage.setOnCloseRequest(e -> startLogin());
 	}
 
+	// Metoder
 	private void opretLoginUI() {
 		OpretMedarbejderUI oprlogUI = new OpretMedarbejderUI();
 		oprlogUI.start();
@@ -80,5 +82,10 @@ public class adminUI {
 	private void opretAnmodningerUI() {
 		LaaneAnmodningerUI laUI = new LaaneAnmodningerUI();
 		laUI.start();
+	}
+	
+	private void startLogin() {
+		LoginUI lgnUI = new LoginUI();
+		lgnUI.start();
 	}
 }

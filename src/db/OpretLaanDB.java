@@ -15,22 +15,12 @@ public class OpretLaanDB {
 		try {
 			Statement statement = DB.connection.createStatement();
 
-			/*
-			 * ////////////////////////////////////////////////////////// mangler
-			 * overstigergraense + laanestatus til første update
-			 *//////////////////////////////////////////////////////////
 			statement.executeUpdate(
 					"INSERT INTO laanetilbud  (telefonnummer, bilid, bilsaelgerid, kundeindbetaling,laanlaengde, overstigergraense, rente,mdlydelse, samletpris) VALUES ('"
 							+ tlf + "', '" + bilid + "', '" + saelgerID + "', '" + udbetalingGetText + "', '" + laanleangdeGetText + "', '" + overstigergraense + "', '"
 							+ rente + "','" + mdlydelse + "', '" + samletpris + "')");
 			statement.executeUpdate("UPDATE biler SET inventar = '" + bilinventar + "' WHERE bilid = " + bilid + "");
-			/*
-			 * statement .executeUpdate("insert into biler (bilnavn,bilpris) VALUES ('" +
-			 * bilnavnGetText + "', '" + bilprisGetText + "')");
-			 */
-//            statement.executeUpdate("INSERT INTO kunde " + "VALUES ('" + cpr + "', '" + tlf + "', '" + kundenavn
-//            + "', '" + adr + "', '" + mail + "')");
-
+			
 		} catch (Exception e) {
 			System.out.println("Got exception in OpretLaanDB - Createlaan");
 			System.out.println(e.getMessage());
@@ -42,19 +32,8 @@ public class OpretLaanDB {
 		try {
 			Statement statement = DB.connection.createStatement();
 
-			/*
-			 * ////////////////////////////////////////////////////////// mangler
-			 * overstigergraense + laanestatus til første update
-			 *//////////////////////////////////////////////////////////
 			statement.executeUpdate(
 					("UPDATE laanetilbud SET laanestatus = '" + laanestatus + "' WHERE tilbudsid = " + tilbudsid + ""));
-
-			/*
-			 * statement .executeUpdate("insert into biler (bilnavn,bilpris) VALUES ('" +
-			 * bilnavnGetText + "', '" + bilprisGetText + "')");
-			 */
-//               statement.executeUpdate("INSERT INTO kunde " + "VALUES ('" + cpr + "', '" + tlf + "', '" + kundenavn
-//               + "', '" + adr + "', '" + mail + "')");
 
 		} catch (Exception e) {
 			System.out.println("Got exception in OpretLaanDB createstatus");
@@ -66,7 +45,6 @@ public class OpretLaanDB {
 
         try {
             Statement statement = DB.connection.createStatement();
-
 
             statement.executeUpdate("UPDATE biler SET inventar='" + bilinventar + "' WHERE bilid = " + bilid + "");
 

@@ -10,16 +10,13 @@ public class CsvWriter {
 	getLaan gl = new getLaan();
 	getKunde gk = new getKunde();
 
-	public void exportCsv(int tilbudsid, int tlfnr) {
+	public boolean exportCsv(int tilbudsid, int tlfnr) {
 
-		String filepath = "C:\\CSV\\" + "Tilbud" + " " + tilbudsid + "-" + tlfnr
-				+ ".csv";
+		String filepath = "C:\\CSV\\" + "Tilbud" + " " + tilbudsid + "-" + tlfnr + ".csv";
 
 		try (PrintWriter writer = new PrintWriter(new File(filepath))) {
 
 			StringBuilder sb = new StringBuilder();
-
-			System.out.println("tilbudsid: " + tilbudsid);
 
 			for (int i = 0; i < gl.getKundeWhere(tlfnr).size(); i++) {
 
@@ -47,7 +44,6 @@ public class CsvWriter {
 			}
 
 			for (int i = 0; i < gl.getLaanWhere(tilbudsid).size(); i++) {
-				System.out.println(gl.getLaanWhere(tilbudsid).get(i).getAllTilbud());
 
 				sb.append(gl.getLaanWhere(tilbudsid).get(i).getIndbetaling());
 				sb.append(", ");
@@ -73,15 +69,14 @@ public class CsvWriter {
 
 			writer.write(sb.toString());
 
-			System.out.println("done!");
-
+			return true;
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-
+		return false;
 	}
 
-	public void exportAllCsv(int tilbudsid, int tlfnr) {
+	public boolean exportAllCsv(int tilbudsid, int tlfnr) {
 
 		String filepath = "C:\\CSV\\CSVall.csv";
 
@@ -143,11 +138,12 @@ public class CsvWriter {
 
 			writer.write(sb.toString());
 
-			System.out.println("done!");
-
+			return true;
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
 
+		return false;
 	}
+
 }

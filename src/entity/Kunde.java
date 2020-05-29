@@ -13,14 +13,6 @@ public class Kunde {
 	private int husnummer;
 	private String kreditVurdering;
 
-	public Kunde() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/*
-	 * public Kunde(int telefonnummer, String kreditVurdering) { this.telefonnummer
-	 * = telefonnummer; this.kreditVurdering = kreditVurdering; }
-	 */
 	public Kunde(int telefonnummer, String kundefornavn, String kundeefternavn, long cpr_nummer, String mail,
 			int postnummer, String bynavn, String vejnavn, int husnummer, String kreditVurdering)
 

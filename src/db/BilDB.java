@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Biler;
-import entity.Kunde;
 
 public class BilDB {
 	Datakobling DB = new Datakobling();
@@ -17,7 +16,6 @@ public class BilDB {
 
 		try {
 			String sql = "SELECT * FROM Biler";
-			// String sql2 = "SELECT bilid, bilnavn, bilpris FROM Biler";
 
 			Statement statement = DB.connection.createStatement();
 
@@ -31,7 +29,6 @@ public class BilDB {
 				int bilPris = resultSet.getInt("bilpris");
 				int inventar = resultSet.getInt("inventar");
 
-				// brug data, e.g. => entitets/model object
 				Biler biler1 = new Biler(bilId, bilnavn, bilPris, inventar);
 
 				biler.add(biler1);
@@ -64,41 +61,30 @@ public class BilDB {
 
 	}
 
-	public List<Biler> getBilerWhereID (int bilid) {
-        ArrayList<Biler> list = new ArrayList<Biler>();
-        Datakobling DB = new Datakobling(); 
-        try {
-            Statement stmt = DB.connection.createStatement();
-            String query = "Select * from biler where bilid='" + bilid + "'";
+	public List<Biler> getBilerWhereID(int bilid) {
+		ArrayList<Biler> list = new ArrayList<Biler>();
+		Datakobling DB = new Datakobling();
+		try {
+			Statement stmt = DB.connection.createStatement();
+			String query = "Select * from biler where bilid='" + bilid + "'";
 
- // String query skal opdateres - skal have where clause på den
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-            	bilid = rs.getInt("bilid");
-            	String bilnavn = rs.getString("bilnavn");
-            	int bilpris = rs.getInt("bilpris");
-            	int inventar = rs.getInt("inventar");
-                // char kreditVurdering = rs.getCharacterStream("kreditVurdering");
-//                Kunde kunde = new Kunde();
-//               kunde.setKundenavn(rs.getString("kundenavn"));
-//               kunde.setTelefonnummer(rs.getString("telefonnummer"));
-//               kunde.setEmail(rs.getString("email"));
-//               kunde.setCpr_nummer(rs.getString("cpr_nummer"));
-//               kunde.setKreditvaerdighed(rs.getString("addresse"));
-//
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				bilid = rs.getInt("bilid");
+				String bilnavn = rs.getString("bilnavn");
+				int bilpris = rs.getInt("bilpris");
+				int inventar = rs.getInt("inventar");
 
+				Biler bilInsert = new Biler(bilid, bilnavn, bilpris, inventar);
 
-               Biler bilInsert = new Biler(bilid, bilnavn, bilpris, inventar);
+				list.add(bilInsert);
 
-        //       System.out.println(kunde);
-                list.add(bilInsert);
-
-            }
-        } catch (SQLException e) {
-            System.out.println("Got exception from  BilIDCheck in BilDB");
-            System.out.println(e.getMessage());
-        }
-        return list;
-} 
+			}
+		} catch (SQLException e) {
+			System.out.println("Got exception from  BilIDCheck in BilDB");
+			System.out.println(e.getMessage());
+		}
+		return list;
+	}
 
 }

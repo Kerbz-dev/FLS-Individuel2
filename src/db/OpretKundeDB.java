@@ -12,11 +12,6 @@ public class OpretKundeDB {
 		try {
 			Statement statement = DB.connection.createStatement();
 
-			/*
-			 * ////////////////////////////////////////////////////////// mangler
-			 * overstigergraense + laanestatus til første update
-			 *//////////////////////////////////////////////////////////
-
 			statement.executeUpdate(
 					"insert into kunde (telefonnummer,kundefornavn,kundeefternavn,cpr_nummer,mail,postnummer,bynavn,vejnavn,husnr, kreditVurdering) VALUES ('"
 							+ tlf + "', '" + fornavnGetText + "', '" + efternavnGetText + "','" + cpr + "', '"

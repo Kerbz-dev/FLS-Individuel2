@@ -2,20 +2,17 @@ package entity;
 
 public class Admin {
 
-    private int adminid; 
-    private String adminbrugernavn;
-    private String adminpassword;
+	private int adminid;
+	private String adminbrugernavn;
+	private String adminpassword;
 
-    public Admin (int adminid, String adminbrugernavn) {
-        
-        this.adminid = adminid;
-        this.adminbrugernavn = adminbrugernavn;
- 
-    }
-    
-    public Admin() {
- 		// TODO Auto-generated constructor stub
- 	}
+	public Admin(int adminid, String adminbrugernavn) {
+
+		this.adminid = adminid;
+		this.adminbrugernavn = adminbrugernavn;
+
+	}
+
 
 	public int getAdminid() {
 		return adminid;
@@ -40,6 +37,5 @@ public class Admin {
 	public void setAdminpassword(String adminpassword) {
 		this.adminpassword = adminpassword;
 	}
-    
-       
-    }
+
+}

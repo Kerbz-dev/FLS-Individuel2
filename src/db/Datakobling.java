@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 
 public class Datakobling {
-	String databaseName;
+ private String databaseName;
 	public Connection connection;
 
 	public Datakobling() {

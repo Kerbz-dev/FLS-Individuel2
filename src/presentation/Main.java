@@ -5,26 +5,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-//	    for ( int i=0; i<5; i++ ) {
-//
-//	      Traade tråd = new Traade(i);
-//	      tråd.start();
-//		for (int i=0; i<5; i++) {
-//			GetKV getKV = new GetKV();
-//			getKV.start();
-//			System.out.println("FisseFlemming on duty (checker renten!)");
-//		}
-
-		launch(args);
-	}
-
-	public void start(Stage loginStage) {
-
-		LoginUI uiLaunch = new LoginUI();
-		uiLaunch.start();
-
-	}
-
+    public void start(Stage loginStage) {
+        LoginUI uiLaunch = new LoginUI();
+        uiLaunch.start();
+    }
 }

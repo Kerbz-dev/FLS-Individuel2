@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.ParsePosition;
 
 import entity.Kunde;
+import entity.Singleton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,46 +29,47 @@ import logic.KundeOpdatering;
 import logic.getKunde;
 
 public class RedigerKundeUI {
-	DecimalFormat numberFormatter = new DecimalFormat("0");
-	private TextField kundefornavnTField, kundeefternavnTField, tlfTField, PostnrTField, ByTField, ejTField, VejTField,
+	private DecimalFormat numberFormatter = new DecimalFormat("0");
+	private TextField kundefornavnTField, kundeefternavnTField, tlfTField, PostnrTField, ByTField, VejTField,
 			HusnrTField, cprTField, mailTField, SoegTField;
 	private Button opdaterKundeBtn;
 	private Stage opretKundeStage;
 	private String fornavnGT, efternavnGT, tlfGT, postnrGT, byGT, vejGT, husnrGT, cprGT, mailGT;
 	private Label opretStatusLbl;
-	private Scene scene4;
-	private Pane pane4;
+	private Scene scene;
+	private Pane pane;
 	private Image ferrari;
 	private ImageView ferraripic;
 	private getKunde kundelogic = new getKunde();
 	private ObservableList<Kunde> formList;
 	private TableView<Kunde> formTable = new TableView<Kunde>();
 	private LaaneUI laaneUI;
+
 	public RedigerKundeUI(LaaneUI laaneUI) {
 		this.laaneUI = laaneUI;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void start() {
 		opretKundeStage = new Stage();
 		opretKundeStage.setTitle("Ferrari lånesystem");
 		opretKundeStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
-		Label lgnNameLbl = new Label("logget in som " + "username");
-		// logo assignments
-		pane4 = new Pane();
+		Label lgnNameLbl = new Label("logget ind som " + Singleton.getUsername());
+		// Sætter pane + billede
+		pane = new Pane();
 		ferrari = new Image(
 				"https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg%22");
-		pane4.setPrefHeight(670.0);
+		pane.setPrefHeight(670.0);
 		ferraripic = new ImageView();
 
-//		// Button assignments
+		// Sætter knap
 		opdaterKundeBtn = new Button("Opdater kunde");
 
-		// TextField assignments
+		// Sætter TField
 		kundefornavnTField = new TextField();
 		kundeefternavnTField = new TextField();
-		// adrTField = new TextField();
 		PostnrTField = new TextField();
 		ByTField = new TextField();
 		VejTField = new TextField();
@@ -76,10 +78,9 @@ public class RedigerKundeUI {
 		cprTField = new TextField();
 		mailTField = new TextField();
 		SoegTField = new TextField();
-
 		opretStatusLbl = new Label();
 
-		// locations
+		// TField lokationer
 		kundefornavnTField.relocate(320.0, 195.0);
 		kundefornavnTField.setPrefHeight(25.0);
 		kundefornavnTField.setPrefWidth(321);
@@ -123,7 +124,7 @@ public class RedigerKundeUI {
 		ferraripic.setImage(ferrari);
 		ferraripic.relocate(305, 20);
 
-		// Setting prompt text style to only appear once a character has been inserted
+		// Sætter prompt text til kun at blive vist når et bogstav bliver indsat
 		mailTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		cprTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		tlfTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
@@ -133,9 +134,11 @@ public class RedigerKundeUI {
 		HusnrTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		kundefornavnTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		kundeefternavnTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
-		pane4.setStyle("-fx-background-color: #F40808");
+		
+		// Sætter pane baggrundsfarve
+		pane.setStyle("-fx-background-color: #F40808");
 
-		// Setting prompt text
+		// Sætter prompt text
 		kundefornavnTField.setPromptText("Fornavn");
 		kundeefternavnTField.setPromptText("Efternavn");
 		mailTField.setPromptText("E-Mail");
@@ -152,7 +155,7 @@ public class RedigerKundeUI {
 
 		tlfTField.setEditable(false);
 
-		// Setting colums for arraylist
+		// Laver tabel + funktionalitet
 		TableColumn<Kunde, String> ColumnFornavn = new TableColumn<Kunde, String>("Fornavn");
 		TableColumn<Kunde, String> ColumnEfternavn = new TableColumn<Kunde, String>("Efternavn");
 		TableColumn<Kunde, String> ColumnTlf = new TableColumn<Kunde, String>("Tlf. nr");
@@ -160,35 +163,28 @@ public class RedigerKundeUI {
 		ColumnFornavn.setCellValueFactory(e -> {
 			Kunde kunde = e.getValue();
 			return new SimpleStringProperty(kunde.getKundefornavn());
-
 		});
 
 		ColumnEfternavn.setCellValueFactory(e -> {
 			Kunde kunde = e.getValue();
 			return new SimpleStringProperty(kunde.getKundeefternavn());
-
 		});
 		ColumnTlf.setCellValueFactory(e -> {
 			Kunde kunde = e.getValue();
 			int telefonnummer = kunde.getTelefonnummer();
 			String tlfnr = Integer.toString(telefonnummer);
 			return new SimpleStringProperty(tlfnr);
-
 		});
 
 		formTable.getColumns().addAll(ColumnFornavn, ColumnEfternavn, ColumnTlf);
-
 		formTable.setItems(formList);
-
 		udfyldTbl();
-	
 
-		// Make TFields number only accept number inputs
+		// Sætter TField til kun at tal kan sættes
 		cprTField.setTextFormatter(new TextFormatter<>(c -> {
 			if (c.getControlNewText().isEmpty()) {
 				return c;
 			}
-
 			ParsePosition parsePosition = new ParsePosition(0);
 			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
 
@@ -203,7 +199,6 @@ public class RedigerKundeUI {
 			if (c.getControlNewText().isEmpty()) {
 				return c;
 			}
-
 			ParsePosition parsePosition = new ParsePosition(0);
 			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
 
@@ -214,7 +209,7 @@ public class RedigerKundeUI {
 			}
 		}));
 
-		// Font sizes
+		// Sætter font størrelser
 		SoegTField.setFont(new Font(18));
 		opretStatusLbl.setFont(new Font(24));
 		kundeefternavnTField.setFont(new Font(14));
@@ -229,18 +224,20 @@ public class RedigerKundeUI {
 		VejTField.setFont(new Font(14));
 		ByTField.setFont(new Font(14));
 
-		// Add to pane
-		pane4.getChildren().addAll(kundefornavnTField, kundeefternavnTField, PostnrTField, ByTField, VejTField,
+		// Tilføj til pane
+		pane.getChildren().addAll(kundefornavnTField, kundeefternavnTField, PostnrTField, ByTField, VejTField,
 				HusnrTField, tlfTField, cprTField, mailTField, opdaterKundeBtn, opretStatusLbl, ferraripic, lgnNameLbl,
 				SoegTField, formTable);
 
-		// Show scene
-		scene4 = new Scene(pane4, 950, 670);
-		opretKundeStage.setScene(scene4);
+		// Vis scene
+		scene = new Scene(pane, 950, 670);
+		opretKundeStage.setScene(scene);
 		opretKundeStage.show();
 
+		// Sætter set on action på knap
 		opdaterKundeBtn.setOnAction(e -> checkOpdatering());
 
+		// Sætter mouseevent på tabel
 		formTable.setOnMouseClicked((MouseEvent event) -> {
 			if (event.getClickCount() > 1) {
 				setTFields();
@@ -248,6 +245,7 @@ public class RedigerKundeUI {
 		});
 	}
 
+	// Metoder
 	private void checkOpdatering() {
 		fornavnGT = kundefornavnTField.getText();
 		efternavnGT = kundeefternavnTField.getText();
@@ -260,17 +258,15 @@ public class RedigerKundeUI {
 		mailGT = mailTField.getText();
 
 		if (fieldsEmpty() == true) {
-			opdaterFail();
+			opdaterFejl();
 
 		} else if (cprTField.getText().length() != 10) {
-			cprFail();
-
+			cprFejl();
 		}
-
 		else
 			opdaterKunde();
-			opdaterTable();
-			laaneUI.opdaterTable();
+		opdaterTable();
+		laaneUI.opdaterTable();
 	}
 
 	private void opdaterKunde() {
@@ -290,14 +286,14 @@ public class RedigerKundeUI {
 		return false;
 	}
 
-	private void opdaterFail() {
+	private void opdaterFejl() {
 		opretStatusLbl.setText("Udfyld venligst alle felter!");
 		opretStatusLbl.setTextFill(Color.WHITE);
 		opretStatusLbl.relocate(345, 490);
 
 	}
 
-	private void cprFail() {
+	private void cprFejl() {
 		opretStatusLbl.setText("Der skal vaare 10 CPR-cifre. Nuværende antal: " + cprTField.getText().length());
 		opretStatusLbl.setTextFill(Color.WHITE);
 		opretStatusLbl.relocate(200, 490);
@@ -326,72 +322,46 @@ public class RedigerKundeUI {
 			HusnrTField.setText(husnrString);
 		}
 	}
-	
-	public void opdaterTable() {
+
+	private void opdaterTable() {
 		if (formList.size() > 0) {
 			formList.clear();
-			formTable.refresh();
-		//	formTable.getItems().add(formList);
 			udfyldTbl();
-//        	formList = FXCollections.observableList(laanlogic.getLaanAll());
-//        	for(int i=0; i < formList.size(); i++) {
-//        	formList.get(i).getAllTilbud();
-//        	formTable.setItems(formList);
-//        	
-//        	}
 		}
 	}
-	private void udfyldTbl() {
-		/*
-		 * //////////////////////////////// Søgefunktion til tablecolumn
-		 *////////////////////////////////
 
+	private void udfyldTbl() {
 		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		formList = FXCollections.observableList(kundelogic.getKundeAll());
-		// System.out.println("getKundeAll returner: " +
-		// formList.get(2).getKreditVurdering());
 		FilteredList<Kunde> filteredData = new FilteredList<>(formList, p -> true);
 
+		// Søg funktion
 		SoegTField.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(formSearch -> {
 				int telefonnummer = formSearch.getTelefonnummer();
 				String tlfnr = Integer.toString(telefonnummer);
-				// If a filter text (the text field) is empty, show all forms
 				if (newValue == null || newValue.isEmpty()) {
 					return true;
 				}
 
-				// Compares the textfield to the object (the input) with the filter from above
 				String lowerCaseFilter = newValue.toLowerCase();
 
-				// Filter matches with Analyze Title
 				if (formSearch.getKundefornavn().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-					// Filter matches with date
 				} else if (formSearch.getKundeefternavn().toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-					// Filter matches with date
 				}
-
 				else if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
 					return true;
-
 				}
-
-				// No match at all
 				return false;
 			});
 		});
 
 		SortedList<Kunde> sortedData = new SortedList<>(filteredData);
-
-		// Connect the SortedList comparator to the TableView comparator
-		// 'The comparator that denotes the order of this SortedList'
 		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
 
 		// Tilføjer sorteret og filtreret data til vores TableView
 		formTable.setItems(sortedData);
-
-		// Fanger det vaglte element
 	}
 }

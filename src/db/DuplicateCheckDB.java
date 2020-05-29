@@ -11,12 +11,11 @@ public class DuplicateCheckDB {
 			Statement stmt = DB.connection.createStatement();
 			String sql = "Select * from bilsaelger where saelgerbrugernavn='" + CreateUsername + "' ";
 
-			// or saelgerpassword='"+ passwordFieldInput + "'
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 
 				return true;
-				// System.out.println(duplicateCheck);
+
 			}
 			rs.close();
 
@@ -27,24 +26,23 @@ public class DuplicateCheckDB {
 		return false;
 	}
 
+	public boolean kundeCheckDuplicate(long cpr, int tlf) {
 
-public boolean kundeCheckDuplicate(long cpr, int tlf) {
+		try {
+			Statement stmt = DB.connection.createStatement();
+			String sql = "Select * FROM kunde WHERE telefonnummer='" + tlf + "' OR cpr_nummer='" + cpr + "'";
 
-	try {
-		Statement stmt = DB.connection.createStatement();
-		String sql = "Select * FROM kunde WHERE telefonnummer='" + tlf + "' OR cpr_nummer='" + cpr + "'";
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				return true;
 
-		ResultSet rs = stmt.executeQuery(sql);
-		if (rs.next()) {
-			return true;
-			// System.out.println(duplicateCheck);
+			}
+			rs.close();
+
+		} catch (Exception e) {
+			System.out.println("Got exception from kundeCheckDuplicate in OpretLaanDB");
+			System.out.print(e);
 		}
-		rs.close();
-
-	} catch (Exception e) {
-		System.out.println("Got exception from kundeCheckDuplicate in OpretLaanDB");
-		System.out.print(e);
+		return false;
 	}
-	return false;
-}
 }

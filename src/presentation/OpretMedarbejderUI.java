@@ -21,9 +21,8 @@ public class OpretMedarbejderUI {
 	private Image ferrari;
 	private ImageView ferraripic;
 	private Button opretLoginKnap;
-	private Scene scene2;
-	private Pane pane2;
-	// private BorderPane bp2;
+	private Scene scene;
+	private Pane pane;
 
 	public void start() {
 		opretLoginStage = new Stage();
@@ -31,9 +30,8 @@ public class OpretMedarbejderUI {
 		opretLoginStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
-		// assignments
-		// bp2 = new BorderPane();
-		pane2 = new Pane();
+		// Sætter pane, TField, knap og label
+		pane = new Pane();
 		opretLoginKnap = new Button("Opret medarbejder");
 		opretLoginStatus = new Label();
 		fornavnTF = new TextField();
@@ -44,8 +42,7 @@ public class OpretMedarbejderUI {
 				"https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg");
 		ferraripic = new ImageView();
 
-		// fornavnTF.setPrefHeight(30);
-		// fornavnTF.setPrefWidth(214);
+		// Sætter TField lokation + Diverse
 		fornavnTF.setFont(new Font(24));
 		fornavnTF.setPromptText("Fornavn");
 		fornavnTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
@@ -55,51 +52,46 @@ public class OpretMedarbejderUI {
 		efternavnTF.setPromptText("Efternavn");
 		efternavnTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		efternavnTF.relocate(150, 255);
-		// brugernavnTF.setPrefHeight(30);
-		// brugernavnTF.setPrefWidth(214);
 		brugernavnTF.setFont(new Font(24));
 		brugernavnTF.setPromptText("Brugernavn");
 		brugernavnTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		brugernavnTF.relocate(150, 315);
 
-		// passwordTF.setPrefHeight(30);
-		// passwordTF.setPrefWidth(214);
 		passwordTF.setFont(new Font(24));
 		passwordTF.setPromptText("Password");
 		passwordTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		passwordTF.relocate(150, 375);
 
-		// OpretLoginKnap.setPrefHeight(40);
-		// OpretLoginKnap.setPrefWidth(154);
 		opretLoginKnap.relocate(180, 505);
 		opretLoginKnap.setFont(new Font(24));
 
 		opretLoginStatus.setFont(new Font(24));
 		opretLoginStatus.setFont(new Font(30));
-		
+
 		ferraripic.setFitWidth(250);
 		ferraripic.setFitHeight(135);
 		ferraripic.setImage(ferrari);
 		ferraripic.relocate(173, 25);
 
-		pane2.setStyle("-fx-background-color: #F40808");
+		// Sætter baggrundsfarve til pane
+		pane.setStyle("-fx-background-color: #F40808");
 
-		// Add to pane
-		pane2.getChildren().addAll(fornavnTF, efternavnTF, brugernavnTF, passwordTF, opretLoginKnap, opretLoginStatus,
+		// Tilføj til pane
+		pane.getChildren().addAll(fornavnTF, efternavnTF, brugernavnTF, passwordTF, opretLoginKnap, opretLoginStatus,
 				ferraripic);
-		// bp2.getChildren().add(pane2);
 
 		// Show scene
-		scene2 = new Scene(pane2, 600, 600);
+		scene = new Scene(pane, 600, 600);
 		opretLoginStage.setResizable(false);
-		opretLoginStage.setScene(scene2);
+		opretLoginStage.setScene(scene);
 		opretLoginStage.show();
 
-		// Action buttons
+		// Sætter set on action til knap
 		opretLoginKnap.setOnAction(e -> opretBruger());
 
 	}
 
+	// Metoder
 	private void opretLoginSuccess() {
 		opretLoginStatus.setTextFill(Color.LIGHTGREEN);
 		opretLoginStatus.relocate(130, 445);
@@ -107,7 +99,7 @@ public class OpretMedarbejderUI {
 
 	}
 
-	private void opretLoginFailAll() {
+	private void opretLoginFejllAlle() {
 		opretLoginStatus.setTextFill(Color.WHITE);
 		opretLoginStatus.relocate(135, 445);
 		opretLoginStatus.setText("Udfyld venligst alle felter");
@@ -119,23 +111,30 @@ public class OpretMedarbejderUI {
 		opretLoginStatus.setText("Udfyld venligst medarbejder navn");
 	}
 
-	private void opretLoginFailUserfornavnTF() {
+	private void opretLoginFejlBrugernavnTF() {
 		opretLoginStatus.setTextFill(Color.WHITE);
 		opretLoginStatus.relocate(125, 445);
 		opretLoginStatus.setText("Udfyld venligst brugernavn");
 	}
 
-	private void opretLoginFailPassword() {
+	private void opretLoginFejlPassword() {
 		opretLoginStatus.setTextFill(Color.WHITE);
 		opretLoginStatus.relocate(130, 445);
 		opretLoginStatus.setText("Udfyld venligst password");
 	}
 
-	private void opretLoginFailDuplicateBruger() {
+	private void opretLoginFejlDuplikeretBruger() {
 		opretLoginStatus.setTextFill(Color.WHITE);
 		opretLoginStatus.relocate(150, 445);
 		opretLoginStatus.setAlignment(Pos.CENTER);
 		opretLoginStatus.setText("Bruger findes allerede");
+	}
+
+	private void systemFejl() {
+		opretLoginStatus.setTextFill(Color.WHITE);
+		opretLoginStatus.relocate(50, 445);
+		opretLoginStatus.setAlignment(Pos.CENTER);
+		opretLoginStatus.setText("Systemfejl! Genstart venligst programmet og prøv igen.");
 	}
 
 	private void opretBruger() {
@@ -147,29 +146,24 @@ public class OpretMedarbejderUI {
 
 		if (getTextFornavn.isEmpty() && getTextEfternavn.isEmpty() && getTextBrugernavn.isEmpty()
 				&& getTextPassword.isEmpty()) {
-			opretLoginFailAll();
-		}
-
-		else if (getTextFornavn.isEmpty()) {
+			opretLoginFejllAlle();
+		} else if (getTextFornavn.isEmpty()) {
 			opretLoginFailMNavn();
 		} else if (getTextEfternavn.isEmpty()) {
 			opretLoginFailMNavn();
 		} else if (getTextBrugernavn.isEmpty()) {
-			opretLoginFailUserfornavnTF();
+			opretLoginFejlBrugernavnTF();
 		} else if (getTextPassword.isEmpty()) {
-			opretLoginFailPassword();
+			opretLoginFejlPassword();
 		} else if (opretLoginLGC.UserCheckDuplicate(getTextBrugernavn) == true) {
-			opretLoginFailDuplicateBruger();
+			opretLoginFejlDuplikeretBruger();
 
 		} else if (opretLoginLGC.UserCheckDuplicate(getTextBrugernavn) == false) {
 			opretLoginSuccess();
 			OpretMedarbejderLogin crtLogin = new OpretMedarbejderLogin();
 			crtLogin.opretBruger(getTextFornavn, getTextEfternavn, getTextBrugernavn, getTextPassword);
-		}
-
-		else {
-			System.out.println("Houston, we have a problem! Ukendt fejlkode.");
+		} else {
+			systemFejl();
 		}
 	}
-
 }

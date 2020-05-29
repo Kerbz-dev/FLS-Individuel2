@@ -14,9 +14,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.LoginVerification;
 import logic.LoginVerification.LoginResult;
-import logic.getBilsaelger;
 
-public class LoginUI extends Thread {
+public class LoginUI {
 
 	private TextField userLoginField;
 	private PasswordField passLoginField;
@@ -25,11 +24,9 @@ public class LoginUI extends Thread {
 	private Scene scene;
 	private Pane pane, ferraripane;
 	private Stage loginStage;
-	// private GridPane gp;
 	private Image ferrari;
 	private ImageView ferraripic;
 	private String username;
-	private int saelgerID;
 
 	public void start() {
 		loginStage = new Stage();
@@ -70,22 +67,21 @@ public class LoginUI extends Thread {
 
 		loginStatus.setPrefWidth(350);
 		loginStatus.setFont(new Font(24));
-		// loginStatus.relocate(100, 450);
 
-		// LOGO location
+		// LOGO Placering
 		ferraripic.setFitWidth(250);
 		ferraripic.setFitHeight(135);
 		ferraripic.setImage(ferrari);
 		ferraripic.relocate(95, 15);
-
+		
+		// Pane Placering
 		ferraripane.setPrefHeight(64);
 		ferraripane.setPrefWidth(428);
 		pane.setStyle("-fx-background-color: #F40808");
-		// #CF0E0E
 		ferrariLabel.relocate(170, 15);
 		ferrariLabel.setFont(new Font(24));
 
-		// Add to pane
+		// Tilføj til pane
 		pane.getChildren().add(userLoginField);
 		pane.getChildren().add(passLoginField);
 		pane.getChildren().add(loginKnap);
@@ -99,11 +95,12 @@ public class LoginUI extends Thread {
 		loginStage.setScene(scene);
 		loginStage.show();
 
-		// Action events
+		// Laver set on action på knap
 		loginKnap.setOnAction(e -> loginCheck());
 	}
-
-	public void loginCheck() {
+	
+	// Metoder
+	private void loginCheck() {
 		username = userLoginField.getText();
 		String password = passLoginField.getText();
 		LoginVerification lgnctrl = new LoginVerification();
@@ -111,7 +108,7 @@ public class LoginUI extends Thread {
 		Singleton singleton = Singleton.getSingletoninstance();
 		lgnCheck = lgnctrl.loginCheck(username, password);
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
-
+			loginSuccess();
 			singleton.setUsername(username);
 			startLaaneUI();
 			loginStage.close();
@@ -119,42 +116,27 @@ public class LoginUI extends Thread {
 		}
 
 		else if (lgnCheck == LoginResult.ADMIN_LOGGED_IN) {
-//			loginSuccess();
+			loginSuccess();
 			singleton.setUsername(username);
 			adminLoginSuccess();
-			getUserinfo();
 			loginStage.close();
 		}
 
 		else if (lgnCheck == LoginResult.FAILED) {
-			loginFail();
+			loginFejl();
 		}
 	}
-
-	public String getUsername() {
-
-		return username;
-	}
-
+	
 	private void loginSuccess() {
 		loginStatus.relocate(130, 315);
 		loginStatus.setTextFill(Color.LIGHTGREEN);
 		loginStatus.setText("Login successful!");
 	}
 
-	public int getUserinfo() {
-		getBilsaelger getBS = new getBilsaelger();
-		for (int i = 0; i < getBS.getSaelgerWhereID(username).size(); i++) {
-			int saelgerID = getBS.getSaelgerWhereID(username).get(i).getbilsaelgerid();
-			this.saelgerID = saelgerID;
-		}
-		return saelgerID;
-	}
-
-	private void loginFail() {
+	private void loginFejl() {
 		loginStatus.relocate(60, 315);
 		loginStatus.setTextFill(Color.WHITE);
-		loginStatus.setText("Wrong username or password");
+		loginStatus.setText("Forkert brugernavn eller password");
 	}
 
 	private void adminLoginSuccess() {
@@ -167,7 +149,4 @@ public class LoginUI extends Thread {
 		laan.start();
 	}
 
-	public void run() {
-		loginSuccess();
-	}
 }

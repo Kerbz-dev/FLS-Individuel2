@@ -36,69 +36,48 @@ import logic.opretLaan;
 
 public class OpretLaanUI {
 
-	DecimalFormat numberFormatter = new DecimalFormat("0");
-	private TextField tlfTField;
-	private TextField bilnavnTField;
-	private TextField bilprisTField;
-	private TextField udbetalingTField;
-	private TextField laengdeTField;
-	private TextField samletprisTField;
-	private TextField renteTField;
-	private TextField mdlYdelseTField;
+	private DecimalFormat numberFormatter = new DecimalFormat("0");
+	private TextField tlfTField, bilnavnTField, bilprisTField, udbetalingTField, laengdeTField, samletprisTField,
+			renteTField, mdlYdelseTField;
 	private Stage opretLaanStage;
-	private Scene scene3;
-	private Pane pane3;
-	private String bilnavnGetText;
-	private String bilprisGetText;
-	private String udbetalingGetText;
-	private String laanleangdeGetText;
+	private Scene scene;
+	private Pane pane;
+	private String bilnavnGetText, bilprisGetText, udbetalingGetText, laanleangdeGetText, tlfGetText, renteString,
+			cprnr, bilnavn;
 	private Image ferrari;
 	private ImageView ferraripic;
-	private Button vaelgBilBtn;
-	private Button indsaetBil;
-	private Button opretLaanBtn;
-	private Button tlfSoegBtn;
-	private Button opretKundeBtn;
+	private Button vaelgBilBtn, indsaetBil, opretLaanBtn, tlfSoegBtn, opretKundeBtn;
 	private Label opretStatusLbl, lblbilMangler, lbltlfUgyldig;
-	private String tlfGetText;
-	private String renteString;
-	private double rente;
-	private String cprnr;
+	private double rente, samletPris, mdlYdelse;
 	private boolean isClicked = false;
-	private double samletPris;
-	private String samletPrisString;
-	private double mdlYdelse;
-	private String mdlydelseString;
-	private String bilnavn;
-	private int bilid, bilpris, bilinventar;
+	private int bilid, bilpris, bilinventar, saelgerID;
 	private boolean overstigergraense;
-	private int saelgerID;
-	GetBiler billogic = new GetBiler();
-	// private List<Biler> getbiler = billogic.getAllBilerInfo();
+	private GetBiler billogic = new GetBiler();
 	private ObservableList<Biler> bilObserver;
 	private TableView<Biler> bilList1 = new TableView<Biler>();
-//	private ObservableList<LaaneTilbud> formList;
-//	private TableView<LaaneTilbud> formTable = new TableView<LaaneTilbud>();
-	private LaaneUI laaneUI;
+	private LaaneUI lnUI;
 
-	public OpretLaanUI(LaaneUI laaneUI) {
-		this.laaneUI = laaneUI;
+	public OpretLaanUI(LaaneUI lnUI) {
+		this.lnUI = lnUI;
 	}
 
 	public void start() {
+		// Sætter stage
 		opretLaanStage = new Stage();
 		opretLaanStage.setTitle("Ferrari lånesystem");
 		opretLaanStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
+		// Sætter label
 		Label lgnNameLbl = new Label("logget in som " + Singleton.getUsername());
 
-		pane3 = new Pane();
+		// Sætter pane + billede
+		pane = new Pane();
 		ferrari = new Image(
 				"https://3.bp.blogspot.com/-DRM75enaO7s/VDrpAiCm55I/AAAAAAAABGM/VnsBvuXIygU/s1600/Ferrari%2BCar%2Blogos.jpg%22");
 		ferraripic = new ImageView();
 
-		// Button assignments
+		// Sætter knapper
 		opretLaanBtn = new Button("Opret lånetilbud");
 		vaelgBilBtn = new Button("Vælg Bil");
 		indsaetBil = new Button("Indsæt bil i lån");
@@ -116,6 +95,7 @@ public class OpretLaanUI {
 		tlfSoegBtn = new Button("Søg");
 		opretKundeBtn = new Button("Opret ny kunde");
 
+		// TField Lokation + Diverse
 		tlfTField.relocate(295.0, 200.0);
 		tlfTField.setPrefHeight(51.0);
 		tlfTField.setPrefWidth(330.0);
@@ -169,12 +149,10 @@ public class OpretLaanUI {
 
 		bilList1.setPrefHeight(300);
 		bilList1.setPrefWidth(250);
-		// bilList1.relocate(0, 275);
 		bilList1.relocate(640, 270);
 		bilList1.setVisible(false);
 
 		opretLaanBtn.relocate(355, 665);
-
 		lgnNameLbl.relocate(800, 700);
 
 		lblbilMangler.relocate(642, 535);
@@ -199,7 +177,7 @@ public class OpretLaanUI {
 		opretKundeBtn.setFont(new Font(24));
 		opretKundeBtn.relocate(375, 380);
 
-		// Setting prompt text style to only appear once a character has been inserted
+		// Sætter prompt text til at blive vist når et bogstav er blever indsat
 		mdlYdelseTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		renteTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		tlfTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
@@ -209,7 +187,7 @@ public class OpretLaanUI {
 		bilnavnTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		samletprisTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
-		// Setting prompt text
+		// Sætter prompt text + TField Synlighed
 		mdlYdelseTField.setPromptText("Her vises den månedlige ydelse");
 		renteTField.setPromptText("Her vises renten på lånet");
 		samletprisTField.setPromptText("Her vises den samlede pris for lånetilbuddet");
@@ -225,16 +203,27 @@ public class OpretLaanUI {
 		vaelgBilBtn.setVisible(false);
 		opretLaanBtn.setVisible(false);
 		opretStatusLbl.setVisible(false);
-
-		// Tableview columns
-
-		// Formatting for number only TFields
-
+		
+		opretLaanStage.setResizable(false);
+		// Formatter TField så kun tal kan blive indsat + Tableview
 		bilprisTField.setTextFormatter(new TextFormatter<>(c -> {
 			if (c.getControlNewText().isEmpty()) {
 				return c;
 			}
+			ParsePosition parsePosition = new ParsePosition(0);
+			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
 
+			if (object == null || parsePosition.getIndex() < c.getControlNewText().length()) {
+				return null;
+			} else {
+				return c;
+			}
+		}));
+		
+		tlfTField.setTextFormatter(new TextFormatter<>(c -> {
+			if (c.getControlNewText().isEmpty()) {
+				return c;
+			}
 			ParsePosition parsePosition = new ParsePosition(0);
 			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
 
@@ -249,7 +238,6 @@ public class OpretLaanUI {
 			if (c.getControlNewText().isEmpty()) {
 				return c;
 			}
-
 			ParsePosition parsePosition = new ParsePosition(0);
 			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
 
@@ -264,7 +252,6 @@ public class OpretLaanUI {
 			if (c.getControlNewText().isEmpty()) {
 				return c;
 			}
-
 			ParsePosition parsePosition = new ParsePosition(0);
 			Object object = numberFormatter.parse(c.getControlNewText(), parsePosition);
 
@@ -275,12 +262,13 @@ public class OpretLaanUI {
 			}
 		}));
 
-		// Event handlers
+		// Sætter set on action på knapper
 		opretLaanBtn.setOnAction(e -> LaanCheck());
 		tlfSoegBtn.setOnAction(e -> tlfnrCheck());
 		opretKundeBtn.setOnAction(e -> startKundeUI());
 		bilList1.setOnMouseClicked((MouseEvent event) -> {
 
+			// Sætter mouseevent på vores biltabel
 			if (event.getClickCount() > 0) {
 				Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
 				if (bilList1.getSelectionModel().getSelectedItem() != null && valgtBilNavn.getInventar() == 0) {
@@ -291,28 +279,23 @@ public class OpretLaanUI {
 			}
 		});
 
+		// Sætter set on action på knapper
 		vaelgBilBtn.setOnAction(e -> {
 			bilList1.setVisible(true);
 			indsaetBil.setVisible(true);
 			vaelgBilBtn.setDisable(true);
 
 			if (isClicked == false) {
-
 				opretTabel();
 				isClicked = true;
 			}
-
 		});
 		indsaetBil.setOnAction(e -> {
-
 			Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
-			// String åge = valgtBilNavn();
 
 			if (valgtBilNavn == null) {
 				lblbilMangler.setVisible(true);
-			}
-
-			else {
+			} else {
 				bilnavnTField.setText(valgtBilNavn.getBilnavn());
 				bilpris = valgtBilNavn.getBilPris();
 				String bilprisString = Integer.toString(bilpris);
@@ -323,12 +306,10 @@ public class OpretLaanUI {
 				vaelgBilBtn.setDisable(false);
 				lblbilMangler.setVisible(false);
 				bilid = valgtBilNavn.getBilId();
-				// int bilprisList = getbiler.get(i).getBilPris();
 			}
-
 		});
 
-		// font size
+		// Sætter skriftstørrelse på knapper + TField
 		opretLaanBtn.setFont(new Font(24));
 		laengdeTField.setFont(new Font(14));
 		udbetalingTField.setFont(new Font(14));
@@ -338,22 +319,21 @@ public class OpretLaanUI {
 		indsaetBil.setFont(new Font(14));
 		opretStatusLbl.setFont(new Font(24));
 
-		// Set color to pane
-		pane3.setStyle("-fx-background-color: #F40808");
+		// Sætter farve til pane
+		pane.setStyle("-fx-background-color: #F40808");
 
-		// Add to pane
-		pane3.getChildren().addAll(opretLaanBtn, opretStatusLbl, ferraripic, tlfTField, lgnNameLbl, bilnavnTField,
+		// Tilføjer til pane
+		pane.getChildren().addAll(opretLaanBtn, opretStatusLbl, ferraripic, tlfTField, lgnNameLbl, bilnavnTField,
 				bilprisTField, udbetalingTField, laengdeTField, renteTField, mdlYdelseTField, samletprisTField,
 				vaelgBilBtn, indsaetBil, bilList1, lblbilMangler, lbltlfUgyldig, tlfSoegBtn, opretKundeBtn);
 
-		// Show scene
-
-		scene3 = new Scene(pane3, 950, 735);
-		opretLaanStage.setScene(scene3);
+		// Vis scene
+		scene = new Scene(pane, 950, 735);
+		opretLaanStage.setScene(scene);
 		opretLaanStage.show();
-		// opretLaanStage.setOnCloseRequest();
 	}
 
+	// Metoder
 	private void LaanCheck() {
 		LaanOverstiger LO = new LaanOverstiger();
 		// add tlf
@@ -363,9 +343,7 @@ public class OpretLaanUI {
 		laanleangdeGetText = laengdeTField.getText();
 
 		if (checkTFields() == true) {
-		}
-
-		else {
+		} else {
 			getRente();
 			renteString = Double.toString(rente);
 
@@ -377,14 +355,14 @@ public class OpretLaanUI {
 			renteTField.setText("Renten er: " + renteString + "%");
 			samletprisTField.setText("Samlede pris: " + sprisStr);
 			mdlYdelseTField
-					.setText("Månedlig ydelse: " + ydelseStr + ",- pr. måned over " + laanleangdeGetText + " år");
+					.setText("Månedlig ydelse: " + ydelseStr + " pr. måned over " + laanleangdeGetText + " år");
 			if (LO.overstigerGraense(samletPris) == true) {
 				overstigergraense = true;
 			} else {
 				overstigergraense = false;
 			}
 			OpretLaan();
-			laaneUI.opdaterTable();
+			lnUI.opdaterTable();
 		}
 
 	}
@@ -421,11 +399,11 @@ public class OpretLaanUI {
 			opretStatusLbl.relocate(215, 625);
 			return true;
 		case laengdeUgyldig:
-			opretStatusLbl.setText("Lånets længde må ikke være mindre end 0");
+			opretStatusLbl.setText("Lånets længde må ikke være mindre end 0 år");
 			opretStatusLbl.relocate(220, 625);
 			return true;
 		case laengdeOverstiger:
-			opretStatusLbl.setText("Lånets længde må ikke være større end 30");
+			opretStatusLbl.setText("Lånets længde må ikke være større end 30 år");
 			opretStatusLbl.relocate(220, 625);
 			return true;
 		case Success:
@@ -440,9 +418,6 @@ public class OpretLaanUI {
 	}
 
 	private void tlfnrCheck() {
-
-		// rente = getCPR.getRente(cprnr);
-
 		tlfGetText = tlfTField.getText();
 		LaanCheckTlf tlfLogic = new LaanCheckTlf();
 		if (tlfLogic.CheckTlfDB(tlfGetText) == true) {
@@ -459,8 +434,7 @@ public class OpretLaanUI {
 			renteTField.setVisible(true);
 			mdlYdelseTField.setVisible(true);
 			vaelgBilBtn.setDisable(false);
-			ClearTFields();
-
+			rydTFields();
 		}
 
 		else if (tlfLogic.CheckTlfDB(tlfGetText) == false) {
@@ -478,9 +452,7 @@ public class OpretLaanUI {
 			mdlYdelseTField.setVisible(false);
 			bilList1.setVisible(false);
 			indsaetBil.setVisible(false);
-
 		}
-
 	}
 
 	private void startKundeUI() {
@@ -490,27 +462,19 @@ public class OpretLaanUI {
 
 	private void getRente() {
 		LaanCheckTlf tlflogic = new LaanCheckTlf();
-
 		cprnr = tlflogic.getCPRNR(tlfGetText);
 		GetKV getKV = new GetKV();
-		System.out.println("den anden tråd");
-
 		rente = getKV.getRente(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
 		mdlYdelse = getKV.getMdlYdelse(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
 		samletPris = getKV.getSamletpris2();
-		// samletPris = getKV.getSamletPris(cprnr, bilprisGetText, udbetalingGetText,
-		// laanleangdeGetText);
 
 		mdlYdelse = Math.round(mdlYdelse * 100.0) / 100.0;
 		rente = Math.round(rente * 100.0) / 100.0;
 		samletPris = Math.round(samletPris * 100.0) / 100.0;
 
-//			Thread tråd = new Thread(new GetKV());
-//			tråd.start();
-
 	}
 
-	private void ClearTFields() {
+	private void rydTFields() {
 		bilnavnTField.clear();
 		laengdeTField.clear();
 		bilprisTField.clear();
@@ -524,16 +488,13 @@ public class OpretLaanUI {
 	private void OpretLaan() {
 		opretLaan laanlogic = new opretLaan();
 		String username = Singleton.getUsername();
-		System.out.println(username);
 		CheckID ID = new CheckID();
 		ID.setID(username);
 		saelgerID = Singleton.getSaelgerid();
 		Biler valgtBilNavn = bilList1.getSelectionModel().getSelectedItem();
 		bilinventar = valgtBilNavn.getInventar();
-		System.out.println("bilinventar før: " + bilinventar);
 		if (bilinventar >= 1) {
 			bilinventar -= 1;
-			System.out.println("bilinventar efter: " + bilinventar);
 
 		}
 		laanlogic.CreateLaan(tlfGetText, bilid, saelgerID, udbetalingGetText, laanleangdeGetText, overstigergraense,
@@ -542,7 +503,6 @@ public class OpretLaanUI {
 
 	@SuppressWarnings("unchecked")
 	private void opretTabel() {
-
 		TableColumn<Biler, String> ColumnBilnavn = new TableColumn<Biler, String>("Bilnavn");
 		TableColumn<Biler, String> ColumnBilpris = new TableColumn<Biler, String>("Bilpris");
 		TableColumn<Biler, String> ColumnBilinventar = new TableColumn<Biler, String>("Inventar");
@@ -552,7 +512,6 @@ public class OpretLaanUI {
 			bilnavn = blr.getBilnavn();
 
 			return new SimpleStringProperty(bilnavn);
-
 		});
 
 		ColumnBilpris.setCellValueFactory(e -> {
@@ -560,7 +519,6 @@ public class OpretLaanUI {
 			bilpris = blr.getBilPris();
 			String bilprisString = Integer.toString(bilpris);
 			return new SimpleStringProperty(bilprisString);
-
 		});
 
 		ColumnBilinventar.setCellValueFactory(e -> {
@@ -568,20 +526,15 @@ public class OpretLaanUI {
 			bilinventar = blr.getInventar();
 			String bilinventarString = Integer.toString(bilinventar);
 			return new SimpleStringProperty(bilinventarString);
-
 		});
 
 		bilList1.getColumns().addAll(ColumnBilnavn, ColumnBilpris, ColumnBilinventar);
-
 		bilList1.setItems(bilObserver);
 
 		bilObserver = FXCollections.observableList(billogic.getAllBilerInfo());
 		FilteredList<Biler> filteredData = new FilteredList<>(bilObserver, p -> true);
 
 		SortedList<Biler> sortedData = new SortedList<>(filteredData);
-
-		// Connect the SortedList comparator to the TableView comparator
-		// 'The comparator that denotes the order of this SortedList'
 		sortedData.comparatorProperty().bind(bilList1.comparatorProperty());
 
 		// Tilføjer sorteret og filtreret data til vores TableView

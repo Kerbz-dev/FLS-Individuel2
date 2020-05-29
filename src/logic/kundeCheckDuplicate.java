@@ -11,7 +11,7 @@ public class kundeCheckDuplicate {
 		long cpr = Long.parseLong(cprGetText);
 		int tlf = Integer.parseInt(tlfGetText);
 
-        if (duplicateDB.kundeCheckDuplicate(cpr, tlf) == true) {
+		if (duplicateDB.kundeCheckDuplicate(cpr, tlf) == true) {
             return true;
         }
 

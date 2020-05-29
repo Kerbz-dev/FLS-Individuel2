@@ -1,26 +1,22 @@
 package entity;
 
- 
-
 public class Singleton {
-    static String username;
-    static int saelgerid;
-    private static final Singleton singletonInstance = new Singleton(username, saelgerid);
-    // Singleton prevents any other class from instantiating
-    
-    private Singleton(String username, int saelgerid) {
-        Singleton.username = username;
-        Singleton.saelgerid = saelgerid;
-    }
-    
-    // Providing Global point of access
-    public static Singleton getSingletonInstance() {
-        return singletonInstance;
-    }
+	static String username;
+	static int saelgerid;
+	private static final Singleton singletonInstance = new Singleton(username, saelgerid);
+	// Singleton prevents any other class from instantiating
 
- 
+	private Singleton(String username, int saelgerid) {
+		Singleton.username = username;
+		Singleton.saelgerid = saelgerid;
+	}
 
-    public static int getSaelgerid() {
+	// Providing Global point of access
+	public static Singleton getSingletonInstance() {
+		return singletonInstance;
+	}
+
+	public static int getSaelgerid() {
 		return saelgerid;
 	}
 
@@ -29,20 +25,15 @@ public class Singleton {
 	}
 
 	public static String getUsername() {
-        return username;
-    }
+		return username;
+	}
 
- 
+	public void setUsername(String username) {
+		Singleton.username = username;
+	}
 
-    public void setUsername(String username) {
-        Singleton.username = username;
-    }
+	public static Singleton getSingletoninstance() {
+		return singletonInstance;
+	}
 
- 
-
-    public static Singleton getSingletoninstance() {
-        return singletonInstance;
-    } 
-    
-    
 }
