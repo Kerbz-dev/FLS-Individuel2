@@ -1,6 +1,7 @@
 package presentation;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 import entity.Biler;
@@ -78,6 +79,11 @@ public class OpretLaanUI {
 	private TableView<Biler> bilList1 = new TableView<Biler>();
 //	private ObservableList<LaaneTilbud> formList;
 //	private TableView<LaaneTilbud> formTable = new TableView<LaaneTilbud>();
+	private LaaneUI laaneUI;
+
+	public OpretLaanUI(LaaneUI laaneUI) {
+		this.laaneUI = laaneUI;
+	}
 
 	public void start() {
 		opretLaanStage = new Stage();
@@ -345,7 +351,6 @@ public class OpretLaanUI {
 		scene3 = new Scene(pane3, 950, 735);
 		opretLaanStage.setScene(scene3);
 		opretLaanStage.show();
-		opretLaanStage.setOnHidden(e -> startLaaneUI());
 		// opretLaanStage.setOnCloseRequest();
 	}
 
@@ -357,36 +362,34 @@ public class OpretLaanUI {
 		udbetalingGetText = udbetalingTField.getText();
 		laanleangdeGetText = laengdeTField.getText();
 
-		if (checkTFieldsEmpty() == true) {
+		if (checkTFields() == true) {
 		}
 
 		else {
 			getRente();
-			System.out.println("Checker rente...");
-			System.out.println("Check 2!");
 			renteString = Double.toString(rente);
-			samletPrisString = Double.toString(samletPris);
-			mdlydelseString = Double.toString(mdlYdelse);
 
 			// Setting format for our textfields
+			NumberFormat pengeformat = NumberFormat.getCurrencyInstance();
 
+			String ydelseStr = pengeformat.format(mdlYdelse);
+			String sprisStr = pengeformat.format(samletPris);
 			renteTField.setText("Renten er: " + renteString + "%");
-			samletprisTField.setText("Samlede pris: " + samletPrisString + "kr.");
+			samletprisTField.setText("Samlede pris: " + sprisStr);
 			mdlYdelseTField
-					.setText("Månedlig ydelse: " + mdlydelseString + ",- pr. måned over " + laanleangdeGetText + " år");
+					.setText("Månedlig ydelse: " + ydelseStr + ",- pr. måned over " + laanleangdeGetText + " år");
 			if (LO.overstigerGraense(samletPris) == true) {
 				overstigergraense = true;
 			} else {
 				overstigergraense = false;
 			}
 			OpretLaan();
-			LaaneUI lnUI = new LaaneUI();
-			lnUI.laanUpdated = 1;
+			laaneUI.opdaterTable();
 		}
 
 	}
 
-	private boolean checkTFieldsEmpty() {
+	private boolean checkTFields() {
 		TFieldLogik tflog = new TFieldLogik();
 		TFieldResult tfCheck = tflog.TFieldCheck(tlfGetText, bilnavnGetText, bilprisGetText, udbetalingGetText,
 				laanleangdeGetText, rente);
@@ -419,11 +422,11 @@ public class OpretLaanUI {
 			return true;
 		case laengdeUgyldig:
 			opretStatusLbl.setText("Lånets længde må ikke være mindre end 0");
-			opretStatusLbl.relocate(215, 625);
+			opretStatusLbl.relocate(220, 625);
 			return true;
 		case laengdeOverstiger:
 			opretStatusLbl.setText("Lånets længde må ikke være større end 30");
-			opretStatusLbl.relocate(214, 625);
+			opretStatusLbl.relocate(220, 625);
 			return true;
 		case Success:
 			opretStatusLbl.setText("Lån Oprettet!");
@@ -497,6 +500,7 @@ public class OpretLaanUI {
 		samletPris = getKV.getSamletpris2();
 		// samletPris = getKV.getSamletPris(cprnr, bilprisGetText, udbetalingGetText,
 		// laanleangdeGetText);
+
 		mdlYdelse = Math.round(mdlYdelse * 100.0) / 100.0;
 		rente = Math.round(rente * 100.0) / 100.0;
 		samletPris = Math.round(samletPris * 100.0) / 100.0;
@@ -584,22 +588,4 @@ public class OpretLaanUI {
 		bilList1.setItems(sortedData);
 	}
 
-//	private boolean udbetalingscheck() {
-//        String udbtlString = udbetalingTField.getText();
-//        String bilprisString = bilprisTField.getText();
-//        int udbtlInt = Integer.parseInt(udbtlString);
-//        int bilprisInt = Integer.parseInt(bilprisString);
-//        if (udbtlInt > bilprisInt) {
-//            opretStatusLbl.setTextFill(Color.WHITE);
-//            opretStatusLbl.setText("Udbetaling må ikke være større end bilens pris.");
-//            opretStatusLbl.relocate(225, 625);
-//            return true;
-//        } else {
-//            return false;
-//        }
-
-	private void startLaaneUI() {
-		LaaneUI lnUI = new LaaneUI();
-		lnUI.closeUI();
-	}
 }

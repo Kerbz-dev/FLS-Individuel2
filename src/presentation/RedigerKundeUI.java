@@ -42,7 +42,11 @@ public class RedigerKundeUI {
 	private getKunde kundelogic = new getKunde();
 	private ObservableList<Kunde> formList;
 	private TableView<Kunde> formTable = new TableView<Kunde>();
-
+	private LaaneUI laaneUI;
+	public RedigerKundeUI(LaaneUI laaneUI) {
+		this.laaneUI = laaneUI;
+	}
+	
 	public void start() {
 		opretKundeStage = new Stage();
 		opretKundeStage.setTitle("Ferrari lånesystem");
@@ -176,57 +180,8 @@ public class RedigerKundeUI {
 
 		formTable.setItems(formList);
 
-		/*
-		 * //////////////////////////////// Søgefunktion til tablecolumn
-		 *////////////////////////////////
-
-		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		formList = FXCollections.observableList(kundelogic.getKundeAll());
-		// System.out.println("getKundeAll returner: " +
-		// formList.get(2).getKreditVurdering());
-		FilteredList<Kunde> filteredData = new FilteredList<>(formList, p -> true);
-
-		SoegTField.textProperty().addListener((observable, oldValue, newValue) -> {
-			filteredData.setPredicate(formSearch -> {
-				int telefonnummer = formSearch.getTelefonnummer();
-				String tlfnr = Integer.toString(telefonnummer);
-				// If a filter text (the text field) is empty, show all forms
-				if (newValue == null || newValue.isEmpty()) {
-					return true;
-				}
-
-				// Compares the textfield to the object (the input) with the filter from above
-				String lowerCaseFilter = newValue.toLowerCase();
-
-				// Filter matches with Analyze Title
-				if (formSearch.getKundefornavn().toLowerCase().contains(lowerCaseFilter)) {
-					return true;
-					// Filter matches with date
-				} else if (formSearch.getKundeefternavn().toLowerCase().contains(lowerCaseFilter)) {
-					return true;
-					// Filter matches with date
-				}
-
-				else if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
-					return true;
-
-				}
-
-				// No match at all
-				return false;
-			});
-		});
-
-		SortedList<Kunde> sortedData = new SortedList<>(filteredData);
-
-		// Connect the SortedList comparator to the TableView comparator
-		// 'The comparator that denotes the order of this SortedList'
-		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
-
-		// Tilføjer sorteret og filtreret data til vores TableView
-		formTable.setItems(sortedData);
-
-		// Fanger det vaglte element
+		udfyldTbl();
+	
 
 		// Make TFields number only accept number inputs
 		cprTField.setTextFormatter(new TextFormatter<>(c -> {
@@ -314,6 +269,8 @@ public class RedigerKundeUI {
 
 		else
 			opdaterKunde();
+			opdaterTable();
+			laaneUI.opdaterTable();
 	}
 
 	private void opdaterKunde() {
@@ -369,5 +326,72 @@ public class RedigerKundeUI {
 			HusnrTField.setText(husnrString);
 		}
 	}
+	
+	public void opdaterTable() {
+		if (formList.size() > 0) {
+			formList.clear();
+			formTable.refresh();
+		//	formTable.getItems().add(formList);
+			udfyldTbl();
+//        	formList = FXCollections.observableList(laanlogic.getLaanAll());
+//        	for(int i=0; i < formList.size(); i++) {
+//        	formList.get(i).getAllTilbud();
+//        	formTable.setItems(formList);
+//        	
+//        	}
+		}
+	}
+	private void udfyldTbl() {
+		/*
+		 * //////////////////////////////// Søgefunktion til tablecolumn
+		 *////////////////////////////////
 
+		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		formList = FXCollections.observableList(kundelogic.getKundeAll());
+		// System.out.println("getKundeAll returner: " +
+		// formList.get(2).getKreditVurdering());
+		FilteredList<Kunde> filteredData = new FilteredList<>(formList, p -> true);
+
+		SoegTField.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(formSearch -> {
+				int telefonnummer = formSearch.getTelefonnummer();
+				String tlfnr = Integer.toString(telefonnummer);
+				// If a filter text (the text field) is empty, show all forms
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				// Compares the textfield to the object (the input) with the filter from above
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				// Filter matches with Analyze Title
+				if (formSearch.getKundefornavn().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+					// Filter matches with date
+				} else if (formSearch.getKundeefternavn().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+					// Filter matches with date
+				}
+
+				else if (tlfnr.toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+
+				}
+
+				// No match at all
+				return false;
+			});
+		});
+
+		SortedList<Kunde> sortedData = new SortedList<>(filteredData);
+
+		// Connect the SortedList comparator to the TableView comparator
+		// 'The comparator that denotes the order of this SortedList'
+		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
+
+		// Tilføjer sorteret og filtreret data til vores TableView
+		formTable.setItems(sortedData);
+
+		// Fanger det vaglte element
+	}
 }

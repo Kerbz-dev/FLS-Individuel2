@@ -366,22 +366,6 @@ public class LaaneUI {
 		LaaneUIStage.setScene(scene);
 		LaaneUIStage.show();
 		
-	//	laanUpdated.addListener
-	
-		IntegerProperty x = new SimpleIntegerProperty(1);
-		x.addListener( new ChangeListener<Number>() {
-		    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-		        System.out.println(laanUpdated);
-		        opdaterTable();
-		    }
-		} );
-		
-		
-		
-//		if (LaanLukker == 1) {
-//			opdaterTable();
-//			LaanLukker = 0;
-//		}
 	
 		opretTilbud.setOnAction(e -> opretLaaneUIv2());
 		godkendBtn.setOnAction(e -> getstatusInfo());
@@ -399,7 +383,7 @@ public class LaaneUI {
 	}
 
 	private void opretLaaneUIv2() {
-		OpretLaanUI opretLaan = new OpretLaanUI();
+		OpretLaanUI opretLaan = new OpretLaanUI(this);
 		opretLaan.start();
 	}
 	
@@ -416,20 +400,15 @@ public class LaaneUI {
     }
 
 	private void redigerKundeUI() {
-		RedigerKundeUI redigerUI = new RedigerKundeUI();
+		RedigerKundeUI redigerUI = new RedigerKundeUI(this);
 		redigerUI.start();
 	}
 
-	private void opdaterTable() {
+	public void opdaterTable() {
 		if (formList.size() > 0) {
 			formList.clear();
+			formTable.refresh();
 			fyldTable();
-//        	formList = FXCollections.observableList(laanlogic.getLaanAll());
-//        	for(int i=0; i < formList.size(); i++) {
-//        	formList.get(i).getAllTilbud();
-//        	formTable.setItems(formList);
-//        	
-//        	}
 		}
 	}
 
@@ -571,7 +550,7 @@ public class LaaneUI {
 			CsvW.exportCsv(tilbudsid, tlfnr);
 
 		} else {
-			CsvW.exportAllCsv();
+			CsvW.exportAllCsv(tilbudsid, tlfnr);
 
 		}
 
