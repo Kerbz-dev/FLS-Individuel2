@@ -29,6 +29,7 @@ public class TFieldLogik {
 		int udbtlInt = Integer.parseInt(udbetalingGetText);
 		int bilprisInt = Integer.parseInt(bilprisGetText);
 		int laengdeInt = Integer.parseInt(laanleangdeGetText);
+		String udbtlString = tlfGetText;
 		if (bilnavnGetText.isEmpty() && udbetalingGetText.isEmpty() && bilprisGetText.isEmpty()
 				&& udbetalingGetText.isEmpty() && laanleangdeGetText.isEmpty()) {
 			return TFieldResult.allIsEmpty;

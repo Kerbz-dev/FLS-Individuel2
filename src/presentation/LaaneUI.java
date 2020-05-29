@@ -403,7 +403,7 @@ public class LaaneUI {
 		opretLaan.start();
 	}
 	
-	public void inventarUpdate() {
+	private void inventarUpdate() {
         opretLaan ol = new opretLaan();
         GetBiler gb = new GetBiler();
         LaaneTilbud valgtBilNavn = formTable.getSelectionModel().getSelectedItem();
@@ -411,10 +411,7 @@ public class LaaneUI {
         List<Biler> bilGet = gb.getBilerWhere(bilid);
         for (int i = 0; i < bilGet.size(); i++)
         bilinventar = gb.getBilerWhere(bilid).get(i).getInventar() + 1;
-        System.out.println("bilid før: " + bilid);
-
         ol.inventarUpdate(bilid, bilinventar);
-            System.out.println("bilid efter: " + bilid);
 
     }
 
@@ -423,7 +420,7 @@ public class LaaneUI {
 		redigerUI.start();
 	}
 
-	public void opdaterTable() {
+	private void opdaterTable() {
 		if (formList.size() > 0) {
 			formList.clear();
 			fyldTable();
@@ -541,6 +538,7 @@ public class LaaneUI {
 			LaaneTilbud selectedTilbud = formTable.getSelectionModel().getSelectedItem();
 			tilbudsid = selectedTilbud.getTilbudsid();
 			ol.CreateStatus(laanestatus, tilbudsid);
+			inventarUpdate();
 			opdaterTable();
 		}
 	}

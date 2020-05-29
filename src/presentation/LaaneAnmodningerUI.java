@@ -493,6 +493,7 @@ public class LaaneAnmodningerUI {
 		LaaneTilbud selectedTilbud = formTable.getSelectionModel().getSelectedItem();
 		int tilbudsid = selectedTilbud.getTilbudsid();
 		ol.CreateStatus(laanestatus, tilbudsid);
+		inventarUpdate();
 		opdaterTable();
 	}
 
@@ -579,10 +580,7 @@ public class LaaneAnmodningerUI {
         List<Biler> bilGet = gb.getBilerWhere(bilid);
         for (int i = 0; i < bilGet.size(); i++)
         bilinventar = gb.getBilerWhere(bilid).get(i).getInventar() + 1;
-        System.out.println("bilid før: " + bilid);
-
         ol.inventarUpdate(bilid, bilinventar);
-            System.out.println("bilid efter: " + bilid);
 
     }
 
