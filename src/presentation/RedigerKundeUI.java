@@ -2,9 +2,7 @@ package presentation;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
-
 import entity.Kunde;
-import entity.Singleton;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,8 +39,8 @@ public class RedigerKundeUI {
 	private Image ferrari;
 	private ImageView ferraripic;
 	private getKunde kundelogic = new getKunde();
-	private ObservableList<Kunde> formList;
-	private TableView<Kunde> formTable = new TableView<Kunde>();
+	private ObservableList<Kunde> kundeList;
+	private TableView<Kunde> kundeTable = new TableView<Kunde>();
 	private LaaneUI laaneUI;
 
 	public RedigerKundeUI(LaaneUI laaneUI) {
@@ -56,7 +54,6 @@ public class RedigerKundeUI {
 		opretKundeStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
-		Label lgnNameLbl = new Label("logget ind som " + Singleton.getUsername());
 		// Sætter pane + billede
 		pane = new Pane();
 		ferrari = new Image(
@@ -109,9 +106,9 @@ public class RedigerKundeUI {
 		mailTField.setPrefHeight(25.0);
 		mailTField.setPrefWidth(321.0);
 		opdaterKundeBtn.relocate(390, 550);
-		formTable.setPrefWidth(250);
-		formTable.setPrefHeight(500);
-		formTable.relocate(23, 75);
+		kundeTable.setPrefWidth(250);
+		kundeTable.setPrefHeight(500);
+		kundeTable.relocate(23, 75);
 		SoegTField.setLayoutX(23);
 		SoegTField.setLayoutY(25);
 		SoegTField.setPrefHeight(35);
@@ -123,6 +120,8 @@ public class RedigerKundeUI {
 		ferraripic.setFitHeight(130);
 		ferraripic.setImage(ferrari);
 		ferraripic.relocate(305, 20);
+		
+		opretKundeStage.setResizable(false);
 
 		// Sætter prompt text til kun at blive vist når et bogstav bliver indsat
 		mailTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
@@ -149,9 +148,6 @@ public class RedigerKundeUI {
 		VejTField.setPromptText("Vejnavn");
 		ByTField.setPromptText("By");
 
-		lgnNameLbl.setPrefHeight(17);
-		lgnNameLbl.setPrefWidth(200);
-		lgnNameLbl.relocate(750, 625);
 
 		tlfTField.setEditable(false);
 
@@ -176,8 +172,9 @@ public class RedigerKundeUI {
 			return new SimpleStringProperty(tlfnr);
 		});
 
-		formTable.getColumns().addAll(ColumnFornavn, ColumnEfternavn, ColumnTlf);
-		formTable.setItems(formList);
+		kundeTable.getColumns().addAll(ColumnFornavn, ColumnEfternavn, ColumnTlf);
+		kundeTable.setItems(kundeList);
+		kundeTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		udfyldTbl();
 
 		// Sætter TField til kun at tal kan sættes
@@ -215,7 +212,6 @@ public class RedigerKundeUI {
 		kundeefternavnTField.setFont(new Font(14));
 		kundefornavnTField.setFont(new Font(14));
 		opdaterKundeBtn.setFont(new Font(24));
-		lgnNameLbl.setFont(new Font(12));
 		mailTField.setFont(new Font(14));
 		cprTField.setFont(new Font(14));
 		tlfTField.setFont(new Font(14));
@@ -226,8 +222,8 @@ public class RedigerKundeUI {
 
 		// Tilføj til pane
 		pane.getChildren().addAll(kundefornavnTField, kundeefternavnTField, PostnrTField, ByTField, VejTField,
-				HusnrTField, tlfTField, cprTField, mailTField, opdaterKundeBtn, opretStatusLbl, ferraripic, lgnNameLbl,
-				SoegTField, formTable);
+				HusnrTField, tlfTField, cprTField, mailTField, opdaterKundeBtn, opretStatusLbl, ferraripic,
+				SoegTField, kundeTable);
 
 		// Vis scene
 		scene = new Scene(pane, 950, 670);
@@ -238,7 +234,7 @@ public class RedigerKundeUI {
 		opdaterKundeBtn.setOnAction(e -> checkOpdatering());
 
 		// Sætter mouseevent på tabel
-		formTable.setOnMouseClicked((MouseEvent event) -> {
+		kundeTable.setOnMouseClicked((MouseEvent event) -> {
 			if (event.getClickCount() > 1) {
 				setTFields();
 			}
@@ -300,8 +296,8 @@ public class RedigerKundeUI {
 	}
 
 	private void setTFields() {
-		if (formTable.getSelectionModel().getSelectedItem() != null) {
-			Kunde selectedKunde = formTable.getSelectionModel().getSelectedItem();
+		if (kundeTable.getSelectionModel().getSelectedItem() != null) {
+			Kunde selectedKunde = kundeTable.getSelectionModel().getSelectedItem();
 			int telefonnummer = selectedKunde.getTelefonnummer();
 			String tlfnr = Integer.toString(telefonnummer);
 			long cpr = selectedKunde.getCpr_nummer();
@@ -324,16 +320,16 @@ public class RedigerKundeUI {
 	}
 
 	private void opdaterTable() {
-		if (formList.size() > 0) {
-			formList.clear();
+		if (kundeList.size() > 0) {
+			kundeList.clear();
 			udfyldTbl();
 		}
 	}
 
 	private void udfyldTbl() {
-		formTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		formList = FXCollections.observableList(kundelogic.getKundeAll());
-		FilteredList<Kunde> filteredData = new FilteredList<>(formList, p -> true);
+		kundeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		kundeList = FXCollections.observableList(kundelogic.getKundeAll());
+		FilteredList<Kunde> filteredData = new FilteredList<>(kundeList, p -> true);
 
 		// Søg funktion
 		SoegTField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -359,9 +355,9 @@ public class RedigerKundeUI {
 		});
 
 		SortedList<Kunde> sortedData = new SortedList<>(filteredData);
-		sortedData.comparatorProperty().bind(formTable.comparatorProperty());
+		sortedData.comparatorProperty().bind(kundeTable.comparatorProperty());
 
 		// Tilføjer sorteret og filtreret data til vores TableView
-		formTable.setItems(sortedData);
+		kundeTable.setItems(sortedData);
 	}
 }

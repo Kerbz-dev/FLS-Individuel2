@@ -69,7 +69,6 @@ public class OpretLaanUI {
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
 
 		// Sætter label
-		Label lgnNameLbl = new Label("logget in som " + Singleton.getUsername());
 
 		// Sætter pane + billede
 		pane = new Pane();
@@ -153,7 +152,6 @@ public class OpretLaanUI {
 		bilList1.setVisible(false);
 
 		opretLaanBtn.relocate(355, 665);
-		lgnNameLbl.relocate(800, 700);
 
 		lblbilMangler.relocate(642, 535);
 		lblbilMangler.setVisible(false);
@@ -323,7 +321,7 @@ public class OpretLaanUI {
 		pane.setStyle("-fx-background-color: #F40808");
 
 		// Tilføjer til pane
-		pane.getChildren().addAll(opretLaanBtn, opretStatusLbl, ferraripic, tlfTField, lgnNameLbl, bilnavnTField,
+		pane.getChildren().addAll(opretLaanBtn, opretStatusLbl, ferraripic, tlfTField, bilnavnTField,
 				bilprisTField, udbetalingTField, laengdeTField, renteTField, mdlYdelseTField, samletprisTField,
 				vaelgBilBtn, indsaetBil, bilList1, lblbilMangler, lbltlfUgyldig, tlfSoegBtn, opretKundeBtn);
 
@@ -362,7 +360,7 @@ public class OpretLaanUI {
 				overstigergraense = false;
 			}
 			OpretLaan();
-			lnUI.opdaterTable();
+			opdaterTilbudTbl();
 		}
 
 	}
@@ -541,4 +539,7 @@ public class OpretLaanUI {
 		bilList1.setItems(sortedData);
 	}
 
+	private void opdaterTilbudTbl() {
+		lnUI.opdaterTable();
+	}
 }

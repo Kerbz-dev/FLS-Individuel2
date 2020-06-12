@@ -39,7 +39,7 @@ import logic.opretLaan;
 public class LaaneAnmodningerUI {
 	private BorderPane bp;
 	private Stage LaaneUIStage;
-	private Button godkendBtn, afvisBtn, eksportCsvBtn;
+	private Button godkendBtn, afvisBtn, eksportCsvBtn, opdaterInventarBtn;
 	private Line bottomLine, upperLine;
 	private Label Lånetilbud, Navn, Tlf, CPR, Addresse, Mail, Bilmodel, Bilpris, Laaneperiode, navnOutput, tlfOutput,
 			cprOutput, addresseOutput, mailOutput, bilmodelOutput, bilprisOutput, loginName, mdlydelseOutput,
@@ -48,7 +48,7 @@ public class LaaneAnmodningerUI {
 	private Pane pane;
 	private Image ferrari;
 	private ImageView ferraripic;
-	private TextField Søg;
+	private TextField Soeg;
 	private getLaan laanlogic = new getLaan();
 	private List<LaaneTilbud> getlaanHvorOG = laanlogic.getLaanHvorOG();
 	private ObservableList<LaaneTilbud> formList;
@@ -86,7 +86,7 @@ public class LaaneAnmodningerUI {
 		csvStatusLbl = new Label();
 		bottomLine = new Line();
 		upperLine = new Line();
-		Søg = new TextField();
+		Soeg = new TextField();
 		ferrari = new Image("https://seeklogo.com/images/F/ferrari-logo-7935CF173C-seeklogo.com.png");
 		ferraripic = new ImageView();
 		bp = new BorderPane();
@@ -100,6 +100,7 @@ public class LaaneAnmodningerUI {
 		godkendBtn = new Button("Godkend");
 		afvisBtn = new Button("Afvis");
 		eksportCsvBtn = new Button("Eksporter til CSV");
+		opdaterInventarBtn = new Button("Opdater inventar for biler");
 
 		bp.setPrefHeight(777);
 		bp.setPrefWidth(1149);
@@ -129,6 +130,11 @@ public class LaaneAnmodningerUI {
 		eksportCsvBtn.setPrefWidth(284);
 		eksportCsvBtn.setFont(new Font(18));
 		eksportCsvBtn.relocate(41, 658);
+		
+		opdaterInventarBtn.setPrefHeight(39);
+		opdaterInventarBtn.setPrefWidth(284);
+		opdaterInventarBtn.setFont(new Font(18));
+		opdaterInventarBtn.relocate(600, 658);
 
 		// Labels lokation
 		Navn.setFont(new Font(24));
@@ -199,20 +205,21 @@ public class LaaneAnmodningerUI {
 		prisoutputLbl.setFont(new Font(18));
 		prisoutputLbl.relocate(577, 565);
 
-		loginName.relocate(922, 736);
+		loginName.relocate(930, 736);
 		loginName.setText("Logget ind som " + ": " + Singleton.getUsername());
 		
 		csvStatusLbl.setFont(new Font(18));
 		csvStatusLbl.relocate(102, 725);
-
+		
+		LaaneUIStage.setResizable(false);
 		// Search funktion
-		Søg.setLayoutX(23);
-		Søg.setLayoutY(55); // 39
-		Søg.setPrefHeight(35);
-		Søg.setPrefWidth(322);
-		Søg.setFont(new Font(18));
-		Søg.setPromptText("Søg tlf. nr.");
-		Søg.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+		Soeg.setLayoutX(23);
+		Soeg.setLayoutY(55); // 39
+		Soeg.setPrefHeight(35);
+		Soeg.setPrefWidth(322);
+		Soeg.setFont(new Font(18));
+		Soeg.setPromptText("Søg - fx tlf. nr.");
+		Soeg.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
 		// Tilføj nedre linje
 		bottomLine.setStartX(-571);
@@ -287,6 +294,7 @@ public class LaaneAnmodningerUI {
 		});
 		tilbudsTable.getColumns().addAll(ColumnDato, ColumnTilbud, ColumnTlf, ColumnStatus);
 		tilbudsTable.setItems(formList);
+		tilbudsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		fyldTable();
 
 
@@ -310,11 +318,11 @@ public class LaaneAnmodningerUI {
 		background2.relocate(23, 564);
 
 		// Tilføjer alt til pane
-		pane.getChildren().addAll(Søg, background, background2, Addresse, CPR, Laaneperiode, Lånetilbud, Bilmodel,
+		pane.getChildren().addAll(Soeg, background, background2, Addresse, CPR, Laaneperiode, Lånetilbud, Bilmodel,
 				Navn, navnOutput, bilmodelOutput, mdlydelseOutput, Tlf, bilprisOutput, mailOutput, tlfOutput,
 				addresseOutput, Mail, cprOutput, Bilpris, loginName, godkendBtn, afvisBtn, eksportCsvBtn, prisoutputLbl, csvStatusLbl,
 				periodeoutputLbl, udbtloutputLbl, samletprisLbl, mdlydelseLbl, udbetalingLbl, tilbudsTable, ferraripic,
-				upperLine, bottomLine);
+				upperLine, bottomLine, opdaterInventarBtn);
 
 		// Sætter scene og Viser Stage
 		scene = new Scene(pane);
@@ -325,6 +333,7 @@ public class LaaneAnmodningerUI {
 		godkendBtn.setOnAction(e -> godkendTilbud());
 		afvisBtn.setOnAction(e -> afvisTilbud());
 		eksportCsvBtn.setOnAction(e -> eksportCSV());
+		opdaterInventarBtn.setOnAction(e -> startInventar());
 		
 		// Laver mouseEvent (Når man klikker i tabellen skal der ske noget)  på vores tabel
 		tilbudsTable.setOnMouseClicked((MouseEvent event) -> {
@@ -382,7 +391,7 @@ public class LaaneAnmodningerUI {
 					mailOutput.setText(kndGet.get(i).getMail());
 				}
 			}
-			if (billogic.KundeCheck(bilid) == true) {
+			if (billogic.BilCheck(bilid) == true) {
 				List<Biler> bilGet = billogic.getBilerWhere(bilid);
 				for (int i = 0; i < bilGet.size(); i++) {
 					String bilnavn = bilGet.get(i).getBilnavn();
@@ -466,8 +475,8 @@ public class LaaneAnmodningerUI {
 		formList = FXCollections.observableList(laanlogic.getLaanHvorOG());
 		FilteredList<LaaneTilbud> filteredData = new FilteredList<>(formList, p -> true);
 
-		// Søg funktionalitet
-		Søg.textProperty().addListener((observable, oldValue, newValue) -> {
+		// Soeg funktionalitet
+		Soeg.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(formSearch -> {
 				int telefonnummer = formSearch.getTelefonnummer();
 				int status = formSearch.getLaanestatus();
@@ -535,4 +544,8 @@ public class LaaneAnmodningerUI {
 			bilinventar = gb.getBilerWhere(bilid).get(i).getInventar() + 1;
 		ol.inventarUpdate(bilid, bilinventar);
 		}
+	public void startInventar() {
+		InventarUI inventarUI = new InventarUI();
+		inventarUI.start();
+	}
 	}

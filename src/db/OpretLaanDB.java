@@ -4,23 +4,20 @@ import java.sql.Statement;
 
 public class OpretLaanDB {
 	private Datakobling DB = new Datakobling();
-//    private int kundeindbetaling;
-//    private int laanlaengde;
-//    private boolean overstigergraense;
-//    private int laanestatus;
 
-	public void createLaan(int tlf, int bilid, int saelgerID, String udbetalingGetText, String laanleangdeGetText, boolean overstigergraense,double rente,
-			double mdlydelse, double samletpris, int bilinventar) {
+	public void createLaan(int tlf, int bilid, int saelgerID, String udbetalingGetText, String laanleangdeGetText,
+			boolean overstigergraense, double rente, double mdlydelse, double samletpris, int bilinventar) {
 
 		try {
 			Statement statement = DB.connection.createStatement();
 
 			statement.executeUpdate(
 					"INSERT INTO laanetilbud  (telefonnummer, bilid, bilsaelgerid, kundeindbetaling,laanlaengde, overstigergraense, rente,mdlydelse, samletpris) VALUES ('"
-							+ tlf + "', '" + bilid + "', '" + saelgerID + "', '" + udbetalingGetText + "', '" + laanleangdeGetText + "', '" + overstigergraense + "', '"
-							+ rente + "','" + mdlydelse + "', '" + samletpris + "')");
+							+ tlf + "', '" + bilid + "', '" + saelgerID + "', '" + udbetalingGetText + "', '"
+							+ laanleangdeGetText + "', '" + overstigergraense + "', '" + rente + "','" + mdlydelse
+							+ "', '" + samletpris + "')");
 			statement.executeUpdate("UPDATE biler SET inventar = '" + bilinventar + "' WHERE bilid = " + bilid + "");
-			
+
 		} catch (Exception e) {
 			System.out.println("Got exception in OpretLaanDB - Createlaan");
 			System.out.println(e.getMessage());
@@ -40,18 +37,18 @@ public class OpretLaanDB {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void inventarOpdatering (int bilid, int bilinventar) {
 
-        try {
-            Statement statement = DB.connection.createStatement();
+	public void inventarOpdatering(int bilid, int bilinventar) {
 
-            statement.executeUpdate("UPDATE biler SET inventar='" + bilinventar + "' WHERE bilid = " + bilid + "");
+		try {
+			Statement statement = DB.connection.createStatement();
 
-        } catch (Exception e) {
-            System.out.println("Got exception in OpretLaanDB - InventarUpdate");
-            System.out.println(e.getMessage());
-        }
+			statement.executeUpdate("UPDATE biler SET inventar='" + bilinventar + "' WHERE bilid = " + bilid + "");
 
-    }
+		} catch (Exception e) {
+			System.out.println("Got exception in OpretLaanDB - InventarUpdate");
+			System.out.println(e.getMessage());
+		}
+
+	}
 }

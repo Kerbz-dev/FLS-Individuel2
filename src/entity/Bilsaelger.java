@@ -1,120 +1,82 @@
 package entity;
 
-
-
 public class Bilsaelger {
 
 	private int bilsaelgerid;
-    private String medarbejderfornavn;
-    private String saelgerbrugernavn;
-    private String saelgerpassword;
-    private String medarbejderefternavn;
-    private int maksgraense;
+	private String medarbejderfornavn;
+	private String saelgerbrugernavn;
+	private String saelgerpassword;
+	private String medarbejderefternavn;
+	private int maksgraense;
 
+	public Bilsaelger(int bilsaelgerid, String medarbejderfornavn, String saelgerbrugernavn, String saelgerpassword,
+			String medarbejderefternavn, int maksgraense) {
 
-    public Bilsaelger(int bilsaelgerid, String medarbejderfornavn, String saelgerbrugernavn, String saelgerpassword, String medarbejderefternavn, int maksgraense) {
+		this.bilsaelgerid = bilsaelgerid;
+		this.medarbejderfornavn = medarbejderfornavn;
+		this.saelgerbrugernavn = saelgerbrugernavn;
+		this.saelgerpassword = saelgerpassword;
+		this.medarbejderefternavn = medarbejderefternavn;
+		this.maksgraense = maksgraense;
 
-    	this.bilsaelgerid = bilsaelgerid;
-        this.medarbejderfornavn = medarbejderfornavn;
-        this.saelgerbrugernavn = saelgerbrugernavn;
-        this.saelgerpassword = saelgerpassword;
-        this.medarbejderefternavn = medarbejderefternavn;
-        this.maksgraense = maksgraense;
-
-
-    }
-
+	}
 
 	public Bilsaelger() {
 	}
-
 
 	public int getbilsaelgerid() {
 		return bilsaelgerid;
 	}
 
-
 	public void setbilsaelgerid(int bilsaelgerid) {
 		this.bilsaelgerid = bilsaelgerid;
 	}
 
-
 	public String getmedarbejderfornavn() {
-        return medarbejderfornavn;
-    }
+		return medarbejderfornavn;
+	}
 
+	public void setmedarbejderfornavn(String medarbejderfornavn) {
+		this.medarbejderfornavn = medarbejderfornavn;
+	}
 
-    public void setmedarbejderfornavn(String medarbejderfornavn) {
-        this.medarbejderfornavn = medarbejderfornavn;
-    }
+	public String getmedarbejderefternavn() {
+		return medarbejderefternavn;
+	}
 
+	public void setmedarbejderNavn(String medarbejderefternavn) {
+		this.medarbejderefternavn = medarbejderefternavn;
+	}
 
-    public String getmedarbejderefternavn() {
-        return medarbejderefternavn;
-    }
+	public void setbrugernavn(String saelgerbrugernavn) {
+		this.saelgerbrugernavn = saelgerbrugernavn;
+	}
 
+	public String getbrugernavn() {
+		return saelgerbrugernavn;
+	}
 
-    public void setmedarbejderNavn(String medarbejderefternavn) {
-        this.medarbejderefternavn = medarbejderefternavn;
-    }
+	public void setsaelgerpassword(String saelgerpassword) {
+		this.saelgerpassword = saelgerpassword;
+	}
 
+	public String getsaelgerpassword() {
+		return saelgerpassword;
+	}
 
-    public void setbrugernavn(String saelgerbrugernavn) {
-        this.saelgerbrugernavn = saelgerbrugernavn;
-    }
+	public void setmaksgraense(int maksgraense) {
+		this.maksgraense = maksgraense;
+	}
 
+	public int getmaksgraense() {
+		return maksgraense;
+	}
 
-    public String getbrugernavn() {
-        return saelgerbrugernavn;
-    }
+	@Override
+	public String toString() {
+		return medarbejderfornavn + ": " + medarbejderefternavn + ": " + saelgerbrugernavn + ": " + saelgerpassword
+				+ ": " + maksgraense;
 
-
-    public void setsaelgerpassword(String saelgerpassword) {
-        this.saelgerpassword = saelgerpassword;
-    }
-
-
-    public String getsaelgerpassword() {
-        return saelgerpassword;
-    }
-
-
-    public void setmaksgraense(int maksgraense) {
-        this.maksgraense = maksgraense;
-    }
-
-
-    public int getmaksgraense() {
-        return maksgraense;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return medarbejderfornavn + ": " + medarbejderefternavn + ": "  + saelgerbrugernavn + ": " + saelgerpassword + ": " + maksgraense;
-
-
-    }
-
+	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

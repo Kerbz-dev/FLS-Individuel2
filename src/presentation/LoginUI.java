@@ -105,11 +105,12 @@ public class LoginUI {
 		String password = passLoginField.getText();
 		LoginVerification lgnctrl = new LoginVerification();
 		LoginResult lgnCheck;
-		Singleton singleton = Singleton.getSingletoninstance();
+	
 		lgnCheck = lgnctrl.loginCheck(username, password);
 		if (lgnCheck == LoginResult.USER_LOGGED_IN) {
 			loginSuccess();
-			singleton.setUsername(username);
+			Singleton.setUsername(username);
+			Singleton.setAdmin(false);
 			startLaaneUI();
 			loginStage.close();
 			// Singleton singleton = new Singleton();
@@ -117,7 +118,8 @@ public class LoginUI {
 
 		else if (lgnCheck == LoginResult.ADMIN_LOGGED_IN) {
 			loginSuccess();
-			singleton.setUsername(username);
+			Singleton.setUsername(username);
+			Singleton.setAdmin(true);
 			adminLoginSuccess();
 			loginStage.close();
 		}

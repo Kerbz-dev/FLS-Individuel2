@@ -2,8 +2,6 @@ package presentation;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
-
-import entity.Singleton;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,8 +42,6 @@ public class OpretKundeUI {
 		opretKundeStage.setTitle("Ferrari lånesystem");
 		opretKundeStage.getIcons()
 				.add(new Image("https://i.pinimg.com/564x/c9/87/c8/c987c8a5c896fca22c5cfbd62edb7359.jpg"));
-
-		Label lgnNameLbl = new Label("logget ind som " + Singleton.getUsername());
 
 		// Laver pane
 		pane = new Pane();
@@ -104,10 +100,9 @@ public class OpretKundeUI {
 		ferraripic.setFitHeight(130);
 		ferraripic.setImage(ferrari);
 		ferraripic.relocate(305, 25);
+		opretKundeStage.setResizable(false);
 		// Label lokation
-		lgnNameLbl.setPrefHeight(17);
-		lgnNameLbl.setPrefWidth(200);
-		lgnNameLbl.relocate(750, 625);
+
 
 		// Sætter prompt text til kun at være vist når et bogstav er blevet indsat
 		mailTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
@@ -181,7 +176,6 @@ public class OpretKundeUI {
 		kundeefternavnTField.setFont(new Font(14));
 		kundefornavnTField.setFont(new Font(14));
 		opretKundeBtn.setFont(new Font(24));
-		lgnNameLbl.setFont(new Font(12));
 		mailTField.setFont(new Font(14));
 		cprTField.setFont(new Font(14));
 		tlfTField.setFont(new Font(14));
@@ -192,7 +186,7 @@ public class OpretKundeUI {
 
 		// Tilføjer alt til pane
 		pane.getChildren().addAll(kundefornavnTField, kundeefternavnTField, PostnrTField, ByTField, VejTField,
-				HusnrTField, tlfTField, cprTField, mailTField, opretKundeBtn, opretStatusLbl, ferraripic, lgnNameLbl);
+				HusnrTField, tlfTField, cprTField, mailTField, opretKundeBtn, opretStatusLbl, ferraripic);
 
 		// Vis scene
 		scene = new Scene(pane, 950, 670);

@@ -11,8 +11,8 @@ public class FjernLaanDB {
 
 			Statement statement = DB.connection.createStatement();
 
-			statement.executeUpdate("DELETE FROM laanetilbud WHERE telefonnummer='" + tlfnr
-					+ "' AND tilbudsid='" + tilbudsidString + "'");
+			statement.executeUpdate("DELETE FROM laanetilbud WHERE telefonnummer='" + tlfnr + "' AND tilbudsid='"
+					+ tilbudsidString + "'");
 		} catch (Exception e) {
 			System.out.println("Got exception in OpretLaanDB");
 			System.out.println(e.getMessage());

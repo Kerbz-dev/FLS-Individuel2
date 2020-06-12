@@ -14,10 +14,10 @@ public class LoginVerification {
 					 * MANGLER TRÅDE *
 					*//////////////////
 		if (lgnDB.LoginCheck(username, password) == true) {
-			System.out.println(getUserinfo(username));
 			return LoginResult.USER_LOGGED_IN;
 		
 		} else if (lgnDB.adminLoginCheck(username, password) == true) {
+			
 			return LoginResult.ADMIN_LOGGED_IN;
 		} else {
 			return LoginResult.FAILED;

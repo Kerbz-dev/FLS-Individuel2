@@ -13,7 +13,6 @@ public class Admin {
 
 	}
 
-
 	public int getAdminid() {
 		return adminid;
 	}

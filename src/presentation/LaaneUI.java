@@ -46,7 +46,7 @@ public class LaaneUI {
 	private Pane pane;
 	private Image ferrari;
 	private ImageView ferraripic;
-	private TextField Søg;
+	private TextField Soeg;
 	private int bilid, bilinventar, tilbudsid, laanestatus, tlfnr;
 	private getLaan laanlogic = new getLaan();
 	private ObservableList<LaaneTilbud> tlbList;
@@ -91,7 +91,7 @@ public class LaaneUI {
 		csvStatusLbl = new Label();
 		bottomLine = new Line();
 		upperLine = new Line();
-		Søg = new TextField();
+		Soeg = new TextField();
 		ferrari = new Image("https://seeklogo.com/images/F/ferrari-logo-7935CF173C-seeklogo.com.png");
 		ferraripic = new ImageView();
 		loginName = new Label();
@@ -216,20 +216,22 @@ public class LaaneUI {
 		prisoutputLbl.setFont(new Font(18));
 		prisoutputLbl.relocate(577, 565);
 
-		loginName.relocate(922, 736);
+		loginName.relocate(930, 736);
 		loginName.setText("Logget ind som " + ": " + username);
 
 		csvStatusLbl.setFont(new Font(18));
 		csvStatusLbl.relocate(102, 725);
+		
+		LaaneUIStage.setResizable(false);
 
-		// Søg funktion
-		Søg.setLayoutX(23);
-		Søg.setLayoutY(55); // 39
-		Søg.setPrefHeight(35);
-		Søg.setPrefWidth(322);
-		Søg.setFont(new Font(18));
-		Søg.setPromptText("Søg tlf. nr.");
-		Søg.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
+		// Soeg funktion
+		Soeg.setLayoutX(23);
+		Soeg.setLayoutY(55); // 39
+		Soeg.setPrefHeight(35);
+		Soeg.setPrefWidth(322);
+		Soeg.setFont(new Font(18));
+		Soeg.setPromptText("Søg - fx tlf. nr.");
+		Soeg.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 
 		// Tilføj nedre linje
 		bottomLine.setStartX(-571);
@@ -299,6 +301,7 @@ public class LaaneUI {
 		tlbTable.getColumns().addAll(ColumnDato, ColumnTilbud, ColumnTlf, ColumnStatus);
 		tlbTable.setItems(tlbList);
 		fyldTable();
+		checkAdminStatus();
 
 		// Sætter baggrundsfarve for text zonen
 		Rectangle background = new Rectangle();
@@ -320,7 +323,7 @@ public class LaaneUI {
 		background2.relocate(23, 564);
 
 		// Tilføjer alt til pane
-		pane.getChildren().addAll(Søg, background, background2, Addresse, CPR, Laaneperiode, Lånetilbud, Bilmodel, Navn,
+		pane.getChildren().addAll(Soeg, background, background2, Addresse, CPR, Laaneperiode, Lånetilbud, Bilmodel, Navn,
 				navnOutput, bilmodelOutput, mdlydelseOutput, Tlf, bilprisOutput, mailOutput, tlfOutput, addresseOutput,
 				Mail, cprOutput, Bilpris, opretTilbud, redigerTilbud, fjernTilbud, loginName, godkendBtn, afvisBtn,
 				exportCsvBtn, prisoutputLbl, periodeoutputLbl, udbtloutputLbl, samletprisLbl, mdlydelseLbl,
@@ -343,7 +346,7 @@ public class LaaneUI {
 		// Laver mouseEvent (Når man klikker i tabellen skal der ske noget) på vores
 		// tabel
 		tlbTable.setOnMouseClicked((MouseEvent event) -> {
-			if (event.getClickCount() > 1) {
+			if (event.getClickCount() > 0) {
 				valgtTlbSetLbl();
 				setKnapFunktion();
 			}
@@ -373,7 +376,7 @@ public class LaaneUI {
 	}
 
 	public void opdaterTable() {
-		if (tlbList.size() > 0) {
+		if (tlbList.size() >= 0) {
 			tlbList.clear();
 			fyldTable();
 		}
@@ -416,7 +419,7 @@ public class LaaneUI {
 					long cprint = kndGet.get(i).getCpr_nummer();
 					String cprString = Long.toString(cprint);
 
-					navnOutput.setText(kndGet.get(i).getKundefornavn());
+					navnOutput.setText(kndGet.get(i).getKundefornavn() + " " + kndGet.get(i).getKundeefternavn());
 					addresseOutput.setText(kndGet.get(i).getVejnavn() + " " + kndGet.get(i).getHusnummer() + ", "
 							+ kndGet.get(i).getPostnummer() + " " + kndGet.get(i).getBynavn());
 					cprOutput.setText(cprString);
@@ -424,7 +427,7 @@ public class LaaneUI {
 				}
 			}
 
-			if (billogic.KundeCheck(bilid) == true) {
+			if (billogic.BilCheck(bilid) == true) {
 				List<Biler> bilGet = billogic.getBilerWhere(bilid);
 				for (int i = 0; i < bilGet.size(); i++) {
 					String bilnavn = bilGet.get(i).getBilnavn();
@@ -536,7 +539,7 @@ public class LaaneUI {
 	
 	private void checkLogin() {
 
-		if (username.equals("admin01")) {
+		if (Singleton.isAdmin() == true) {
 			// Gør intet, siden vi først vil lukke vinduet ved AdminUI (lappeløsning, men der er ikke tid!)
 		}
 		else {
@@ -554,8 +557,8 @@ public class LaaneUI {
 
 		FilteredList<LaaneTilbud> filteredData = new FilteredList<>(tlbList, p -> true);
 
-		// Søg funktionalitet
-		Søg.textProperty().addListener((observable, oldValue, newValue) -> {
+		// Soeg funktionalitet
+		Soeg.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredData.setPredicate(formSearch -> {
 				int telefonnummer = formSearch.getTelefonnummer();
 				int status = formSearch.getLaanestatus();
@@ -594,6 +597,15 @@ public class LaaneUI {
 
 		// Tilføjer sorteret og filtreret data til vores TableView
 		tlbTable.setItems(sortedData);
+	}
+	
+	public void checkAdminStatus() {
+		if (Singleton.isAdmin() == true) {
+			fjernTilbud.setDisable(false);
+		}
+		else {
+			fjernTilbud.setDisable(true);
+		}
 	}
 
 

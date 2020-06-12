@@ -12,7 +12,7 @@ public class GetBiler {
 		return bildb.getAllBiler();
 	}
 
-	public boolean KundeCheck(int bilid) {
+	public boolean BilCheck(int bilid) {
 		if (bildb.BilIDCheck(bilid) == true) {
 			getBilerWhere(bilid);
 			return true;

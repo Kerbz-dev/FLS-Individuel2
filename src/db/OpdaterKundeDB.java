@@ -10,7 +10,10 @@ public class OpdaterKundeDB {
 			Statement statement = DB.connection.createStatement();
 
 			statement.executeUpdate(
-					("UPDATE kunde SET kundefornavn = '" + fornavnGT + "', kundeefternavn = '" + efternavnGT + "', cpr_nummer = '" + cprGT + "', mail = '" + mailGT + "', postnummer = '" + postnrGT + "', bynavn = '" + byGT + "', vejnavn = '" + vejGT + "', husnr = '" + husnrGT + "' WHERE telefonnummer = " + tlfGT + ""));
+					("UPDATE kunde SET kundefornavn = '" + fornavnGT + "', kundeefternavn = '" + efternavnGT
+							+ "', cpr_nummer = '" + cprGT + "', mail = '" + mailGT + "', postnummer = '" + postnrGT
+							+ "', bynavn = '" + byGT + "', vejnavn = '" + vejGT + "', husnr = '" + husnrGT
+							+ "' WHERE telefonnummer = " + tlfGT + ""));
 
 			DB.connection.close();
 
