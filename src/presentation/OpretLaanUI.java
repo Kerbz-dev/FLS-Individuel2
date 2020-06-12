@@ -50,7 +50,8 @@ public class OpretLaanUI {
 	private Label opretStatusLbl, lblbilMangler, lbltlfUgyldig;
 	private double rente, samletPris, mdlYdelse;
 	private boolean isClicked = false;
-	private int bilid, bilpris, bilinventar, saelgerID;
+	private int bilid, bilpris, bilinventar, saelgerID, udbetaling, laanleangde;
+	private long tlf;
 	private boolean overstigergraense;
 	private GetBiler billogic = new GetBiler();
 	private ObservableList<Biler> bilObserver;
@@ -339,6 +340,10 @@ public class OpretLaanUI {
 		bilprisGetText = bilprisTField.getText();
 		udbetalingGetText = udbetalingTField.getText();
 		laanleangdeGetText = laengdeTField.getText();
+		
+		tlf = Long.parseLong(tlfGetText);
+		udbetaling = Integer.parseInt(udbetalingGetText);
+    	laanleangde = Integer.parseInt(laanleangdeGetText);
 
 		if (checkTFields() == true) {
 		} else {
@@ -495,7 +500,7 @@ public class OpretLaanUI {
 			bilinventar -= 1;
 
 		}
-		laanlogic.CreateLaan(tlfGetText, bilid, saelgerID, udbetalingGetText, laanleangdeGetText, overstigergraense,
+		laanlogic.CreateLaan(tlf, bilid, saelgerID, udbetaling, laanleangde, overstigergraense,
 				rente, mdlYdelse, samletPris, bilinventar);
 	}
 
