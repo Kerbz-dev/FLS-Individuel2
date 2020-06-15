@@ -66,7 +66,7 @@ public class BilUI {
 		bilprisTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		bilprisTF.relocate(150, 255);
 		bilinventarTF.setFont(new Font(24));
-		bilinventarTF.setPromptText("Inventar - hvor mange biler er tilgængelige?");
+		bilinventarTF.setPromptText("Inventar - antal biler");
 		bilinventarTF.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
 		bilinventarTF.relocate(150, 315);
 
