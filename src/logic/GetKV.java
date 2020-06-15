@@ -1,10 +1,18 @@
 package logic;
 
+import java.util.function.Consumer;
+
 import com.ferrari.finances.dk.bank.InterestRate;
 import com.ferrari.finances.dk.rki.CreditRator;
 import com.ferrari.finances.dk.rki.Rating;
 
-public class GetKV {
+public class GetKV extends Thread {
+
+	public GetKV() {
+
+	}
+
+
 	public enum kreditRating {
 		A, B, C, D, error
 	};
@@ -17,8 +25,11 @@ public class GetKV {
 
 	public kreditRating getKreditvaerdighed(String cpr) {
 		kv = CreditRator.i().rate(cpr);
+		
 
+		
 		if (kv == Rating.A) {
+			
 			return kreditRating.A;
 		} else if (kv == Rating.B) {
 			return kreditRating.B;
@@ -29,12 +40,16 @@ public class GetKV {
 			return kreditRating.D;
 		}
 
-		else {
+		else {			
 			return kreditRating.error;
+		
 		}
+		
+	
+		
 	}
-
-	public double getRente(String cprnr, String bilprisGetText, String udbetalingGetText, String laanleangdeGetText) {
+	
+	public double calcRente(String cprnr, String bilprisGetText, String udbetalingGetText, String laanleangdeGetText) {
 		rente = InterestRate.i().todaysRate();
 
 		kv = CreditRator.i().rate(cprnr);
@@ -89,9 +104,8 @@ public class GetKV {
 		}
 	}
 
-	public double getMdlYdelse(String cprnr, String bilprisGetText, String udbetalingGetText,
-			String laanleangdeGetText) {
-		rente = getRente2();
+	public double calcPris(String bilprisGetText, String udbetalingGetText, String laanleangdeGetText) {
+		rente = getRente();
 		rente = rente / 100 + 1;
 		bilpris = Double.parseDouble(bilprisGetText);
 		laanlaengde = Double.parseDouble(laanleangdeGetText);
@@ -105,7 +119,7 @@ public class GetKV {
 		else if (rente == -1) {
 			return -1;
 		}
-		;
+
 		samletpris = ((bilpris - kundeindbetaling) * Math.pow(rente, laanlaengde));
 		mdlYdelse = (samletpris / (laanlaengde * 12));
 
@@ -114,8 +128,21 @@ public class GetKV {
 		return mdlYdelse;
 
 	}
+	
+	public kreditRating getKVWithCallback(String cpr, Consumer<kreditRating> callback) {
+		Runnable runner = new Runnable() {
+			@Override
+			public void run() {
+				kreditRating kv = getKreditvaerdighed(cpr);
+				callback.accept(kv);
+			}
+		};
 
-	public double getRente2() {
+		new Thread(runner).start();
+		return null;
+	}
+
+	public double getRente() {
 		return rente;
 	}
 
@@ -123,7 +150,7 @@ public class GetKV {
 		this.rente = rente;
 	}
 
-	public double getSamletpris2() {
+	public double getSamletpris() {
 		return samletpris;
 	}
 
@@ -131,11 +158,12 @@ public class GetKV {
 		this.samletpris = samletpris;
 	}
 
-	public double getMdlYdelse2() {
+	public double getMdlYdelse() {
 		return mdlYdelse;
 	}
 
 	public void setMdlYdelse(double mdlYdelse) {
 		this.mdlYdelse = mdlYdelse;
 	}
+
 }

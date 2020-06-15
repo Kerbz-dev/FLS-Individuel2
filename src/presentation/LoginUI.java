@@ -2,10 +2,12 @@ package presentation;
 
 import entity.Singleton;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -142,13 +144,25 @@ public class LoginUI {
 	}
 
 	private void adminLoginSuccess() {
+		if (Singleton.isAdmin() == true) {
 		adminUI admUI = new adminUI();
 		admUI.start();
+		}
+		else {
+			Alert alert = new Alert(AlertType.ERROR);
+			
+			alert.setTitle("Ingen adgang");
+			alert.setHeaderText("Fejl: Du er ikke logget ind som admin!");
+			
+			alert.showAndWait();
+		}
+		
 	}
 
 	private void startLaaneUI() {
 		LaaneUI laan = new LaaneUI();
 		laan.start();
+		
 	}
 
 }

@@ -102,6 +102,7 @@ public class LaaneAnmodningerUI {
 		eksportCsvBtn = new Button("Eksporter til CSV");
 		opdaterInventarBtn = new Button("Opdater inventar for biler");
 
+
 		bp.setPrefHeight(777);
 		bp.setPrefWidth(1149);
 
@@ -333,7 +334,6 @@ public class LaaneAnmodningerUI {
 		godkendBtn.setOnAction(e -> godkendTilbud());
 		afvisBtn.setOnAction(e -> afvisTilbud());
 		eksportCsvBtn.setOnAction(e -> eksportCSV());
-		opdaterInventarBtn.setOnAction(e -> startInventar());
 		
 		// Laver mouseEvent (Når man klikker i tabellen skal der ske noget)  på vores tabel
 		tilbudsTable.setOnMouseClicked((MouseEvent event) -> {
@@ -513,6 +513,7 @@ public class LaaneAnmodningerUI {
 
 	private void setKnapFunktion() {
 		LaanOverstiger LO = new LaanOverstiger();
+		
 		// Checker tabellens valgte tilbud og Ændre knapper udfra dette
 		if (tilbudsTable.getSelectionModel().getSelectedItem() != null && LO.laaneStatus(laanestatus) == true) {
 			godkendBtn.setDisable(false);
@@ -544,8 +545,4 @@ public class LaaneAnmodningerUI {
 			bilinventar = gb.getBilerWhere(bilid).get(i).getInventar() + 1;
 		ol.inventarUpdate(bilid, bilinventar);
 		}
-	public void startInventar() {
-		InventarUI inventarUI = new InventarUI();
-		inventarUI.start();
-	}
 	}

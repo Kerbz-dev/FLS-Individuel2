@@ -1,14 +1,17 @@
 package presentation;
 
+import entity.Singleton;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class adminUI {
-	private Button laan, laaneanmodning, opretSealger;
+	private Button laan, laaneanmodning, opretSealger, opdaterInventar;
 	private Scene scene;
 	private Pane pane;
 	private Image ferrari;
@@ -32,6 +35,8 @@ public class adminUI {
 		laan = new Button("Opret lån");
 		laaneanmodning = new Button("Låneanmodninger");
 		opretSealger = new Button("Opret Sælger");
+		opdaterInventar = new Button("Opdater inventar");
+		
 
 		// LOGO Placering
 		ferraripic.relocate(223, 30);
@@ -50,13 +55,18 @@ public class adminUI {
 		opretSealger.setPrefHeight(62);
 		opretSealger.setPrefWidth(189);
 		opretSealger.relocate(274, 404);
+		
+		opdaterInventar.setPrefHeight(62);
+		opdaterInventar.setPrefWidth(189);
+		opdaterInventar.relocate(274, 491);
 
 		pane.getChildren().add(ferraripic);
 		pane.getChildren().add(laaneanmodning);
 		pane.getChildren().add(opretSealger);
 		pane.getChildren().add(laan);
+		pane.getChildren().add(opdaterInventar);
 
-		scene = new Scene(pane, 755, 551);
+		scene = new Scene(pane, 755, 600);
 		adminUIStage.setResizable(false);
 		adminUIStage.setScene(scene);
 		adminUIStage.show();
@@ -66,6 +76,7 @@ public class adminUI {
 		laan.setOnAction(e -> opretLaaneUI());
 		laaneanmodning.setOnAction(e -> opretAnmodningerUI());
 		adminUIStage.setOnCloseRequest(e -> startLogin());
+		opdaterInventar.setOnAction(e -> startInventarUI());
 	}
 
 	// Metoder
@@ -87,5 +98,20 @@ public class adminUI {
 	private void startLogin() {
 		LoginUI lgnUI = new LoginUI();
 		lgnUI.start();
+	}
+	
+	private void startInventarUI() {
+		if (Singleton.isAdmin() == true) {
+		InventarUI invUI = new InventarUI();
+		invUI.start();
+		}
+		else {
+			Alert alert = new Alert(AlertType.ERROR);
+			
+			alert.setTitle("Du er ikke logget ind som admin!");
+			alert.setHeaderText("Ingen adgang");
+			
+			alert.showAndWait();
+		}
 	}
 }

@@ -2,8 +2,14 @@ package presentation;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
+import java.util.Optional;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -13,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import logic.GetKV;
 import logic.GetKV.kreditRating;
 import logic.kundeCheckDuplicate;
@@ -102,7 +109,6 @@ public class OpretKundeUI {
 		ferraripic.relocate(305, 25);
 		opretKundeStage.setResizable(false);
 		// Label lokation
-
 
 		// Sætter prompt text til kun at være vist når et bogstav er blevet indsat
 		mailTField.setStyle("-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);");
@@ -266,7 +272,7 @@ public class OpretKundeUI {
 	}
 
 	private void kreditRatingFejl() {
-		opretStatusLbl.setText("Kundens kreditvaerdighed er under den tilladte graense!");
+		opretStatusLbl.setText("Kundens kreditværdighed er under den tilladte graense!");
 		opretStatusLbl.setTextFill(Color.WHITE);
 		opretStatusLbl.relocate(175, 490);
 	}
@@ -277,27 +283,74 @@ public class OpretKundeUI {
 		opretStatusLbl.relocate(150, 490);
 	}
 
-	private kreditRating checkRating() {
+	private void checkRating() {
+		opretStatusLbl.setText("Beregner kreditvurdering... Vent venligst");
+		opretStatusLbl.setTextFill(Color.WHITE);
+		opretStatusLbl.relocate(275, 490);
+		opretKundeBtn.setDisable(true);
 		GetKV getKV = new GetKV();
-		kreditVurdering = getKV.getKreditvaerdighed(cprGetText);
+		kreditVurdering = getKV.getKVWithCallback(cprGetText, OpretKundeUI.this::showRating);
 
-		switch (kreditVurdering) {
-		case A:
-			kundeSuccess();
-			break;
-		case B:
-			kundeSuccess();
-			break;
-		case C:
-			kundeSuccess();
-			break;
-		case D:
-			kreditRatingFejl();
-			break;
-		case error:
-			systemFejl();
-			break;
-		}
+		// Defaulting close button to ask for annuller/ok while calculating
+		opretKundeStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+
+				// consume event
+				event.consume();
+
+				// show close dialog
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				Button annullerBtn = (Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL);
+				annullerBtn.setText("Annuller");
+				alert.setTitle("Advarsel!");
+				alert.setHeaderText(
+						"Programmet er ved at beregne kreditværdighed. Er du sikker på at du vil lukke programmet?");
+				alert.initOwner(opretKundeStage);
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					opretKundeStage.close();
+				}
+			}
+		});
+	}
+
+	public kreditRating showRating(kreditRating kv) {
+
+		// Checking result from calc
+		kreditVurdering = kv;
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				switch (kreditVurdering) {
+				case A:
+					kundeSuccess();
+					break;
+				case B:
+					kundeSuccess();
+					break;
+				case C:
+					kundeSuccess();
+					break;
+				case D:
+					kreditRatingFejl();
+					break;
+				case error:
+					systemFejl();
+					break;
+				}
+
+				opretKundeBtn.setDisable(false);
+
+				// Setting close event to default once calc is complete
+				opretKundeStage.setOnCloseRequest(e -> opretKundeStage.close());
+
+			}
+
+		});
+
 		return kreditVurdering;
 	}
+
 }

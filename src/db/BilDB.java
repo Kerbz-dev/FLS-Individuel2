@@ -87,4 +87,40 @@ public class BilDB {
 		return list;
 	}
 
+	public void opretBilDB(String getTextBilnavn, int bilpris, int bilinventar) {
+		Datakobling DB = new Datakobling();
+		try {
+			Statement statement = DB.connection.createStatement();
+
+			statement.executeUpdate("INSERT INTO biler (bilnavn, bilpris, inventar) VALUES('" + getTextBilnavn + "', '"
+					+ bilpris + "', '" + bilinventar + "')");
+
+			DB.connection.close();
+
+		} catch (Exception e) {
+			System.out.println("Got exception from opretBilDB in bilDB");
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public boolean bilCheckDuplicate(String getTextBilnavn) {
+
+		try {
+			Statement stmt = DB.connection.createStatement();
+			String sql = "Select * FROM biler WHERE bilnavn='" +getTextBilnavn+ "'";
+
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				return true;
+
+			}
+			rs.close();
+
+		} catch (Exception e) {
+			System.out.println("Got exception from bilCheckDuplicate in bilDB");
+			System.out.print(e);
+		}
+		return false;
+	}
+
 }

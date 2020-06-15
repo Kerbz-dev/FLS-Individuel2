@@ -3,7 +3,6 @@ package presentation;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
-
 import entity.Biler;
 import entity.Singleton;
 import javafx.beans.property.SimpleStringProperty;
@@ -56,7 +55,11 @@ public class OpretLaanUI {
 	private GetBiler billogic = new GetBiler();
 	private ObservableList<Biler> bilObserver;
 	private TableView<Biler> bilList1 = new TableView<Biler>();
-	private LaaneUI lnUI;
+	private LaaneUI lnUI = new LaaneUI();
+
+	public OpretLaanUI() {
+
+	}
 
 	public OpretLaanUI(LaaneUI lnUI) {
 		this.lnUI = lnUI;
@@ -202,8 +205,9 @@ public class OpretLaanUI {
 		vaelgBilBtn.setVisible(false);
 		opretLaanBtn.setVisible(false);
 		opretStatusLbl.setVisible(false);
-		
+
 		opretLaanStage.setResizable(false);
+
 		// Formatter TField så kun tal kan blive indsat + Tableview
 		bilprisTField.setTextFormatter(new TextFormatter<>(c -> {
 			if (c.getControlNewText().isEmpty()) {
@@ -218,7 +222,7 @@ public class OpretLaanUI {
 				return c;
 			}
 		}));
-		
+
 		tlfTField.setTextFormatter(new TextFormatter<>(c -> {
 			if (c.getControlNewText().isEmpty()) {
 				return c;
@@ -322,9 +326,9 @@ public class OpretLaanUI {
 		pane.setStyle("-fx-background-color: #F40808");
 
 		// Tilføjer til pane
-		pane.getChildren().addAll(opretLaanBtn, opretStatusLbl, ferraripic, tlfTField, bilnavnTField,
-				bilprisTField, udbetalingTField, laengdeTField, renteTField, mdlYdelseTField, samletprisTField,
-				vaelgBilBtn, indsaetBil, bilList1, lblbilMangler, lbltlfUgyldig, tlfSoegBtn, opretKundeBtn);
+		pane.getChildren().addAll(opretLaanBtn, opretStatusLbl, ferraripic, tlfTField, bilnavnTField, bilprisTField,
+				udbetalingTField, laengdeTField, renteTField, mdlYdelseTField, samletprisTField, vaelgBilBtn,
+				indsaetBil, bilList1, lblbilMangler, lbltlfUgyldig, tlfSoegBtn, opretKundeBtn);
 
 		// Vis scene
 		scene = new Scene(pane, 950, 735);
@@ -340,14 +344,16 @@ public class OpretLaanUI {
 		bilprisGetText = bilprisTField.getText();
 		udbetalingGetText = udbetalingTField.getText();
 		laanleangdeGetText = laengdeTField.getText();
-		
+
 		tlf = Long.parseLong(tlfGetText);
 		udbetaling = Integer.parseInt(udbetalingGetText);
-    	laanleangde = Integer.parseInt(laanleangdeGetText);
+		laanleangde = Integer.parseInt(laanleangdeGetText);
 
 		if (checkTFields() == true) {
 		} else {
+
 			getRente();
+
 			renteString = Double.toString(rente);
 
 			// Setting format for our textfields
@@ -357,8 +363,7 @@ public class OpretLaanUI {
 			String sprisStr = pengeformat.format(samletPris);
 			renteTField.setText("Renten er: " + renteString + "%");
 			samletprisTField.setText("Samlede pris: " + sprisStr);
-			mdlYdelseTField
-					.setText("Månedlig ydelse: " + ydelseStr + " pr. måned over " + laanleangdeGetText + " år");
+			mdlYdelseTField.setText("Månedlig ydelse: " + ydelseStr + " pr. måned over " + laanleangdeGetText + " år");
 			if (LO.overstigerGraense(samletPris) == true) {
 				overstigergraense = true;
 			} else {
@@ -467,14 +472,15 @@ public class OpretLaanUI {
 		LaanCheckTlf tlflogic = new LaanCheckTlf();
 		cprnr = tlflogic.getCPRNR(tlfGetText);
 		GetKV getKV = new GetKV();
-		rente = getKV.getRente(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
-		mdlYdelse = getKV.getMdlYdelse(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
-		samletPris = getKV.getSamletpris2();
 
+		rente = getKV.calcRente(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
+		mdlYdelse = getKV.calcPris(bilprisGetText, udbetalingGetText, laanleangdeGetText);
+		samletPris = getKV.getSamletpris();
+
+		// Limiting decimals from double values to 2
 		mdlYdelse = Math.round(mdlYdelse * 100.0) / 100.0;
 		rente = Math.round(rente * 100.0) / 100.0;
 		samletPris = Math.round(samletPris * 100.0) / 100.0;
-
 	}
 
 	private void rydTFields() {
@@ -500,8 +506,8 @@ public class OpretLaanUI {
 			bilinventar -= 1;
 
 		}
-		laanlogic.CreateLaan(tlf, bilid, saelgerID, udbetaling, laanleangde, overstigergraense,
-				rente, mdlYdelse, samletPris, bilinventar);
+		laanlogic.CreateLaan(tlf, bilid, saelgerID, udbetaling, laanleangde, overstigergraense, rente, mdlYdelse,
+				samletPris, bilinventar);
 	}
 
 	@SuppressWarnings("unchecked")

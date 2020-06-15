@@ -9,7 +9,7 @@ public class Datakobling {
 	public Connection connection;
 
 	public Datakobling() {
-		databaseName = "FerrariDB";
+		databaseName = "FerrariDB2";
 
 		loadJdbcDriver();
 		openConnection(databaseName);

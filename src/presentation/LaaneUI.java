@@ -416,8 +416,8 @@ public class LaaneUI {
 			if (tlfcheck.LaanCheckTlfDB(telefonnummer) == true) {
 				List<Kunde> kndGet = tlfcheck.getKundeWhere(telefonnummer);
 				for (int i = 0; i < kndGet.size(); i++) {
-					long cprint = kndGet.get(i).getCpr_nummer();
-					String cprString = Long.toString(cprint);
+					long cpr = kndGet.get(i).getCpr_nummer();
+					String cprString = Long.toString(cpr);
 
 					navnOutput.setText(kndGet.get(i).getKundefornavn() + " " + kndGet.get(i).getKundeefternavn());
 					addresseOutput.setText(kndGet.get(i).getVejnavn() + " " + kndGet.get(i).getHusnummer() + ", "
