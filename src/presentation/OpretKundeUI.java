@@ -20,8 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import logic.GetKV;
-import logic.GetKV.kreditRating;
+import logic.CalculationLgc;
+import logic.CalculationLgc.kreditRating;
 import logic.kundeCheckDuplicate;
 import logic.opretKunde;
 
@@ -288,7 +288,7 @@ public class OpretKundeUI {
 		opretStatusLbl.setTextFill(Color.WHITE);
 		opretStatusLbl.relocate(275, 490);
 		opretKundeBtn.setDisable(true);
-		GetKV getKV = new GetKV();
+		CalculationLgc getKV = new CalculationLgc();
 		kreditVurdering = getKV.getKVWithCallback(cprGetText, OpretKundeUI.this::showRating);
 
 		// Defaulting close button to ask for annuller/ok while calculating

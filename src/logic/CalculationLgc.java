@@ -6,9 +6,9 @@ import com.ferrari.finances.dk.bank.InterestRate;
 import com.ferrari.finances.dk.rki.CreditRator;
 import com.ferrari.finances.dk.rki.Rating;
 
-public class GetKV extends Thread {
+public class CalculationLgc  {
 
-	public GetKV() {
+	public CalculationLgc() {
 
 	}
 

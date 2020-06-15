@@ -26,7 +26,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.CheckID;
 import logic.GetBiler;
-import logic.GetKV;
+import logic.CalculationLgc;
 import logic.LaanCheckTlf;
 import logic.LaanOverstiger;
 import logic.TFieldLogik;
@@ -471,7 +471,7 @@ public class OpretLaanUI {
 	private void getRente() {
 		LaanCheckTlf tlflogic = new LaanCheckTlf();
 		cprnr = tlflogic.getCPRNR(tlfGetText);
-		GetKV getKV = new GetKV();
+		CalculationLgc getKV = new CalculationLgc();
 
 		rente = getKV.calcRente(cprnr, bilprisGetText, udbetalingGetText, laanleangdeGetText);
 		mdlYdelse = getKV.calcPris(bilprisGetText, udbetalingGetText, laanleangdeGetText);
